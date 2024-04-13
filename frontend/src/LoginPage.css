@@ -30,7 +30,7 @@
   width: 100%;
   background-color: #007bff;
   border-color: #007bff;
-  padding: 15px 20px;
+  padding: 10px 20px;
   box-sizing: border-box;
   font-size: 1.2rem; /* 버튼 텍스트 크기 */
   color: #fff; /* 버튼 텍스트 색상 */
@@ -44,4 +44,43 @@
 
 .login-button:focus {
   box-shadow: 0 0 0 0.2rem rgba(0,123,255,.5);
+}
+
+
+/* LoginPage.css */
+
+.signup-button {
+  width: 100%;
+  background-color: #28a745;
+  border-color: #28a745;
+  padding: 10px 20px; /* 높이 조정 */
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+.signup-button:focus {
+  box-shadow: 0 0 0 0.2rem rgba(40,167,69,.5);
+}
+
+.signup-link-container {
+  margin-top: 10px; /* 로그인 버튼과 회원가입 버튼 사이의 간격 조정 */
+}
+
+.forgot-password-link {
+  float: right;
+}
+
+.login-button-container {
+  margin-top: 20px; /* 로그인 버튼과 "비밀번호를 잊으셨나요?" 사이의 간격 조절 */
 }

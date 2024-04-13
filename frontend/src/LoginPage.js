@@ -1,23 +1,45 @@
+// LoginPage.js
+
 import React, { useState } from 'react';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
-import './LoginPage.css'; // CSS 파일 import
+import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [studentID, setStudentID] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    
-    // 예시로 학번이 '123456'이고 비밀번호가 'password'인 경우에만 로그인 성공
+
+    // 아이디나 학번 입력이 비어있을 때 오류 메시지 표시
+    if (!studentID.trim() || !password.trim()) {
+      setErrorMessage('아아디(학번)과 비밀번호를 입력하세요.');
+      return;
+    }
+
     if (studentID === '123456' && password === 'password') {
-      // 로그인 성공시에는 다른 작업 수행
       console.log('로그인 성공');
+      
+      if (rememberMe) {
+        localStorage.setItem('studentID', studentID);
+      } else {
+        localStorage.removeItem('studentID');
+      }
     } else {
-      setErrorMessage('학번 또는 비밀번호가 일치하지 않습니다.');
+      setErrorMessage('아이디(학번)과 비밀번호가 일치하지 않습니다.');
     }
   };
+
+  useState(() => {
+    const storedStudentID = localStorage.getItem('studentID');
+    if (storedStudentID) {
+      setStudentID(storedStudentID);
+      setRememberMe(true);
+    }
+  }, []);
 
   return (
     <div className="login-background">
@@ -28,7 +50,7 @@ const LoginPage = () => {
           <Form onSubmit={handleLogin}>
             <Form.Control
               type="text"
-              placeholder="학번을 입력하세요"
+              placeholder="아아디(학번)을 입력하세요"
               value={studentID}
               onChange={(e) => setStudentID(e.target.value)}
               className="input-field"
@@ -40,10 +62,26 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="input-field"
             />
+            <Form.Group as={Row}>
+              <Col>
+                <Form.Check
+                  type="checkbox"
+                  label="아이디(학번) 저장"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+              </Col>
+              <Col className="text-right">
+                <Link to="/reset-password" className="forgot-password-link">비밀번호를 잊으셨나요?</Link>
+              </Col>
+            </Form.Group>
             <div className="login-button-container">
               <Button variant="primary" type="submit" className="login-button">
                 로그인
               </Button>
+            </div>
+            <div className="signup-link-container">
+              <Link to="/signup" className="signup-button">회원가입</Link>
             </div>
           </Form>
         </div>
