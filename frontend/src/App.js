@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from './Login/LoginPage'; // 로그인 페이지 컴포넌트
 import PrivacyPolicyPage from './Signup/PrivacyPolicyPage'; // 개인정보 처리방침 페이지 컴포넌트
 import SignupDetailPage from './Signup/SignupDetailPage'; // 회원가입 상세 페이지 컴포넌트
+import ResetPasswordPage from './Login/ResetPasswordPage'; // 비밀번호 재설정 페이지 컴포넌트
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<PrivacyPolicyPage />} />
         <Route path="/signup/details" element={<SignupDetailPage />} />
+        <Route path="/login/reset-password" element={<ResetPasswordPage />} />
       </Routes>
     </div>
   );
