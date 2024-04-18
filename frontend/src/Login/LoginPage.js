@@ -1,5 +1,3 @@
-// LoginPage.js
-
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -73,7 +71,7 @@ const LoginPage = () => {
                     />
                   </Col>
                   <Col xs={6} className="text-right">
-                    <Link to="/reset-password" className="forgot-password-link">비밀번호를 잊으셨나요?</Link>
+                    <Link to="/login/reset-password" className="forgot-password-link">비밀번호를 잊으셨나요?</Link>
                   </Col>
                 </Form.Group>
                 <div className="login-button-container">
