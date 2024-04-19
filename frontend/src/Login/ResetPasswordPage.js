@@ -1,3 +1,4 @@
+// ResetPasswordPage.js
 import React, { useState } from 'react';
 import './ResetPasswordPage.css'; // CSS 파일 import
 
@@ -61,55 +62,64 @@ const ResetPasswordPage = () => {
     };
 
     const handleChangePassword = () => {
+        // Check if any field is empty
+        if (!studentId || !email || !verificationCode || !newPassword || !confirmPassword) {
+            setErrorMessage('모든 필드를 입력해주세요.');
+            return;
+        }
         // Add logic to change password
         // 비밀번호 변경 로직 추가
-        alert('비밀번호가 변경되었습니다.');
-        // 변경 완료 후 초기화
-        setStep(1);
-        setStudentId('');
-        setEmail('');
-        setVerificationCode('');
-        setNewPassword('');
-        setConfirmPassword('');
+        if (newPassword !== confirmPassword) {
+            setErrorMessage('비밀번호가 일치하지 않습니다.');
+        } else {
+            alert('비밀번호가 변경되었습니다.');
+            // 변경 완료 후 초기화
+            setStep(1);
+            setStudentId('');
+            setEmail('');
+            setVerificationCode('');
+            setNewPassword('');
+            setConfirmPassword('');
+        }
     };
 
     return (
         <div className="reset-password-container">
-            <h2>비밀번호 재설정</h2>
+            <h2 className="reset-password-header">비밀번호 재설정</h2>
             {step === 1 && (
                 <>
                     <p>본인확인</p>
                     <p>※개인정보보호를 위해 본인확인을 진행합니다.</p>
                     <label htmlFor="studentId">아이디(학번)을 입력해주세요</label>
-                    <input type="text" id="studentId" value={studentId} onChange={handleStudentIdChange} />
+                    <input type="text" id="studentId" className="input-field" value={studentId} onChange={handleStudentIdChange} />
                     <label htmlFor="email">이메일을 입력해주세요</label>
-                    <input type="email" id="email" value={email} onChange={handleEmailChange} />
-                    <button onClick={handleSendVerificationEmail}>이메일 인증하기</button>
+                    <input type="email" id="email" className="input-field" value={email} onChange={handleEmailChange} />
+                    <button className="button primary-button" onClick={handleSendVerificationEmail}>이메일 인증하기</button>
                 </>
             )}
             {step === 2 && (
                 <>
                     <label htmlFor="verificationCode">인증코드</label>
-                    <input type="text" id="verificationCode" value={verificationCode} onChange={handleVerificationCodeChange} />
-                    <button onClick={handleVerifyCode}>확인</button>
+                    <input type="text" id="verificationCode" className="input-field" value={verificationCode} onChange={handleVerificationCodeChange} />
+                    <button className="button primary-button" onClick={handleVerifyCode}>확인</button>
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </>
             )}
             {step === 3 && (
                 <>
                     <p>인증되었습니다.</p>
-                    <button onClick={handleResetPassword}>재설정하기</button>
+                    <button className="button primary-button" onClick={handleResetPassword}>재설정하기</button>
                 </>
             )}
             {step === 4 && (
                 <>
                     <p>비밀번호 재설정하기</p>
                     <label htmlFor="newPassword">새로운 비밀번호를 입력해주세요</label>
-                    <input type="password" id="newPassword" value={newPassword} onChange={handleNewPasswordChange} />
+                    <input type="password" id="newPassword" className="input-field" value={newPassword} onChange={handleNewPasswordChange} />
                     <label htmlFor="confirmPassword">비밀번호 확인</label>
-                    <input type="password" id="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                    <input type="password" id="confirmPassword" className="input-field" value={confirmPassword} onChange={handleConfirmPasswordChange} />
                     {errorMessage && <p className="error-message">{errorMessage}</p>}
-                    <button onClick={handleChangePassword}>변경완료</button>
+                    <button className="button primary-button" onClick={handleChangePassword}>변경완료</button>
                 </>
             )}
         </div>

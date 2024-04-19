@@ -67,7 +67,7 @@
 
 .login-button, .signup-button {
   width: 100%;
-  padding: 10px 20px;
+  padding: 20px 20px;
   box-sizing: border-box;
   font-size: 1.2rem;
   color: #fff;
@@ -96,7 +96,7 @@
 
 .signup-button {
   background-color: #F4C7AB; /* 부드러운 살구색 */
-  padding: 15px 20px; /* 버튼 패딩 조정 */
+  padding: 7px 20px; /* 버튼 패딩 조정 */
   border: none; /* 테두리 제거 */
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자를 더 섬세하게 조정 */
 }

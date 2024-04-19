@@ -5,7 +5,7 @@ import './BannerCarousel.css';
 const BannerCarousel = () => {
   return (
     <div className="carousel-container">
-      <Carousel>
+      <Carousel interval={3000}> {/* 3초마다 이미지 전환 */}
         <Carousel.Item>
           <img
             className="carousel-image"
