@@ -1,0 +1,28 @@
+/* 네비게이션 바 스타일 */
+.navbar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* 네비게이션 바 링크 스타일 */
+.navbar .nav-link {
+  color: #333;
+  font-weight: bold;
+}
+
+/* 카테고리 아이템 스타일 */
+.category-item {
+  height: auto;
+  color: #333; /* 글자색을 어두운 회색으로 설정합니다. */
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center; /* 글자를 가운데 정렬합니다. */
+  cursor: pointer;
+  transition: transform 0.3s ease; /* 변화에 부드러운 효과 추가 */
+}
+
+/* 마우스를 올렸을 때 카테고리 아이템의 효과 */
+.category-item:hover {
+  transform: scale(1.05); /* 마우스를 올렸을 때 약간 확대됩니다. */
+}
+
