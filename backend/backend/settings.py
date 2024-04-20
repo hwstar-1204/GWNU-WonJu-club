@@ -38,19 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',  # 1
+    'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'allauth',
-    'allauth.account',  # 1
+    'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     # 'dj_rest_auth.jwt_auth',  # 1
-    'drf_yasg',  # 1
+    'drf_yasg',
+
+    # project apps
     'club_account',
     'club_board',
-    'corsheaders'  # 1
+    'corsheaders'  
+    'club_introduce',
+    'club_information',
+    'club_member',
+
 ]
 
 MIDDLEWARE = [
@@ -70,7 +76,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR / 'templates']  # []
         ,
         'APP_DIRS': True,
         'OPTIONS': {
