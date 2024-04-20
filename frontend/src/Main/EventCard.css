@@ -1,0 +1,22 @@
+.event-card {
+  margin-bottom: 20px; /* 이벤트 카드 간의 간격을 조절합니다. */
+}
+
+.event-card-title {
+  font-size: 1.5rem; /* 이벤트 카드 제목의 글꼴 크기를 설정합니다. */
+  font-weight: bold; /* 이벤트 카드 제목의 글꼴 두껍게 설정합니다. */
+}
+
+.event-card-description {
+  font-size: 1.2rem; /* 이벤트 카드 내용의 글꼴 크기를 설정합니다. */
+}
+
+.event-card-date {
+  font-style: italic; /* 이벤트 카드 날짜를 이탤릭체로 설정합니다. */
+  margin-bottom: 10px; /* 날짜 아래 여백을 조절합니다. */
+}
+
+.event-card-link {
+  margin-top: 10px; /* 링크 위의 여백을 조절합니다. */
+}
+
