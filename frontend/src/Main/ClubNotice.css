@@ -1,0 +1,36 @@
+.category-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative; /* 추가: 서브메뉴의 위치를 상대적으로 설정 */
+  position: relative; /* 메인 베너 위에 컨텐츠가 위치할 수 있도록 함 */
+  z-index: 1; /* 컨텐츠가 메인 베너 위에 표시되도록 함 */
+}
+
+.category-item {
+  position: relative; /* 추가: 서브메뉴의 위치를 상대적으로 설정 */
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.sub-menu {
+  position: absolute; /* 추가: 서브메뉴를 절대적으로 위치시킴 */
+  top: 100%; /* 추가: 상위 요소의 아래쪽에 배치 */
+  left: 0;
+  width: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.sub-menu-item {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.sub-menu-item:hover {
+  background-color: #f0f0f0;
+}
