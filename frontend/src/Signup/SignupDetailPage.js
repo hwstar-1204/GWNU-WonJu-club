@@ -1,3 +1,4 @@
+// SignupDetailPage.js
 import React, { useState } from 'react';
 import './SignupDetailPage.css'; // 스타일시트 임포트
 
@@ -16,6 +17,12 @@ function SignupDetail() {
   const [passwordError, setPasswordError] = useState(false);
   const [isStudentIdRegistered, setIsStudentIdRegistered] = useState(false);
   const [messageColor, setMessageColor] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // 비밀번호 규칙을 위한 정규 표현식
+  const regexSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+  const regexNumber = /\d/; // 최소 하나의 숫자가 있는지 확인
+  const regexAlphabet = /[a-zA-Z]/; // 최소 하나의 알파벳이 있는지 확인
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,15 +30,31 @@ function SignupDetail() {
 
     if (name === 'password' || name === 'confirmPassword') {
       setPasswordError(formData.password !== value && name === 'confirmPassword');
+
+      // 비밀번호 규칙 검사
+      if (
+        value.length < 8 ||
+        !regexSpecialChar.test(value) ||
+        !regexNumber.test(value) ||
+        !regexAlphabet.test(value)
+      ) {
+        setErrorMessage('비밀번호는 특수문자 1개 이상, 숫자 및 영문자를 포함하여 8자 이상이어야 합니다.');
+        setPasswordError(true);
+      } else {
+        setErrorMessage('');
+        setPasswordError(false);
+      }
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword || passwordError) {
       setPasswordError(true);
+      setErrorMessage('비밀번호가 일치하지 않거나 규칙을 위반합니다.');
     } else {
       setPasswordError(false);
+      setErrorMessage('');
       // TODO: 폼 제출 로직을 여기에 구현합니다.
       handleSignup(); // 회원가입 함수 호출
     }
@@ -138,7 +161,7 @@ function SignupDetail() {
             onChange={handleInputChange}
             className={passwordError ? 'error' : ''}
           />
-          {passwordError && <p className="password-error">비밀번호가 일치하지 않습니다.</p>}
+          {passwordError && <p className="password-error">{errorMessage}</p>}
         </label>
         <label>
           이메일

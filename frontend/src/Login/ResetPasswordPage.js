@@ -11,6 +11,11 @@ const ResetPasswordPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [step, setStep] = useState(1); // 단계를 추적하는 상태 변수 추가
 
+    // 비밀번호 규칙을 위한 정규 표현식
+    const regexSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+    const regexNumber = /\d/; // 최소 하나의 숫자가 있는지 확인
+    const regexAlphabet = /[a-zA-Z]/; // 최소 하나의 알파벳이 있는지 확인
+
     const handleStudentIdChange = (e) => {
         setStudentId(e.target.value);
     };
@@ -24,7 +29,20 @@ const ResetPasswordPage = () => {
     };
 
     const handleNewPasswordChange = (e) => {
-        setNewPassword(e.target.value);
+        const newPasswordValue = e.target.value;
+        setNewPassword(newPasswordValue);
+
+        // 비밀번호가 규칙을 위반하는지 확인
+        if (
+            newPasswordValue.length < 8 ||
+            !regexSpecialChar.test(newPasswordValue) ||
+            !regexNumber.test(newPasswordValue) ||
+            !regexAlphabet.test(newPasswordValue)
+        ) {
+            setErrorMessage('비밀번호는 특수문자 1개 이상, 숫자 및 영문자를 포함하여 8자 이상이어야 합니다.');
+        } else {
+            setErrorMessage('');
+        }
     };
 
     const handleConfirmPasswordChange = (e) => {
@@ -67,20 +85,30 @@ const ResetPasswordPage = () => {
             setErrorMessage('모든 필드를 입력해주세요.');
             return;
         }
-        // Add logic to change password
-        // 비밀번호 변경 로직 추가
+        // Check if password meets the criteria
+        if (
+            newPassword.length < 8 ||
+            !regexSpecialChar.test(newPassword) ||
+            !regexNumber.test(newPassword) ||
+            !regexAlphabet.test(newPassword)
+        ) {
+            setErrorMessage('비밀번호는 특수문자 1개 이상, 숫자 및 영문자를 포함하여 8자 이상이어야 합니다.');
+            return;
+        }
+        // Check if passwords match
         if (newPassword !== confirmPassword) {
             setErrorMessage('비밀번호가 일치하지 않습니다.');
-        } else {
-            alert('비밀번호가 변경되었습니다.');
-            // 변경 완료 후 초기화
-            setStep(1);
-            setStudentId('');
-            setEmail('');
-            setVerificationCode('');
-            setNewPassword('');
-            setConfirmPassword('');
+            return;
         }
+        // If all checks pass, proceed with password change
+        alert('비밀번호가 변경되었습니다.');
+        // 변경 완료 후 초기화
+        setStep(1);
+        setStudentId('');
+        setEmail('');
+        setVerificationCode('');
+        setNewPassword('');
+        setConfirmPassword('');
     };
 
     return (
