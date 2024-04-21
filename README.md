@@ -42,7 +42,7 @@
 
 
 ## Chatbot
-데이터 label
+데이터 label  
 0 인사  
 1 욕설  
 2 종류  
