@@ -3,11 +3,6 @@ from django.db import models
 
 class ClubMembers(models.Model):
     club_name = models.CharField(max_length=20, primary_key=True)
-    category = models.IntegerField()
-    introducation = models.TextField()
-    photo = models.ImageField()
-    logo = models.ImageField()
-    new_club = models.BooleanField()
 
     class Meta:
         managed = False
