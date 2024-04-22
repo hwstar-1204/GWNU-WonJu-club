@@ -26,10 +26,11 @@ schema_view = get_schema_view(
     openapi.Info(
         title="CLUB APIs",
         default_version='v1',
-        description="test",
+        description="동아리 플랫폼 백엔드 api입니다.",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
+
 )
 
 urlpatterns = [
