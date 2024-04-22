@@ -26,10 +26,11 @@ schema_view = get_schema_view(
     openapi.Info(
         title="CLUB APIs",
         default_version='v1',
-        description="test",
+        description="동아리 플랫폼 백엔드 api입니다.",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
+
 )
 
 urlpatterns = [
@@ -37,7 +38,6 @@ urlpatterns = [
     path('api-auth', include('rest_framework.urls')),
     path('club_introduce/', include('club_introduce.urls')),
     path('club_information/', include('club_information.urls')),
-    path('club_member/', include('club_member.urls')),
     path('club_account/', include('club_account.urls')),
     path('club_board/', include('club_board.urls'))
 

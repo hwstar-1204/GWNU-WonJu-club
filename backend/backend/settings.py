@@ -48,14 +48,14 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     # 'dj_rest_auth.jwt_auth',  # 1
     'drf_yasg',
+    'corsheaders',
 
     # project apps
     'club_account',
     'club_board',
-    'corsheaders'  
     'club_introduce',
     'club_information',
-    'club_member',
+    'club_management',
 
 ]
 
@@ -156,7 +156,8 @@ REST_AUTH = {
     'USE_JWT': True,
     'JWT_AUTH_COOKIE': 'auth',
     'JWT_AUTH_HTTPONLY': False,
-    'REGISTER_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer'
+    'REGISTER_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
 }
 
 AUTH_USER_MODEL = 'club_account.CustomUser'
@@ -165,27 +166,27 @@ ACCOUNT_ADAPTER = 'club_account.adapters.CustomAccountAdapter'
 
 SITE_ID = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # email
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # none ,Optional, mandatory
-ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # none ,Optional, mandatory
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # 메일 호스트 서버
+EMAIL_PORT = '587'  # gmail과 통신하는 포트
+EMAIL_HOST_USER = '****@gwnu.ac.kr'  # 발신할 이메일
+EMAIL_HOST_PASSWORD = '******'  # 발신할 메일의 비밀번호
+EMAIL_USE_TLS = True  # TLS 보안 방법
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # 유저가 받은 링크를 클릭하면 회원가입 완료되게끔
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+# 이메일에 자동으로 표시되는 사이트 정보
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "도전하는 문돌이 블로그"
 
-# ACCOUNT_FORMS = {
-#     'add_email': 'allauth.account.forms.AddEmailForm',
-#     'change_password': 'allauth.account.forms.ChangePasswordForm',
-#     'login': 'allauth.account.forms.LoginForm',
-#     'reset_password': 'allauth.account.forms.ResetPasswordForm',
-#     'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
-#     'set_password': 'allauth.account.forms.SetPasswordForm',
-#     'signup': 'allauth.account.forms.SignupForm',
-#     'user_token': 'allauth.account.forms.UserTokenForm',
-# }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

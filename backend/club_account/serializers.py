@@ -3,6 +3,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from allauth.account.utils import setup_user_email
 from allauth.account.adapter import get_adapter
 
+from club_account.models import CustomUser
 
 class CustomRegisterSerializer(RegisterSerializer):
     name = serializers.CharField(max_length=30)
@@ -22,15 +23,6 @@ class CustomRegisterSerializer(RegisterSerializer):
         cleaned_data['phone'] = self.validated_data.get('phone', 0)
         return cleaned_data
 
-    def save(self, request):
-        adapter = get_adapter()
-        user = adapter.new_user(request)
-        self.cleaned_data = self.get_cleaned_data()
-        adapter.save_user(request, user, self)
-        self.custom_signup(request, user)
-        setup_user_email(request, user, [])
-        return user
-
     def custom_signup(self, request, user):
         user.name = self.cleaned_data.get('name')
         user.student_id = self.cleaned_data.get('student_id')
@@ -39,3 +31,12 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.gender = self.cleaned_data.get('gender')
         user.phone = self.cleaned_data.get('phone')
         user.save()
+
+    def save(self, request):
+        adapter = get_adapter()
+        user = adapter.new_user(request)
+        self.cleaned_data = self.get_cleaned_data()
+        adapter.save_user(request, user, self)
+        self.custom_signup(request, user)
+        setup_user_email(request, user, [])
+        return user

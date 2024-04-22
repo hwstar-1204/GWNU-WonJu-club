@@ -22,8 +22,8 @@ class CategoryClubAPIView(APIView):
         category_clubs = Club.objects.filter(category=category_id)
 
         # 카테고리에 해당하는 동아리가 없을 때
-        if not category_clubs:
-            return Response({'error': '카테고리에 해당하는 동아리가 존재하지 않습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not category_clubs.exists():
+            return Response({'error': '카테고리에 해당하는 동아리가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
 
         clubs_data = ClubSerializer(category_clubs, many=True).data
         return Response(clubs_data)

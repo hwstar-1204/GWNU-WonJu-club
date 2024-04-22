@@ -24,6 +24,6 @@ urlpatterns = [
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
     path('club_home/<str:club_name>/', views.ClubHomeAPIView.as_view(), name='club-home'),
-    path('club_home/<str:club_name>/photos', views.ClubPhotoAPIView.as_view(), name='club-photo'),
-    path('club_home/<str:club_name>/events', views.ClubEventAPIView.as_view(), name='club-event'),
+    path('club_home/<str:club_name>/photos/<str:search_type>/<str:search_query>/', views.ClubPhotoAPIView.as_view(), name='club-photo'),
+    path('club_home/<str:club_name>/events/<str:search_type>/<str:search_query>/', views.ClubEventAPIView.as_view(), name='club-event'),
 ]
