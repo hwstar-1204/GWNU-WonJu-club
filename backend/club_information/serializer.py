@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from club_introduce.models import *
+from club_information.models import *
 
 
 class DynamicFieldModelSerializer(serializers.ModelSerializer):
@@ -14,12 +14,12 @@ class DynamicFieldModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(fields_name)
 class UserSerializer(DynamicFieldModelSerializer):
     class Meta:
-        model = User
+        model = ClubHomeUser
         fields = '__all__'
 
 class ClubSerializer(DynamicFieldModelSerializer):
     class Meta:
-        model = Club
+        model = ClubHome
         fields = '__all__'
 
 
@@ -27,18 +27,18 @@ class ClubMemberSerializer(DynamicFieldModelSerializer):
     student_num = UserSerializer(read_only=False)
 
     class Meta:
-        model = ClubMember
+        model = ClubHomeMember
         fields = '__all__'
 
 class BoardPostSerializer(DynamicFieldModelSerializer):
 
     class Meta:
-        model = BoardPost
+        model = ClubHomePost
         fields = '__all__'
 
 class BoardPostContentSerializer(DynamicFieldModelSerializer):
     post_id = BoardPostSerializer(read_only=False)
 
     class Meta:
-        model = BoardPostContent
+        model = ClubHomePostContent
         fields = '__all__'
