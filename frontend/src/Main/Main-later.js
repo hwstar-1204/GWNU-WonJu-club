@@ -9,8 +9,12 @@ import ClubNotice from './ClubNotice';
 import logo from './logo.png';
 import chatbotImage from './chatbot.png'; // AI 챗봇 이미지 추가
 
-function MainPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+function MainLater() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // 로그인 상태로 변경
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <div className="MainPage">
@@ -36,16 +40,15 @@ function MainPage() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              {!isLoggedIn ? (
+              {isLoggedIn ? (
                 <>
-                  <Nav.Link as={Link} to="/login">로그인</Nav.Link>
-                  <Nav.Link as={Link} to="/signup">회원가입</Nav.Link>
+                  <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
+                  <Nav.Link as={Link} to="/mypage">마이페이지</Nav.Link>
                 </>
               ) : (
                 <>
-                  <Nav.Link as={Link} to="/mypage">마이페이지</Nav.Link>
-                  {/* 로그아웃 버튼 추가 */}
-                  <Nav.Link onClick={() => setIsLoggedIn(false)}>로그아웃</Nav.Link>
+                  <Nav.Link as={Link} to="/login">로그인</Nav.Link>
+                  <Nav.Link as={Link} to="/signup">회원가입</Nav.Link>
                 </>
               )}
             </Nav>
@@ -72,4 +75,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default MainLater;

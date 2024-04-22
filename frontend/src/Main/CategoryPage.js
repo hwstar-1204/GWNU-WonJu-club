@@ -26,7 +26,7 @@ const CategoryPage = () => {
         {isSubMenuVisible && (
           <div className="sub-menu">
             <div className="sub-menu-item">정규 동아리</div>
-            <div className="sub-menu-item">가입 동아리</div>
+            <div className="sub-menu-item">가동록 동아리</div>
             <div className="sub-menu-item">학습 동아리</div>
             <div className="sub-menu-item">취업/창업 동아리</div>
             <div className="sub-menu-item">소모임</div>
