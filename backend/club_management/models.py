@@ -4,11 +4,9 @@ from django.db import models
 #전체 동아리 소개에 필요한 모델
 class ClubManagement(models.Model):
     club_name = models.CharField(max_length=20, primary_key=True)
-    category = models.IntegerField()
     introducation = models.TextField()
     photo = models.ImageField()
     logo = models.ImageField()
-    new_club = models.BooleanField()
 
     class Meta:
         managed = False
