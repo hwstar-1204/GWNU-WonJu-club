@@ -8,7 +8,7 @@ from club_introduce.models import *
 # Create your views here.
 class ClubListAPIView(APIView):
     def get(self, request):
-        clubs = ClubList.objects.all()
+        clubs = Club.objects.all()
         clubs_data = ClubSerializer(clubs, many=True).data
         return Response(clubs_data)
 
@@ -19,7 +19,7 @@ class CategoryClubAPIView(APIView):
         if not category_id:
             return Response({'error': '카테고리가 제공되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        category_clubs = ClubList.objects.filter(category=category_id)
+        category_clubs = Club.objects.filter(category=category_id)
 
         # 카테고리에 해당하는 동아리가 없을 때
         if not category_clubs.exists():

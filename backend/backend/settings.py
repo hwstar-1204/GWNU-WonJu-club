@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'club_board',
     'club_introduce',
     'club_information',
-    'club_member',
+    'club_management',
 
 ]
 

@@ -53,7 +53,7 @@ class ClubHomeUser(models.Model):
 #사진첩과 이벤트에 사용될 이미지
 #글을 가져오기 위한 모델
 class ClubHomePostContent(models.Model):
-    post_id = models.ForeignKey('ClubHomePost', on_delete=models.CASCADE, db_column='post_id', primary_key=True, unique=True)
+    post_id = models.OneToOneField('ClubHomePost', on_delete=models.CASCADE, db_column='post_id', primary_key=True)
     post_content = models.TextField()
     photo = models.ImageField()
 

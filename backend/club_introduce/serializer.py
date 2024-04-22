@@ -14,5 +14,5 @@ class DynamicFieldModelSerializer(serializers.ModelSerializer):
                 self.fields.pop(fields_name)
 class ClubSerializer(DynamicFieldModelSerializer):
     class Meta:
-        model = ClubList
+        model = Club
         fields = '__all__'
