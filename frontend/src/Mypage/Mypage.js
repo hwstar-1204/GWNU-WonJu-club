@@ -1,11 +1,8 @@
+import React from 'react';
+import './MyPage.css';
 import CategoryPage from '../Main/CategoryPage';
 import MypageNav from './MypageNav';
 import React, { useState } from 'react';
-import MypageHome from './MypageHome';
-import './Mypage.css';
-import '../Main/TopScreen.js'
-import TopScreen from '../Main/TopScreen.js';
-
 
 const MyPage = () => {
   // 더미 데이터
@@ -27,13 +24,8 @@ const MyPage = () => {
     
     
     <div className="my-page">
-        <TopScreen />
         <CategoryPage />
-        
-         <h1 className = "mypage-header">마이페이지 </h1>
         <MypageNav userData={userData} />
-        <MypageHome userData={userData} />
-
         </div>
       
   );
