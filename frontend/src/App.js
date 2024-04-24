@@ -9,13 +9,15 @@ import MyPage from './Mypage/Mypage';
 import MainLater from './Main/Main-later';
 import Editinformation from './Mypage/EditInformation';
 import Changepassword from './Mypage/ChangePassword';
-import { UserProvider } from './UserContext'; // UserProvider import 추가
+import { UserProvider } from './UserContext';
+import CategoryPage from './Main/CategoryPage'; // 카테고리 페이지 import 추가
+import ClubIntroducePage from './clubintroduce/ClubIntroducePage'; // 동아리 소개 페이지 import 추가
 
 function App() {
   return (
-    <UserProvider> {/* UserProvider로 감싸기 */}
+    <UserProvider>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />c
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<PrivacyPolicyPage />} />
         <Route path="/signup/details" element={<SignupDetailPage />} />
         <Route path="/login/reset-password" element={<ResetPasswordPage />} />
@@ -25,6 +27,8 @@ function App() {
         <Route path="/main-later" element={<MainLater />} />
         <Route path="/editif" element={<Editinformation />} />
         <Route path="/change-password" element={<Changepassword />} />
+        <Route path="/category" element={<CategoryPage />} /> {/* 카테고리 페이지에 대한 Route 추가 */}
+        <Route path="/club-introduce" element={<ClubIntroducePage />} /> {/* 동아리 소개 페이지에 대한 Route 추가 */}
       </Routes>
     </UserProvider>
   );

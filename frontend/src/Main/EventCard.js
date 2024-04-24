@@ -37,13 +37,13 @@ const EventCard = () => {
                   <h4 className="event-title"> EVENT{card.title}</h4>
                 </Card.Header>
                 <div className="event-card-image">
-                  <Card.Img src="https://via.placeholder.com/300x150" alt="이벤트 사진" className="event-card-event-image" />
+                  <Card.Img src="https://jjingosu.com/wp-content/uploads/2023/12/%EC%98%A4%EC%9D%B4%EC%83%9D%EC%9C%A1-1536x768.webp" alt="이벤트 사진" className="event-card-event-image" />
                 </div>
                 <Card.Body>
                   <div className="event-card-meta">
                     <Card.Text className="event-card-date">{card.date}</Card.Text>
                     <div className="event-card-author">
-                      <Card.Img src="https://via.placeholder.com/50" alt={card.author} className="event-card-profile" style={{ borderRadius: '50%', width: '50px', height: '50px', marginRight: '5px' }} />
+                      <Card.Img src="https://img.tvreportcdn.de/cms-content/uploads/2023/06/12/7bed2ee2-bda4-4a49-b5d3-d1a89b37b074.jpg" alt={card.author} className="event-card-profile" style={{ borderRadius: '50%', width: '50px', height: '50px', marginRight: '5px' }} />
                       <Card.Text className="event-card-author-name">{card.author}</Card.Text>
                     </div>
                   </div>

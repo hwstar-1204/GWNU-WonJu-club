@@ -76,6 +76,7 @@
   padding-left: 10px; /* 좌측 여백을 추가하여 이벤트 카드와 컨테이너의 좌측 여백을 늘립니다. */
   padding-right: 100px; /* 우측 여백을 추가하여 이벤트 카드와 컨테이너의 우측 여백을 늘립니다. */
   position: relative;
+  margin-top: 0px; 
 }
 
 .add-card-button {

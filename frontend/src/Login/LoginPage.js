@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+// LoginPage.js
+import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Alert, Row, Col, FormGroup, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
+import UserContext from '../UserContext'; // UserContext 가져오기
 
 const LoginPage = () => {
   const [studentID, setStudentID] = useState('');
@@ -10,6 +12,7 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(UserContext); // UserContext에서 로그인 함수 가져오기
 
   const validateUser = (studentID, password) => {
     const registeredStudentID = '123456';
@@ -27,7 +30,7 @@ const LoginPage = () => {
     }
 
     if (validateUser(studentID, password)) {
-      console.log('로그인 성공');
+      login(); // 로그인 함수 호출
       setShowModal(true);
     } else {
       setErrorMessage('아이디(학번)와 비밀번호가 일치하지 않습니다.');

@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Link import 추가
 import './CategoryPage.css';
 
 const CategoryPage = () => {
-  // 각 카테고리의 서브 메뉴 상태를 관리하기 위한 useState 훅 사용
   const [isSubMenuVisible, setSubMenuVisible] = useState(false);
 
-  // 마우스를 갖다대면 서브 메뉴를 보여주는 함수
   const handleMouseEnter = () => {
     setSubMenuVisible(true);
   };
 
-  // 마우스를 벗어나면 서브 메뉴를 숨기는 함수
   const handleMouseLeave = () => {
     setSubMenuVisible(false);
   };
@@ -25,11 +23,12 @@ const CategoryPage = () => {
         동아리 소개
         {isSubMenuVisible && (
           <div className="sub-menu">
-            <div className="sub-menu-item">정규 동아리</div>
-            <div className="sub-menu-item">가입 동아리</div>
-            <div className="sub-menu-item">학습 동아리</div>
-            <div className="sub-menu-item">취업/창업 동아리</div>
-            <div className="sub-menu-item">소모임</div>
+            {/* 각 서브 메뉴 항목을 Link 컴포넌트로 감싸서 동아리 소개 페이지로 이동할 수 있는 링크를 추가합니다. */}
+            <Link to="/club-introduce" className="sub-menu-item">정규 동아리</Link>
+            <Link to="/club-introduce" className="sub-menu-item">가입 동아리</Link>
+            <Link to="/club-introduce" className="sub-menu-item">학습 동아리</Link>
+            <Link to="/club-introduce" className="sub-menu-item">취업/창업 동아리</Link>
+            <Link to="/club-introduce" className="sub-menu-item">소모임</Link>
           </div>
         )}
       </div>

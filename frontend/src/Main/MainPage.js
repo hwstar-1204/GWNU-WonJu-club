@@ -1,3 +1,5 @@
+// MainPage.js
+import React from 'react';
 import './MainPage.css';
 import CategoryPage from './CategoryPage';
 import BannerCarousel from './BannerCarousel';
@@ -5,11 +7,16 @@ import EventCard from './EventCard';
 import ClubNotice from './ClubNotice';
 import chatbotImage from './chatbot.png'; // AI 챗봇 이미지 추가
 import TopScreen from './TopScreen';
+import { useUser } from '../UserContext'; // UserContext 가져오기
 
 function MainPage() {
+  
+  const { isLoggedIn } = useUser(); // 로그인 상태 가져오기
+
   return (
     <div className="MainPage">
-      <TopScreen isLoggedIn={false} /> {/* 로그인 상태를 false로 설정하여 TopScreen 컴포넌트 추가 */}
+      {/* 항상 TopScreen 컴포넌트를 렌더링하고, 로그인 상태에 따라 내용이 변경됩니다. */}
+      <TopScreen />
 
       <CategoryPage />
 
