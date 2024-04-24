@@ -1,6 +1,6 @@
-// SignupDetailPage.js
 import React, { useState } from 'react';
 import './SignupDetailPage.css'; // 스타일시트 임포트
+import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 
 function SignupDetail() {
   const [formData, setFormData] = useState({
@@ -13,11 +13,16 @@ function SignupDetail() {
     phoneNumber: '',
     grade: '1', // 학년 기본값을 1학년으로 설정
     department: '',
+    verificationCode: '', // 추가: 인증코드 상태값
+    showVerificationInput: false, // 추가: 인증코드 입력란 표시 여부
   });
   const [passwordError, setPasswordError] = useState(false);
   const [isStudentIdRegistered, setIsStudentIdRegistered] = useState(false);
   const [messageColor, setMessageColor] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState(''); // 변경: 비밀번호 오류 메시지 상태 추가
+  const [verificationErrorMessage, setVerificationErrorMessage] = useState(''); // 추가: 인증코드 오류 메시지 상태 추가
+  const [isCodeVerified, setIsCodeVerified] = useState(false); // 추가: 코드 확인 상태값
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   // 비밀번호 규칙을 위한 정규 표현식
   const regexSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
@@ -38,10 +43,10 @@ function SignupDetail() {
         !regexNumber.test(value) ||
         !regexAlphabet.test(value)
       ) {
-        setErrorMessage('비밀번호는 특수문자 1개 이상, 숫자 및 영문자를 포함하여 8자 이상이어야 합니다.');
+        setPasswordErrorMessage('비밀번호는 특수문자 1개 이상, 숫자 및 영문자를 포함하여 8자 이상이어야 합니다.'); // 변경: 비밀번호 오류 메시지 설정
         setPasswordError(true);
       } else {
-        setErrorMessage('');
+        setPasswordErrorMessage('');
         setPasswordError(false);
       }
     }
@@ -51,10 +56,10 @@ function SignupDetail() {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword || passwordError) {
       setPasswordError(true);
-      setErrorMessage('비밀번호가 일치하지 않거나 규칙을 위반합니다.');
+      setPasswordErrorMessage('비밀번호가 일치하지 않거나 규칙을 위반합니다.'); // 변경: 비밀번호 오류 메시지 설정
     } else {
       setPasswordError(false);
-      setErrorMessage('');
+      setPasswordErrorMessage(''); // 변경: 비밀번호 오류 메시지 초기화
       // TODO: 폼 제출 로직을 여기에 구현합니다.
       handleSignup(); // 회원가입 함수 호출
     }
@@ -94,17 +99,39 @@ function SignupDetail() {
   };
 
   const handleCheckStudentId = () => {
-    // 여기서 가입된 학번을 확인하는 로직을 구현합니다.
-    // 가입된 학번이 있다면 setIsStudentIdRegistered(true)로 설정합니다.
-    // 가입된 학번이 없다면 setIsStudentIdRegistered(false)로 설정합니다.
     const registeredStudentIds = ['20231864']; // 임의의 가입된 학번 데이터
     const isRegistered = registeredStudentIds.includes(formData.studentId);
     setIsStudentIdRegistered(isRegistered);
-    setMessageColor(isRegistered ? 'red' : 'green');
+    
+    // 이미 가입된 학번일 때와 가입되지 않은 학번일 때 각각 메시지 설정
+    if (isRegistered) {
+      setMessageColor('red');
+      setPasswordErrorMessage('이미 가입된 아이디(학번)입니다.');
+    } else {
+      setMessageColor('green');
+      setPasswordErrorMessage('사용 가능한 아이디(학번)입니다.');
+    }
   };
-
+  
+  
   const handleEmailVerificationClick = () => {
     handleEmailVerification();
+    setFormData({ ...formData, verificationCode: '', showVerificationInput: true }); // 인증코드 입력란 보여주기
+  };
+  
+  const handleCodeVerification = () => {
+    // 실제로는 이곳에서 서버로부터 인증코드를 검증하고 결과를 처리합니다.
+    // 여기서는 간단히 입력한 코드와 임의의 코드를 비교하여 처리합니다.
+    const mockCode = '123456'; // 임의의 인증코드
+    if (formData.verificationCode === mockCode) {
+      setIsCodeVerified(true);
+      setMessageColor('green');
+      setVerificationErrorMessage('인증 완료'); // 추가: 인증 완료 메시지 설정
+    } else {
+      setIsCodeVerified(false);
+      setMessageColor('red');
+      setVerificationErrorMessage('인증코드가 일치하지 않습니다.'); // 추가: 인증코드 오류 메시지 설정
+    }
   };
 
   const handleSignup = () => {
@@ -120,9 +147,15 @@ function SignupDetail() {
       return;
     }
 
-    // 모든 필수 정보가 입력되었을 때 회원가입 완료 메시지 표시
-    alert('회원가입이 완료되었습니다.');
+    // 인증코드 확인 여부를 검사하여 회원가입 완료 처리
+    if (isCodeVerified) {
+      alert('회원가입이 완료되었습니다.');
+      navigate('/main'); // 회원가입 완료 후 메인 페이지로 이동
+    } else {
+      alert('인증코드를 확인해주세요.');
+    }
   };
+
 
   return (
     <div className="signup-form-container">
@@ -136,11 +169,14 @@ function SignupDetail() {
           아이디(학번)
           <input type="text" name="studentId" value={formData.studentId} onChange={handleInputChange} />
           <button type="button" onClick={handleCheckStudentId}>중복확인</button>
-          {isStudentIdRegistered && (
-            <p style={{ color: messageColor }}>
-              {isStudentIdRegistered ? '이미 가입된 아이디(학번)입니다.' : '사용 가능한 아이디(학번)입니다.'}
-            </p>
-          )}
+
+
+{isStudentIdRegistered !== null && formData.studentId !== '' && (
+  <p style={{ color: messageColor }}>
+    {isStudentIdRegistered ? '이미 가입된 아이디(학번)입니다.' : '사용 가능한 아이디(학번)입니다.'}
+  </p>
+)}
+
         </label>
         <label>
           비밀번호
@@ -161,7 +197,7 @@ function SignupDetail() {
             onChange={handleInputChange}
             className={passwordError ? 'error' : ''}
           />
-          {passwordError && <p className="password-error">{errorMessage}</p>}
+          {passwordError && <p className="password-error">{passwordErrorMessage}</p>} {/* 변경: 비밀번호 오류 메시지 출력 */}
         </label>
         <label>
           이메일
@@ -176,7 +212,21 @@ function SignupDetail() {
           휴대폰 번호
           <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleInputChange} />
         </label>
+        {/* 인증코드 입력란 */}
         <button type="button" onClick={handleEmailVerificationClick}>이메일 인증하기</button>
+        {formData.showVerificationInput && (
+          <div className="verification-code">
+            <input
+              type="text"
+              name="verificationCode"
+              placeholder="인증코드를 입력하세요"
+              value={formData.verificationCode}
+              onChange={handleInputChange}
+            />
+            <button type="button" onClick={handleCodeVerification}>확인</button>
+            {verificationErrorMessage && <p style={{ color: messageColor }}>{verificationErrorMessage}</p>} {/* 추가: 인증코드 오류 메시지 출력 */}
+          </div>
+        )}
         <label>
           학년/학과
           <select name="grade" value={formData.grade} onChange={handleInputChange}>
@@ -187,16 +237,16 @@ function SignupDetail() {
           </select>
           <select name="department" value={formData.department} onChange={handleInputChange}>
             <option value="1">유아교육과</option>
-            <option value="1">간호학과</option>
-            <option value="1">사회복지학과</option>
-            <option value="1">다문화학과</option>
-            <option value="1">컴퓨터공학과</option>
-            <option value="1">멀티미디어공학과</option>
-            <option value="1">기계공학과</option>
-            <option value="1">자동차공학과</option>
-            <option value="1">전기공학과</option>
-            <option value="1">정보통신공학과</option>
-            <option value="1">산업경영공학과</option>
+            <option value="2">간호학과</option>
+            <option value="3">사회복지학과</option>
+            <option value="4">다문화학과</option>
+            <option value="5">컴퓨터공학과</option>
+            <option value="6">멀티미디어공학과</option>
+            <option value="7">기계공학과</option>
+            <option value="8">자동차공학과</option>
+            <option value="9">전기공학과</option>
+            <option value="10">정보통신공학과</option>
+            <option value="11">산업경영공학과</option>
           </select>
         </label>
         <button type="submit">회원가입</button>
