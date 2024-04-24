@@ -9,9 +9,13 @@ import MyPage from './Mypage/Mypage';
 import MainLater from './Main/Main-later';
 import Editinformation from './Mypage/EditInformation';
 import Changepassword from './Mypage/ChangePassword';
+
 import { UserProvider } from './UserContext';
 import CategoryPage from './Main/CategoryPage'; // 카테고리 페이지 import 추가
 import ClubIntroducePage from './clubintroduce/ClubIntroducePage'; // 동아리 소개 페이지 import 추가
+import MyClub from './Mypage/Myclub';
+import CreateClubPage from './CreateClub/CreateClubPage';
+import CreateEventPage from './Event/CreateEventPage';
 
 function App() {
   return (
@@ -29,6 +33,8 @@ function App() {
         <Route path="/change-password" element={<Changepassword />} />
         <Route path="/category" element={<CategoryPage />} /> {/* 카테고리 페이지에 대한 Route 추가 */}
         <Route path="/club-introduce" element={<ClubIntroducePage />} /> {/* 동아리 소개 페이지에 대한 Route 추가 */}
+        <Route path="/createclub" element={<CreateClubPage />} />
+       <Route path="/createevent" element={<CreateEventPage />} />
       </Routes>
     </UserProvider>
   );

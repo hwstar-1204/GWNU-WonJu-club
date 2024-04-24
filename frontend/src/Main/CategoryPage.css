@@ -39,3 +39,22 @@
 }
 
 
+/* 마우스를 올렸을 때 카테고리 아이템의 효과 */
+.category-item:hover {
+  transform: scale(1.05); /* 마우스를 올렸을 때 약간 확대됩니다. */
+}
+
+
+.link-style {
+  text-decoration: none;
+  /* 링크의 텍스트 장식 제거 */
+  color: inherit;
+  /* 기본 색상 상속 */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  /* 호버 시 텍스트 장식 제거 */
+  color: inherit;
+  /* 호버 시 기본 색상 상속 */
+}

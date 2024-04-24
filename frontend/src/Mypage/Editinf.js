@@ -1,13 +1,24 @@
-import React from "react";
-import { Container, Button, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Button, Row, Col, Form } from "react-bootstrap";
 import "../Main/TopScreen.js";
-import "./MypageHome.css";
+import "./Editinf.css";
 import defaultImage from "./profile.jpg";
 import logo from "./logo.png";
 
-import userData from "./MypageHome.js";
 
-const MypageHome = () => {
+const Editinf = ({ userData, onPhoneChange, onDepartmentChange }) => {
+  const [editedPhone, setEditedPhone] = useState(userData.phone);
+  const [editedDepartment, setEditedDepartment] = useState(userData.department);
+
+  // Function to handle phone number change
+  const handlePhoneChange = (event) => {
+    setEditedPhone(event.target.value);
+  };
+
+  // Function to handle department change
+  const handleDepartmentChange = (event) => {
+    setEditedDepartment(event.target.value);
+  };
 
   return (
     <Container>
@@ -25,13 +36,9 @@ const MypageHome = () => {
               />
               <div className="inroduction">
                 <p>
-                  <strong>{userData.name}</strong> 
+                  <strong>{userData.name}</strong>
                 </p>
-                <p>
-                 {userData.intro}
-                </p>
-                
-                
+                <p>{userData.intro}</p>
               </div>
               <div className="button-container">
                 <Button variant="primary" type="submit" className="edit-button">
@@ -55,21 +62,40 @@ const MypageHome = () => {
           <div className="details">
             <h2 className="details-head">사용자 정보</h2>
             <div className="details-info">
-            <p>
-              <strong>이름:</strong> {userData.name}
-            </p>
-            <p>
-              <strong>이메일:</strong> {userData.email}
-            </p>
-            <p>
-              <strong>휴대전화:</strong> {userData.phone}
-            </p>
-            <p>
-              <strong>소속 학과:</strong> {userData.department}
-            </p>
-            <p>
-              <strong>가입일:</strong> {userData.joinDate}
-            </p>
+              <p>
+                <strong>이름:</strong> {userData.name}
+              </p>
+              <p>
+                <strong>이메일:</strong> {userData.email}
+              </p>
+              <form className="phone-num-form">
+                <label htmlfor="phone-num">
+                  <strong>휴대전화</strong>
+                </label>
+                <input
+                  type="text"
+                  placeholder="휴대전화를 입력하세요"
+                  value={editedPhone}
+                  onChange={handlePhoneChange}
+                  className="form-control"
+                />
+              </form>
+              <form className="department-form">
+                <label htmlfor="department">
+                  <strong>소속학과</strong>
+                </label>
+                <input
+                  type="text"
+                  placeholder="소속학과를 선택하세요"
+                  value={editedDepartment}
+                  onChange={handleDepartmentChange}
+                  className="form-control"
+                />
+              </form>
+
+              <p>
+                <strong>가입일:</strong> {userData.joinDate}
+              </p>
             </div>
           </div>
         </Col>
@@ -87,7 +113,6 @@ const MypageHome = () => {
                     <p className="club-name">{userData.myclubname}</p>
                     <p className="membership-level">
                       {userData.membershipLevel}
-
                     </p>
                   </div>
                 </div>
@@ -100,4 +125,4 @@ const MypageHome = () => {
   );
 };
 
-export default MypageHome;
+export default Editinf;

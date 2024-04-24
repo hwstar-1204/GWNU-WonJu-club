@@ -13,8 +13,15 @@
 .cancel-button {
     margin-right: 450px;
     background-color: gray;
+    color: azure;
 }
 .editif-button {
     background-color: #007bff;
     margin-left: 450px;
+
 }
+.cancel {
+    color: azure;
+    text-decoration: none;
+}
+

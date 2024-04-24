@@ -1,7 +1,9 @@
+
 // LoginPage.js
 import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Alert, Row, Col, FormGroup, Modal } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+
 import './LoginPage.css';
 import UserContext from '../UserContext'; // UserContext 가져오기
 
@@ -18,6 +20,7 @@ const LoginPage = () => {
     const registeredStudentID = '123456';
     const registeredPassword = 'password';
 
+
     return studentID === registeredStudentID && password === registeredPassword;
   };
 
@@ -30,18 +33,20 @@ const LoginPage = () => {
     }
 
     if (validateUser(studentID, password)) {
+
       login(); // 로그인 함수 호출
       setShowModal(true);
+
     } else {
       setErrorMessage('아이디(학번)와 비밀번호가 일치하지 않습니다.');
     }
   };
 
+
   const hideModal = () => {
     setShowModal(false);
     navigate('/main'); // 확인 버튼을 클릭하면 메인 페이지로 이동
   };
-
   return (
     <div className="login-background">
       <Container>
@@ -66,6 +71,7 @@ const LoginPage = () => {
                   className="input-field"
                 />
                 <FormGroup>
+
                   <Row>
                     <Col>
                       <Form.Check
@@ -79,6 +85,7 @@ const LoginPage = () => {
                       <Link to="/login/reset-password" className="reset-password-link">비밀번호를 잊으셨나요?</Link>
                     </Col>
                   </Row>
+
                 </FormGroup>
                 <Button variant="primary" type="submit" className="login-button">
                   로그인
@@ -91,6 +98,7 @@ const LoginPage = () => {
           </Col>
         </Row>
       </Container>
+
       <Modal show={showModal} onHide={hideModal}>
         <Modal.Header closeButton>
           <Modal.Title>로그인 성공</Modal.Title>
@@ -102,6 +110,9 @@ const LoginPage = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* 로그인 상태에 따라 리다이렉션 처리 */}
+      {isLoggedIn && <useNavigate to="/main-later" />}
     </div>
   );
 };

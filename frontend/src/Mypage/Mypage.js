@@ -1,18 +1,16 @@
-// MyPage.js
-
-import React from 'react';
-import { Container } from 'react-bootstrap';
-import TopScreen from '../Main/TopScreen'; // TopScreen 컴포넌트를 가져옵니다.
 import CategoryPage from '../Main/CategoryPage';
 import MypageNav from './MypageNav';
+import React, { useState } from 'react';
 import MypageHome from './MypageHome';
+import './Mypage.css';
+import '../Main/TopScreen.js'
+import TopScreen from '../Main/TopScreen.js';
 
 
 const MyPage = () => {
- 
+  
+    const [userData, setUserData] = useState({
 
-  // 더미 데이터
-  const userData = {
     profileImage: "profile_image_url_here.jpg",
     name: "사용자 이름",
     intro: "소개글",
@@ -21,6 +19,7 @@ const MyPage = () => {
     department: "사용자 소속 학과",
     joinDate: "2024-04-16",
     myClub: {
+
       logo: "club_logo_url_here.jpg",
       name: "나의 동아리",
       membershipLevel: "회원 등급"
@@ -38,7 +37,9 @@ const MyPage = () => {
         <MypageHome userData={userData} />
       </Container>
     </div>
+
   );
 };
 
 export default MyPage;
+
