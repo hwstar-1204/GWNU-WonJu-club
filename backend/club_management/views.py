@@ -5,7 +5,7 @@ from rest_framework.decorators import APIView
 from club_management.permissions import IsClubPresident
 from rest_framework.response import Response
 
-import config
+import backend
 from club_management.serializer import *
 from club_management.models import *
 from django.db.models import Q
@@ -90,7 +90,7 @@ class LogoAPIView(APIView):
             if not logo_file:
                 return Response({'error': '로고정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            new_image_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
+            new_image_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
 
             if not os.path.isfile(new_image_path):
                 return Response({'error': '폴더에 이미지가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
@@ -105,7 +105,7 @@ class LogoAPIView(APIView):
             if not logo_file:
                 return Response({'error': '로고정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            upload_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
+            upload_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
 
             if default_storage.exists(upload_path):
                 return Response({'error': '같은 이름의 로고가 존재하고 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -117,7 +117,7 @@ class LogoAPIView(APIView):
             logo_file = request.FILES['logo']
             if not logo_file:
                 return Response({'error': '로고정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
-            delete_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
+            delete_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'logo', logo_file.name)
 
             if default_storage.exists(delete_path):
                 default_storage.delete(delete_path)
@@ -145,7 +145,7 @@ class PhotoAPIView(APIView):
             if not photo_file:
                 return Response({'error': '사진정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            new_image_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
+            new_image_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
 
             if not os.path.isfile(new_image_path):
                 return Response({'error': '폴더에 이미지가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
@@ -160,7 +160,7 @@ class PhotoAPIView(APIView):
             if not photo_file:
                 return Response({'error': '사진정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            upload_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
+            upload_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
 
             if default_storage.exists(upload_path):
                 return Response({'error': '같은 이름의 사진이 존재하고 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -172,7 +172,7 @@ class PhotoAPIView(APIView):
             photo_file = request.FILES['photo']
             if not photo_file:
                 return Response({'error': '사진정보를 전달받지 못했습니다.'}, status=status.HTTP_400_BAD_REQUEST)
-            delete_path = os.path.join(config.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
+            delete_path = os.path.join(backend.settings.MEDIA_ROOT, 'club', 'photo', photo_file.name)
 
             if default_storage.exists(delete_path):
                 default_storage.delete(delete_path)
