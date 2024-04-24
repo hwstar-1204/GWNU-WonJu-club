@@ -1,0 +1,165 @@
+/* 수정된 CSS */
+
+.profile,
+.details,
+.myclub-panel {
+  text-align: center;
+  padding: 20px;
+  /* 내부 여백 추가 */
+  border: 1px solid #ced4da;
+  /* 테두리 추가 */
+  border-radius: 10px;
+  /* 둥근 네모로 조정 */
+  margin-bottom: 20px;
+  /* 하단 여백 추가 */
+  width: 400px;
+
+  height: 500px;
+}
+
+.profile-image {
+  margin: 10px auto;
+  width: 100px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.club-logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  border: 2px solid #ced4da;
+  /* 테두리 추가 */
+}
+
+.edit-button,
+.delete-button {
+  margin-right: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.details h2 {
+  margin-bottom: 20px;
+}
+
+.club-details {
+  margin-bottom: 20px;
+}
+
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 이미지 및 버튼을 세로 방향으로 가운데 정렬 */
+}
+
+.profile {
+  text-align: center;
+}
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.edit-button,
+.delete-button {
+  margin-top: 10px;
+  /* 버튼 위 여백 추가 */
+}
+
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 이미지 및 버튼을 세로 방향으로 가운데 정렬 */
+}
+
+.profile {
+  text-align: center;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.edit-button,
+.delete-button {
+  margin-bottom: 10px;
+  /* 버튼 위 여백 추가 */
+}
+
+.delete-button {
+  background-color: gray;
+}
+
+.myclub-head {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.club-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.details-head {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.details-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 70px;
+}
+
+.club-name,
+.membership-level {
+  align-items: flex-start;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.phone-num-form,
+.department-form {
+  display: flex;
+  /* 폼 요소들을 가로로 나란히 배치 */
+  align-items: center;
+  /* 폼 요소들을 세로 중앙 정렬 */
+  margin-bottom: 5px;
+  /* 각 폼 요소 아래 간격 설정 */
+}
+
+.phone-num-form label,
+.department-form label {
+
+  width: 90px;
+  /* 라벨의 너비를 조절 (원하는 너비로 변경 가능) */
+  margin-right: 15px;
+  /* 라벨과 입력 요소 사이 간격 설정 */
+  display: inline-block;
+  /* 라벨 요소를 블록 수준 요소로 변환하여 너비 적용 */
+  white-space: nowrap;
+  /* 글자가 줄 바꿈되지 않도록 설정 */
+  overflow: hidden;
+  
+}
