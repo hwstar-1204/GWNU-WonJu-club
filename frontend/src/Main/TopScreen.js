@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import logo from './logo.png';
+import logo2 from './logo2.PNG';
 import './TopScreen.css';
 
 const TopScreen = () => {
@@ -13,20 +13,13 @@ const TopScreen = () => {
             <Container>
                 <Navbar.Brand as={Link} to="/main">
                     <img
-                        src={logo}
-                        width="40"
-                        height="40"
+                        src={logo2}
+                        width="180"
+                        height="80"
                         className="d-inline-block align-top"
                         alt="강원동 로고"
                     />
-                    <span style={{ color: '#ff0000' }}>G</span>
-                    <span style={{ color: '#ffcc00' }}>W</span>
-                    <span style={{ color: '#ffa500' }}>N</span>
-                    <span style={{ color: '#87ceeb' }}>U</span>{' '}
-                    <span style={{ color: '#ff0000' }}>C</span>
-                    <span style={{ color: '#ffcc00' }}>L</span>
-                    <span style={{ color: '#ffa500' }}>U</span>
-                    <span style={{ color: '#87ceeb' }}>B</span>
+                    
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

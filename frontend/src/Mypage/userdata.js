@@ -1,6 +1,5 @@
 // userData.js
-
-const userdata = {
+const userData = {
   profileImage: "profile_image_url_here.jpg",
   name: "사용자 이름",
   intro: "소개글",
@@ -15,4 +14,4 @@ const userdata = {
   }
 };
 
-export default userdata;
+export default userData;

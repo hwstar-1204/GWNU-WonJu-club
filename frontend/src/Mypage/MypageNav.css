@@ -39,35 +39,3 @@
     background-color: #ffc107;
     border-radius: 30px;
 }
-.mypage-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f2f2f2;
-    padding: 10px;
-}
-
-.mypage-navigation ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.mypage-navigation li {
-    margin-right: 20px;
-}
-
-.mypage-navigation li:last-child {
-    margin-right: 0;
-}
-
-.mypage-navigation a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-}
-
-.mypage-navigation a.active {
-    color: #ebaf21;
-}

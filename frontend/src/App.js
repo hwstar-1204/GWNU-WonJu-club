@@ -9,7 +9,9 @@ import MyPage from './Mypage/Mypage';
 import MainLater from './Main/Main-later';
 import Editinformation from './Mypage/EditInformation';
 import Changepassword from './Mypage/ChangePassword';
-
+import MyClub from './Mypage/Myclub';
+import CreateClubPage from './CreateClub/CreateClubPage';
+import CreateEventPage from './Event/CreateEventPage';
 
 function App() {
   return (
@@ -24,6 +26,9 @@ function App() {
       <Route path="/main-later" element={<MainLater />} />
       <Route path="/editif" element={<Editinformation />} />
       <Route path="/change-password" element={<Changepassword />} />
+       <Route path="/myclub" element={<MyClub />} />
+       <Route path="/createclub" element={<CreateClubPage />} />
+       <Route path="/createevent" element={<CreateEventPage />} />
     </Routes>
   );
 }

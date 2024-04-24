@@ -1,56 +1,65 @@
-import CategoryPage from '../Main/CategoryPage';
-import MypageNav from './MypageNav';
-import React, { useState } from 'react';
-import MypageHome from './MypageHome';
-import './Mypage.css';
-import '../Main/TopScreen.js'
-import TopScreen from '../Main/TopScreen.js';
-import userData from './userdata.js';
-import { Container, Form, Button } from 'react-bootstrap';
-import'./Editinformation.css';
+import CategoryPage from "../Main/CategoryPage.js";
+import MypageNav from "./MypageNav.js";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import Editinf from "./Editinf.js";
+import "./Mypage.css";
+import "../Main/TopScreen.js";
+import TopScreen from "../Main/TopScreen.js";
+import userData from "./Mypage.js";
+import { Container, Form, Button, } from "react-bootstrap";
+import "./Editinformation.css";
 
 const Editinformation = () => {
-  // 더미 데이터
+  const [editCompleted, setEditCompleted] = useState(false);
 
+  const handleEditComplete = () => {
+    setEditCompleted(true);
+    // 수정 완료 알림 호출
+    alert("수정 완료되었습니다");
+  };
 
   return (
-       
     <div className="my-page">
-        <TopScreen />
-        <CategoryPage />
-        
-         <h1 className = "mypage-header">마이페이지 </h1>
-        <MypageNav userData={userData} />
-        <MypageHome userData={userData} />
+      <TopScreen />
+      <CategoryPage />
+      <h1 className="mypage-header">마이페이지</h1>
+      <MypageNav userData={userData} />
+      <Editinf userData={userData} />
 
-         <Container>
-      <h1 className="register-info">이용정보 등록</h1>
-      <Form>
-        <GenderSelection>
-        </GenderSelection>
+      <Container>
+        <h1 className="register-info">이용정보 등록</h1>
+        <Form>
+          <GenderSelection />
+          <BirthdayInput />
 
-        <BirthdayInput>
-          </BirthdayInput>
-       
-       
-        <div className="edit-button-container">
-          <Button variant="primary" type="submit" className="editif-button">수정 완료</Button>
-          <Button variant="secondary" className="cancel-button">취소</Button>
-        </div>
-      </Form>
-    </Container>
-
-        </div>
-      
+          <div className="edit-button-container">
+            <Button
+              variant="primary"
+              type="button"
+              className="editif-button"
+              onClick={handleEditComplete}
+            >
+              수정 완료
+            </Button>
+            <Button variant="secondary" type="button" className="cancel-button">
+               <Link to="/mypage" className="cancel">
+                취소
+              </Link>
+            </Button>
+          </div>
+        </Form>
+        {/* 수정 완료 시 알림 표시 */}
+      </Container>
+    </div>
   );
 };
 
 export default Editinformation;
 
-
-/* 성별 */
+// 성별 선택 컴포넌트
 const GenderSelection = () => {
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState("");
 
   const handleGenderChange = (e) => {
     setGender(e.target.value);
@@ -81,9 +90,11 @@ const GenderSelection = () => {
       </Form.Group>
     </Form>
   );
-}
+};
+
+// 생일 입력 컴포넌트
 const BirthdayInput = () => {
-  const [birthdate, setBirthdate] = useState('');
+  const [birthdate, setBirthdate] = useState("");
 
   const handleBirthdateChange = (e) => {
     setBirthdate(e.target.value);
@@ -102,5 +113,4 @@ const BirthdayInput = () => {
       </Form.Group>
     </Form>
   );
-}
-
+};
