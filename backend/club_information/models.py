@@ -23,12 +23,4 @@ class Members(models.Model):
 
     members = models.ForeignKey(ClubMember, on_delete=models.CASCADE)
 
-class AlbumEvent(models.Model):
-    class Meta:
-        verbose_name = '사집첩, 이벤트'
-        verbose_name_plural = '사진첩, 이벤트 정보'
-        managed = False
-
-    posts = models.ForeignKey(Post, on_delete=models.CASCADE)
-
 

@@ -65,6 +65,6 @@ class AlbumEventSerializer(serializers.ModelSerializer):
     recommended_cnt = serializers.IntegerField(source='posts.recommended_cnt', read_only=True)
 
     class Meta:
-        model = AlbumEvent
+        model = Post
         fields = ['title', 'photo', 'recommended_cnt']
 
