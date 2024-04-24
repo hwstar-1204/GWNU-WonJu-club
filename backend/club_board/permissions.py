@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class IsAuthorOrReadOnly(permissions.BasePermission):
     """
     Object-level permission to only allow owners of an object to edit/delete it.
     """
@@ -10,4 +10,14 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         # 쓰기 권한은 해당 객체의 소유자에게만 허용
-        return obj.author == request.user
+        if obj.author == request.user:
+            return True
+
+        # 삭제 및 수정 권한은 해당 객체의 소유자에게만 허용
+        return False
+
+class IsSystemAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # 시스템 관리자인 경우에만 생성, 수정, 삭제 권한을 허용, 읽기는 누구나
+        return request.user.is_staff or request.method in permissions.SAFE_METHODS
+

@@ -38,10 +38,6 @@ class CustomUserManager(BaseUserManager):
         user.is_superuser = True
         user.is_active = True
 
-        # extra_fields.setdefault('is_staff', True)
-        # extra_fields.setdefault('is_superuser', True)
-        # extra_fields.setdefault('is_active', True)
-
         user.set_password(password)
         user.save(using=self._db)
 

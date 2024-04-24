@@ -76,7 +76,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']  # []
+        'DIRS': [BASE_DIR / 'templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -153,47 +153,56 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_AUTH = {
     'SESSION_LOGIN': True,
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'auth',
-    'JWT_AUTH_HTTPONLY': False,
+    # 'USE_JWT': True,
+    # 'JWT_AUTH_COOKIE': 'auth',
+    # 'JWT_AUTH_HTTPONLY': False,
+    'ACCOUNT_LOGOUT_ON_GET': True,
+
     'REGISTER_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
     'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAdminUser',
+
+        'rest_framework.permissions.AllowAny',
+
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
 
 AUTH_USER_MODEL = 'club_account.CustomUser'
 ACCOUNT_ADAPTER = 'club_account.adapters.CustomAccountAdapter'
 
-
+# ALLAUTH's Account Configuration
 SITE_ID = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # email
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # none ,Optional, mandatory
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # none, Optional, mandatory
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'  # 익명의 사용자 이메일 인증시 이동 url
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'  # 인증된 사용자 이메일 인증시 이동 url
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # 메일 호스트 서버
 EMAIL_PORT = '587'  # gmail과 통신하는 포트
 EMAIL_HOST_USER = '****@gwnu.ac.kr'  # 발신할 이메일
-EMAIL_HOST_PASSWORD = '******'  # 발신할 메일의 비밀번호
+EMAIL_HOST_PASSWORD = '****'  # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True  # TLS 보안 방법
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # 발신할 이메일
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # 유저가 받은 링크를 클릭하면 회원가입 완료되게끔
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-# 이메일에 자동으로 표시되는 사이트 정보
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "도전하는 문돌이 블로그"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1  # 이메일 유효기간
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # 이메일에 자동으로 표시되는 사이트 정보
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
-}
+
 
