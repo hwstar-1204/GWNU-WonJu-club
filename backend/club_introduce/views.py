@@ -3,6 +3,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from club_introduce.serializer import *
 from club_introduce.models import *
+from django.views.generic import *
 
 
 # Create your views here.
