@@ -146,7 +146,13 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # For demo purposes only. Use a white list in the real world.
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000', # react의 포트번호
+    'http://127.0.0.1:3000',
+    'http://localhost:8000', # django의 포트번호
+    'http://127.0.0.1:8000'
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -180,7 +186,6 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'club_account.CustomUser'
 ACCOUNT_ADAPTER = 'club_account.adapters.CustomAccountAdapter'
-
 # ALLAUTH's Account Configuration
 SITE_ID = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -188,11 +193,11 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # email
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # none, Optional, mandatory
+ACCOUNT_EMAIL_VERIFICATION = 'Optional'  # none, Optional, mandatory
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'  # 익명의 사용자 이메일 인증시 이동 url
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'  # 인증된 사용자 이메일 인증시 이동 url
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # 메일 호스트 서버
 EMAIL_PORT = '587'  # gmail과 통신하는 포트
 EMAIL_HOST_USER = '****@gwnu.ac.kr'  # 발신할 이메일

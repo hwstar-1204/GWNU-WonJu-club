@@ -1,17 +1,26 @@
 
 // TopScreen.js
-import React, { useContext } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import UserContext from '../UserContext'; // default로 가져오기
 import logo from './logo.png';
 import './TopScreen.css';
 
-const TopScreen = () => {
-  const { isLoggedIn, logout } = useContext(UserContext); // UserContext에서 로그인 상태와 로그아웃 함수를 가져옵니다.
+const   TopScreen = () => {
+  // const { isLoggedIn, logout } = useContext(UserContext); // UserContext에서 로그인 상태와 로그아웃 함수를 가져옵니다.
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰 값 가져오기
+    const token = localStorage.getItem('token');
+    // 토큰 값이 있는지 확인하여 isLoggedIn 상태 업데이트
+    setIsLoggedIn(!!token);
+  }, []);
   const handleLogout = () => {
-    logout(); // 로그아웃 함수 호출
+    // logout(); // 로그아웃 함수 호출
+    localStorage.removeItem('token');
+    window.location.reload();
   };
 
   return (
