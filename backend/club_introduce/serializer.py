@@ -12,7 +12,13 @@ class DynamicFieldModelSerializer(serializers.ModelSerializer):
             existing = set(self.fields)
             for fields_name in existing - allowed:
                 self.fields.pop(fields_name)
+
 class ClubSerializer(DynamicFieldModelSerializer):
     class Meta:
         model = Club
+        fields = '__all__'
+
+class ApplyClubSerializer(DynamicFieldModelSerializer):
+    class Meta:
+        model = ClubMember
         fields = '__all__'

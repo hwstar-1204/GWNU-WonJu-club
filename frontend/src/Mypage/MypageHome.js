@@ -7,8 +7,8 @@ import logo from "./logo.png";
 
 import userData from "./MypageHome.js";
 
-const MypageHome = () => {
-
+const MypageHome = (props) => {
+  const { userData } = props;
   return (
     <Container>
       <Row>

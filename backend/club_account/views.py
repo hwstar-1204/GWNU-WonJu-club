@@ -35,3 +35,6 @@ class ConfirmEmailView(APIView):
         qs = EmailConfirmation.objects.all_valid()
         qs = qs.select_related("email_address__user")
         return qs
+
+
+# TODO user_detail 오버라이딩 !!

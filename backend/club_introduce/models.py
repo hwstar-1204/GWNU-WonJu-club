@@ -30,5 +30,5 @@ class ClubMember(models.Model):
     student_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, to_field='student_id') # 변경
     # student_id = models.IntegerField()
 
-    joined_date = models.DateTimeField(null=False)
-    job = models.CharField(max_length=5)
+    joined_date = models.DateTimeField(null=True)
+    job = models.CharField(max_length=5, default='일반회원')
