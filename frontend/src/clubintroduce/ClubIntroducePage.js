@@ -1,83 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './ClubintroducePage.css';
-import TopScreen from '../Main/TopScreen'; // TopScreen 컴포넌트를 가져옵니다.
+import TopScreen from '../Main/TopScreen';
 import CategoryPage from '../Main/CategoryPage';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ClubIntroducePage = () => {
-  return (
-     <div className="ClubintroducePage">
-<TopScreen />
-  <CategoryPage />
-    <section id="clubIntroducePage" className="card__wrap score section">
-      <div className="card__inner container">
-        {/* 댄스 동아리 카드 */}
-        <article className="card">
-          <figure className="card__header">
-            <img src="https://www.ksponco.or.kr/sports/files/view?id=61d6634a-b462-43fa-8aac-6ed4c68177af&seq=1" alt="Surfing" />
-          </figure>
-          <div className="card__contents">
-            <p>댄스 동아리는 다양한 음악과 춤으로 회원들이 즐거운 시간을 보낼 수 있는 동아리입니다. 다양한 장르의 댄스를 배우고 공연할 수 있습니다.</p>
-            <div className="club-info">
-              <img src="img/club_logo_dance.png" alt="댄스 동아리 로고" className="club-logo" />
-              <h3>댄스 동아리</h3>
-            </div>
-            <div className="social-icons">
-              <a href="#"><img src="img/kakao_icon.png" alt="Kakao Talk" /></a>
-              <a href="#"><img src="img/instagram_icon.png" alt="Instagram" /></a>
-            </div>
-          </div>
-          <div className="card__footer">
-            <span><img src="img/card_bg03_icon01.png" alt="Chris" /></span>
-            <button className="apply-button">가입 신청</button>
-          </div>
-        </article>
+  const [clubs, setClubs] = useState([]);
+  const { category_id } = useParams(); // useParams 훅을 통해 URL 파라미터 접근
+  const navigate = useNavigate();
+  const [localCategoryId, setLocalCategoryId] = useState(''); // 로컬 카테고리 ID 상태
+  const categories = [
+    //'운동', '문화/예술/디자인', '자기계발/학습/독서', '패션/뷰티', '여행/레저', '종교', '기타'
+    'Category1', 'Category2', 'Category3', 'Category4', 'Category5', 'Category6', 'Category7'
+  ];
 
-        {/* 게임 동아리 카드 */}
-        <article className="card">
-          <figure className="card__header">
-            <img src="https://newsimg.sedaily.com/2020/08/03/1Z6FOL2KGQ_1.jpg" alt="Rafting" />
-          </figure>
-          <div className="card__contents">
-            <p>게임 동아리는 게임을 즐기고 관련된 이야기를 나누는 동아리입니다. 다양한 게임을 플레이하고 대회를 개최하여 실력을 겨룰 수 있습니다.</p>
-            <div className="club-info">
-              <img src="img/club_logo_game.png" alt="게임 동아리 로고" className="club-logo" />
-              <h3>게임 동아리</h3>
-            </div>
-            <div className="social-icons">
-              <a href="#"><img src="img/kakao_icon.png" alt="Kakao Talk" /></a>
-              <a href="#"><img src="img/instagram_icon.png" alt="Instagram" /></a>
-            </div>
-          </div>
-          <div className="card__footer">
-            <span><img src="img/card_bg03_icon02.png" alt="Chris" /></span>
-            <button className="apply-button">가입 신청</button>
-          </div>
-        </article>
+  useEffect(() => {
+    fetchData(category_id);
+  }, [category_id]);
 
-        {/* 축구 동아리 카드 */}
-        <article className="card">
-          <figure className="card__header">
-            <img src="https://hs.e-school.or.kr/webzine/vol13/assets/images/sub/sub07/sub07_img01.png" alt="Diving" />
-          </figure>
-          <div className="card__contents">
-            <p>축구 동아리는 축구를 사랑하는 회원들이 모여서 함께 축구를 즐기는 동아리입니다. 정기적인 연습과 친선경기를 통해 실력을 향상시킬 수 있습니다.</p>
-            <div className="club-info">
-              <img src="img/club_logo_soccer.png" alt="축구 동아리 로고" className="club-logo" />
-              <h3>축구 동아리</h3>
-            </div>
-            <div className="social-icons">
-              <a href="#"><img src="img/kakao_icon.png" alt="Kakao Talk" /></a>
-              <a href="#"><img src="img/instagram_icon.png" alt="Instagram" /></a>
-            </div>
-          </div>
-          <div className="card__footer">
-            <span><img src="img/card_bg03_icon03.png" alt="Chris" /></span>
-            <button className="apply-button">가입 신청</button>
-          </div>
-        </article>
-        {/* 나머지 동아리 카드들도 동일한 구조로 추가 */}
+  const fetchData = async (category_id) => {
+    const url = category_id ?
+      `http://localhost:8000/club_introduce/club_list/category_club/${category_id}` :
+      `http://localhost:8000/club_introduce/club_list/`;
+
+    try {
+      const response = await axios.get(url);
+      setClubs(response.data);
+    } catch (error) {
+      console.error('Failed to fetch clubs:', error);
+    }
+  };
+
+  const handleCategorySelect = async (category) => {
+    setLocalCategoryId(category);
+    console.log(`Selected category: ${category}`);
+    // URL을 업데이트하기 전에 데이터를 가져옵니다.
+    await fetchData(category);
+    // 데이터 가져오기가 완료된 후 URL을 업데이트합니다.
+    navigate(`/club_introduce/club_list/category_club/${category}`);
+  };
+
+  const handleSubmit = async (clubName) => {
+    const studentId = "123456"; // 예시 학번
+    try {
+      const response = await axios.post('http://localhost:8000/club_introduce/apply_club/', {
+        student_id: studentId,
+        club_name: clubName
+      });
+      console.log('Application successful:', response.data);
+      // 추가적인 성공 처리 로직 (예: 알림 메시지 등)
+    } catch (error) {
+      console.error('Application failed:', error);
+      // 실패 처리 로직 (예: 에러 메시지 표시)
+    }
+  };
+
+
+   return (
+    <div className="ClubintroducePage">
+      <TopScreen />
+      <div className="category-selector">
+        카테고리 선택
+        <div className="category-menu">
+          {categories.map((category, index) => (
+            <a key={index} onClick={() => handleCategorySelect(category)}>
+              {category}
+            </a>
+          ))}
+        </div>
       </div>
-    </section>
+      <CategoryPage />
+      <section id="clubIntroducePage" className="card__wrap score section">
+        <div className="card__inner container">
+          {clubs.map(club => (
+            <article className="card" key={club.club_name}>
+              <figure className="card__header">
+                <img src={club.photo || 'default-image-url.jpg'} alt={club.club_name} />
+              </figure>
+              <div className="card__contents">
+                <p>{club.introducation}</p>
+                <div className="club-info">
+                  <img src={club.logo || 'default-logo-url.png'} alt={`${club.club_name} 로고`} className="club-logo" />
+                  <h3>{club.club_name}</h3>
+                </div>
+              </div>
+              <div className="card__footer">
+                <button className="apply-button" onClick={() => handleSubmit(club.club_name)}>가입 신청</button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

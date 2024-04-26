@@ -14,7 +14,8 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { login } = useContext(UserContext); // UserContext에서 로그인 함수 가져오기
+  const { isLoggedIn, login } = useContext(UserContext); // UserContext에서 로그인 함수 가져오기
+
 
   const validateUser = (studentID, password) => {
     const registeredStudentID = '123456';
@@ -47,6 +48,12 @@ const LoginPage = () => {
     setShowModal(false);
     navigate('/main'); // 확인 버튼을 클릭하면 메인 페이지로 이동
   };
+
+   // 로그인 상태에 따른 리다이렉션 처리
+  if (isLoggedIn) {
+    navigate('/main');
+  }
+
   return (
     <div className="login-background">
       <Container>

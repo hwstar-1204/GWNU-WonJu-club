@@ -1,6 +1,7 @@
 
 // TopScreen.js
-import React, { useState, useEffect  } from 'react';
+
+import React, { useState, useEffect, useContext  } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import UserContext from '../UserContext'; // default로 가져오기

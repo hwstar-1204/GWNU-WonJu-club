@@ -154,6 +154,10 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8000'
 )
 
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',  # React 앱 URL
+# ]
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
