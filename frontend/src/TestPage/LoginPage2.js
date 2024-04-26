@@ -47,6 +47,11 @@ const LoginPage2 = () => {
           }
         });
     };
+
+       // 로그인 상태에 따른 리다이렉션 처리
+      // if (isLoggedIn) {
+      //   navigate('/main');
+      // } 
     return (
       <div class="container mt-5">
       <div class="row justify-content-center">
