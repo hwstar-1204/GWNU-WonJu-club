@@ -37,11 +37,11 @@ def insert_data(db, xls_row):
 
     with db.cursor() as cursor:
         cursor.execute(sql)
-        print('{} 저장'.format(query.value))
+        #print('{} 저장'.format(query.value))
         db.commit()
 
 
-train_file = './train_tools/qna/train_data.xlsx'
+train_file = './train_tools/qna/train_data_3.xlsx'
 db = None
 try:
     # DB 호스트 정보에 맞게 입력해주세요
@@ -57,10 +57,10 @@ try:
 
     # 학습 엑셀 파일 불러오기
     wb = openpyxl.load_workbook(train_file)
-    sheet = wb['Sheet1']
+    sheet = wb['시트1'] # 시트명 확인 잘 하기 
     for row in sheet.iter_rows(min_row=2): # 해더는 불러오지 않음
         # 데이터 저장
-        insert_data(db, row)
+        insert_data(db, row) # too many values to unpack (expected 5) => .xlsx파일에 빈 열이 생기지 않았는지 확인
 
     wb.close()
 
