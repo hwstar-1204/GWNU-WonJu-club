@@ -61,11 +61,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -146,17 +146,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # For demo purposes only. Use a white list in the real world.
-CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000', # react의 포트번호
-    'http://127.0.0.1:3000',
-    'http://localhost:8000', # django의 포트번호
-    'http://127.0.0.1:8000'
-)
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',  # React 앱 URL
-# ]
+CORS_ORIGIN_ALLOW_ALL = True  # False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000', # react의 포트번호
+#     'http://127.0.0.1:3000',
+#     'http://localhost:8000', # django의 포트번호
+#     'http://127.0.0.1:8000'
+# )
+# CORS_ALLOW_CREDENTIALS = True
+# CSRF_TRUSTED_ORIGINS = (
+#     'http://localhost:8000',
+#     'http://127.0.0.1:8000',
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -174,7 +175,7 @@ REST_AUTH = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser',
 
         'rest_framework.permissions.AllowAny',

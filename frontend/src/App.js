@@ -19,8 +19,7 @@ import CreateEventPage from './Event/CreateEventPage';
 
 import SignupPage2 from './TestPage/SignUpPage2';
 import LoginPage2 from './TestPage/LoginPage2';
-import SignupDetailPage2 from './TestPage/test';
-
+import UserDetail from './TestPage/UserDetail';
 
 function App() {
   return (
@@ -46,6 +45,7 @@ function App() {
 
        <Route path="/login" element={<LoginPage2 />}></Route>
         <Route path="/signup" element={<SignupPage2 />}></Route>
+        <Route path="/user" element={<UserDetail/>}></Route>
       </Routes>
     </UserProvider>
   );

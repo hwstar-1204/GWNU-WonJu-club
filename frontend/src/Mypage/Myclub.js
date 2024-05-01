@@ -1,5 +1,5 @@
 import CategoryPage from '../Main/CategoryPage';
-import MypageNav from './MypageNav';
+// import MypageNav from './MypageNav';
 import './Mypage.css';
 import './Myclub.css';
 import '../Main/TopScreen.js'
