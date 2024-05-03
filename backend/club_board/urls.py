@@ -16,8 +16,10 @@ urlpatterns = [
     path('post/', PostCreateView.as_view(), name='post'),  # 특정 게시글 불러오기, 생성
     path('post_detail/<int:post_id>/', PostDetailView.as_view(), name='post_detail'),  # 특정 게시글 수정, 삭제
 
-    path('post_comments/', CommentCreateView.as_view(), name='post_comments'),  # 특정 게시글 모든 댓글 리스트
+    path('post_comments/', CommentCreateView.as_view(), name='post_comments'),  # 특정 게시글에 대한 댓글 생성
     path('comment_detail/<int:comment_id>/', CommentDetailView.as_view(), name='comment_detail'),  # 특정 댓글 수정 삭제
+
+    path('post/<int:post_id>', PostCommentDetail.as_view(), name='post_id')  # 특정 게시글에 해당하는 해당 댓글들
 
 ]
 

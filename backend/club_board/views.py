@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from django.db.models import Count
 from rest_framework import permissions, status
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -54,7 +54,7 @@ class FreeBoardPostViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
     def get_queryset(self):
-        club_name = self.request.query_params.get('club_name')
+        club_name = 'FreeBoard'  # self.request.query_params.get('club_name')
         category = self.request.query_params.get('category')
         order = self.request.query_params.get('order')
 
@@ -117,31 +117,12 @@ class PostDetailView(RetrieveUpdateDestroyAPIView):
 
 
 
-    # def delete(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     # self.check_object_permissions(request, instance)
-    #     instance.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-    #
-    # def update(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     # self.check_object_permissions(request, instance)
-    #     serializer = self.get_serializer(instance, data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #     return Response(serializer.data, status=status.HTTP_200_OK)
-    #
-
-
-
-
-
 
 class CommentCreateView(CreateAPIView):
     """
     특정 게시글에 대한 댓글 생성
     """
-    serializer_class = PostCommentSerializer
+    serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -174,10 +155,22 @@ class CommentDetailView(RetrieveUpdateDestroyAPIView):
     """
     특정 댓글에 대한 읽기, 수정, 삭제
     """
-    serializer_class = PostCommentSerializer
+    serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
 
     def get_object(self):  # 특정 댓글 단일 객체
         comment_id = self.kwargs.get('comment_id')
         return Comment.objects.get(id=comment_id)
+
+
+class PostCommentDetail(ListAPIView):
+    """
+    특정 게시글에 대한 모든 댓글 리스트 불러오기
+    """
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_id')
+        queryset = Comment.objects.filter(post_id=post_id)
+        return  queryset
 
