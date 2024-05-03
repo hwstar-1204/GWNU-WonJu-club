@@ -1,17 +1,16 @@
+import dj_rest_auth.views
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from rest_framework import generics
 
-# Create your views here.
-from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from django.http import HttpResponseRedirect
 
-from club_account.serializers import UserInfoSerializer
+# from club_account.serializers import
 
+# Create your views here.
 
 class ConfirmEmailView(APIView):
     permission_classes = [AllowAny]
@@ -42,17 +41,3 @@ class ConfirmEmailView(APIView):
 
 
 # TODO user_detail 오버라이딩 !!
-class UserDetailApiView(generics.RetrieveAPIView):
-    # permission_classes = (IsAuthenticatedOrReadOnly,)
-    queryset = get_user_model().objects.all()
-    serializer_class = UserInfoSerializer
-
-
-class PageAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def handle_exception(self, exc):
-        from rest_framework.exceptions import NotAuthenticated
-        if isinstance(exc, NotAuthenticated):
-            print("Not authenticated")
-        return super().handle_exception(exc)

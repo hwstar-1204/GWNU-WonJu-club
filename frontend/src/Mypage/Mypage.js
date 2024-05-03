@@ -61,7 +61,7 @@ const MyPage = () => {
         회원정보 수정
       </NavLink> */}
       
-      <Link to="/editif" style={{ textDecoration: "none"}} state={{ userData: userData }} >유저 정보 수정</Link>
+      <Link to="/editif" style={{ textDecoration: "none"}} state={{ userData: userData}} >유저 정보 수정</Link>
 
       <NavLink to="/change-password" className="my-category-item" activeClassName="active-link">비밀번호 변경</NavLink>
 

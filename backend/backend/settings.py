@@ -170,7 +170,8 @@ REST_AUTH = {
     'ACCOUNT_LOGOUT_ON_GET': True,
 
     'REGISTER_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
-    'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomUserDetailsSerializer',
+
 }
 
 REST_FRAMEWORK = {
