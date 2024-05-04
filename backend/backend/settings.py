@@ -199,14 +199,14 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # email
-ACCOUNT_EMAIL_VERIFICATION = 'Optional'  # none, Optional, mandatory
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'  # 익명의 사용자 이메일 인증시 이동 url
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'  # 인증된 사용자 이메일 인증시 이동 url
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # none, Optional, mandatory
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'  # 익명의 사용자 이메일 인증시 이동 url
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'  # 인증된 사용자 이메일 인증시 이동 url
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # 메일 호스트 서버
 EMAIL_PORT = '587'  # gmail과 통신하는 포트
-EMAIL_HOST_USER = '****@gwnu.ac.kr'  # 발신할 이메일
+EMAIL_HOST_USER = '***@gwnu.ac.kr'  # 발신할 이메일
 EMAIL_HOST_PASSWORD = '****'  # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True  # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # 발신할 이메일

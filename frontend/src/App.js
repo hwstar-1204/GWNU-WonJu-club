@@ -20,6 +20,7 @@ import CreateEventPage from './Event/CreateEventPage';
 import SignupPage2 from './TestPage/SignUpPage2';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
+import EmailConfirm from './TestPage/EmailConfirm';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
        <Route path="/login" element={<LoginPage2 />}></Route>
         <Route path="/signup" element={<SignupPage2 />}></Route>
         <Route path="/user" element={<UserDetail/>}></Route>
+        <Route path='/email_confirm' element={<EmailConfirm/>}></Route>
       </Routes>
     </UserProvider>
   );

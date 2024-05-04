@@ -1,6 +1,7 @@
 // components/user/SingUpPage2.js
 import React, { useState, useEffect } from 'react';
 
+
 const SignupPage2 = () => {
   // const [email, setEmail] = useState('');
   // const [password1, setPassword1] = useState('');
@@ -62,12 +63,10 @@ const SignupPage2 = () => {
     .then(res => {
         if (res.status === 204) {
             alert('회원가입이 완료되었습니다.');
-            // navigate('/main'); // 회원가입 완료 후 메인 페이지로 이동
-            window.location.replace('http://localhost:3000/login/');
+            // window.location.href = '/email_confirm';
+            window.location.href = `/email_confirm?email=${encodeURIComponent(email)}`;
         } else {
-            // return res.json();
-            console.log('회원가입 실패')
-            navigate('/main/signup')
+            alert('회원가입 실패');
         }
     })
     };
@@ -190,95 +189,6 @@ const SignupPage2 = () => {
         </form>
       </div>
     );
-    // return (
-        // <div>
-        //   {loading === false && <h1>Signup</h1>}
-        //   {errors === true && <h2>Cannot signup with provided credentials</h2>}
-        //   <form onSubmit={onSubmit}>
-        //     <label htmlFor='email'>email</label> <br />
-        //     <input
-        //       name='email'
-        //       type='email'
-        //       value={email}
-        //       onChange={e => setEmail(e.target.value)}
-        //       required
-        //     />{' '}
-        //     <br />
-        //     <label htmlFor='password1'>password1:</label> <br />
-        //     <input
-        //       name='password1'
-        //       type='password'
-        //       value={password1}
-        //       onChange={e => setPassword1(e.target.value)}
-        //       required
-        //     />{' '}
-        //     <br />
-        //     <label htmlFor='password2'>Confirm password:</label> <b />
-        //     <input
-        //       name='password2'
-        //       type='password'
-        //       value={password2}
-        //       onChange={e => setPassword2(e.target.value)}
-        //       required
-        //     />{' '}
-        //     <br />
-        //     <label htmlFor='name'> name </label> <br />
-        //     <input
-        //     name='name'
-        //     type='text'
-        //     value={name}
-        //     onChange={e => setName(e.target.value)}
-        //     required
-        //     />{' '}<br />
-        //     <label htmlFor='student_id'>student_id</label> <br />
-        //     <input
-        //     name='student_id'
-        //     type='number'
-        //     value={student_id}
-        //     onChange={e => setStudent_id(e.target.value)}
-        //     required
-        //     />{' '}<br />
-        //     <label htmlFor='grade'>grade</label> <br />
-        //     <input
-        //     name='grade'
-        //     type='number'
-        //     value={grade}
-        //     onChange={e => setGrade(e.target.value)}
-        //     required
-        //     />{' '}<br />
-
-        //     <label htmlFor='study'>study</label> <br />
-        //     <input
-        //     name='study'
-        //     type='text'
-        //     value={study}
-        //     onChange={e => setStudy(e.target.value)}
-        //     required
-        //     />{' '}<br />
-
-        //     <label htmlFor='gender'>gender</label> <br />
-        //     <input
-        //     name='gender'
-        //     type='text'
-        //     value={gender}
-        //     onChange={e => setGender(e.target.value)}
-        //     required
-        //     />{' '}<br />
-        //     <br />
-
-
-        //     <label htmlFor='phone'>phone</label><br />
-        //     <input
-        //     name='phone'
-        //     type='text'
-        //     value={phone}
-        //     onChange={e => setPhone(e.target.value)}
-        //     required
-        //     />{' '}
-        //     <input type='submit' value='Signup' />
-        // </form>
-        // </div>
-    // );
 };
 
 export default SignupPage2;

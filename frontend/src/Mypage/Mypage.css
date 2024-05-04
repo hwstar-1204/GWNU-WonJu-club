@@ -1,35 +1,56 @@
-/* 카테고리 페이지 스타일 */
-.category-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 1px;
-}
-.category-item {
-    width: 150px;
-    height: 40px;
-    color: #333;
+/* 수정된 CSS */
+
+.my-category-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color 0.3s ease;
+    /* 가운데 정렬 */
+    background-color: #e9ecef;
+    /* 배경색 어둡게 조정 */
+    padding: 5px;
+    border-radius: 20px;
+    /* 네비게이션 영역의 둥근 모서리 */
+    margin: 10px auto;
+    /* 위아래 여백을 조절하여 중앙 정렬 */
+    max-width: 550px;
+    /* 최대 너비 설정 */
+    height: 40px;
 }
-.category-item:hover {
-    color: #007bff;
+.my-category-item {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    color: #495057;
+    padding: 8px 15px;
+    /* 패딩 크기 조정 */
+    margin: 0 5px;
+    /* 아이템 간격 조정 */
+    border-radius: 20px;
+    /* 둥근 네모 모양으로 */
+    font-family: 'Arial', sans-serif;
+    /* 글꼴 변경 */
+    line-height: 0.5;
+}
+.my-category-item:hover {
+    background-color: #ffc107;
+    border-radius: 30px;
 }
 
-.mypage-header {
-    font-size: 24px;
-    color:#000000;
-    font-weight: bold;
-    margin-right: auto;
-    /* 오른쪽으로 정렬 */
-    margin-left: 200px;
-    /* 왼쪽 여백 설정 */
-    margin-top: 20px;
-    /* 위쪽 여백 설정 */
+.my-category-item.active {
+    background-color: #ffc107;
+    border-radius: 30px;
+
+}
+
+.category_btn {
+    display: flex;
+}
+
+.category_btn button {
+    margin-inline: 10px;
+    padding: 3px;
+}
+
+.category_btn:hover {
+    color: #007bff;
+
 }

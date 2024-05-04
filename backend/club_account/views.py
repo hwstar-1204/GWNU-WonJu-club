@@ -1,4 +1,3 @@
-import dj_rest_auth.views
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from rest_framework import generics
@@ -8,8 +7,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from django.http import HttpResponseRedirect
 
-# from club_account.serializers import
-
 # Create your views here.
 
 class ConfirmEmailView(APIView):
@@ -18,7 +15,7 @@ class ConfirmEmailView(APIView):
     def get(self, *args, **kwargs):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
-        # A React Router Route will handle the failure scenario
+        # A React Router Route will handle the success scenario
         return HttpResponseRedirect('/login/success/')
 
     def get_object(self, queryset=None):
@@ -38,6 +35,3 @@ class ConfirmEmailView(APIView):
         qs = EmailConfirmation.objects.all_valid()
         qs = qs.select_related("email_address__user")
         return qs
-
-
-# TODO user_detail 오버라이딩 !!

@@ -1,20 +1,20 @@
-import CategoryPage from '../Main/CategoryPage';
-
 import { NavLink, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import './Mypage.css';
-import '../Main/TopScreen.js'
-import TopScreen from '../Main/TopScreen.js';
-import MypageHome from './MypageHome';
 import axios from 'axios';
 
-import './MypageNav.css';
+import './Mypage.css';
+import TopScreen from '../Main/TopScreen.js';
+import CategoryPage from '../Main/CategoryPage';
+import Editinformation from './EditInformation.js';
+import PasswordChangeForm from './ChangePassword.js';
+import MypageHome from './MypageHome';
 
 
 const MyPage = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true); // 데이터 로딩 
+  const [selectedPage, setSelectedPage] = useState('Home'); // 기본값으로 ComponentA 선택
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -42,37 +42,35 @@ const MyPage = () => {
     }
   };
 
+  const handleNavigation = (page) => {
+      setSelectedPage(page);
+  };
+
 
   return (
-    <div className="my-page">
+  <div className="my-page">
     <TopScreen/>
     <CategoryPage/>
 
-      <div className="my-category-container">
-      <NavLink exact to="/mypage" className="my-category-item" activeClassName="active-link">홈</NavLink>
-    
-      {/* <NavLink 
-        to={{
-          pathname: "/editif",
-          state: { userData: userData} // userData를 state로 전달
-        }} 
-        className="my-category-item" 
-        activeClassName="active-link">
-        회원정보 수정
-      </NavLink> */}
-      
-      <Link to="/editif" style={{ textDecoration: "none"}} state={{ userData: userData}} >유저 정보 수정</Link>
+    <div className="my-category-container">
+      {/* <Link to="/editif" style={{ textDecoration: "none"}} state={{ userData: userData}} >유저 정보 수정</Link> */}
+      {/* <NavLink to="/change-password" className="my-category-item" activeClassName="active-link">비밀번호 변경</NavLink> */}
 
-      <NavLink to="/change-password" className="my-category-item" activeClassName="active-link">비밀번호 변경</NavLink>
 
+      <div className='category_btn'>
+        <button onClick={() => handleNavigation('Home')}>홈</button>
+        <button onClick={() => handleNavigation('Editinformation')}>회원정보 수정</button>
+        <button onClick={() => handleNavigation('PasswordChangeForm')}>패스워드 변경</button>  
+      </div>
       <NavLink to="/myclub" className="my-category-item" activeClassName="active-link">내 동아리 관리</NavLink>
       </div>
-
       <MypageHome userData={userData} />
-      {/* <Link to="/editif" state={{ userData: userData }} > 유저 정보 수정 </Link> */}
 
-    </div>
 
+      {selectedPage === 'Editinformation' && <Editinformation />}
+      {selectedPage === 'PasswordChangeForm' && <PasswordChangeForm />}
+  </div>
+  
   );
 };
 
