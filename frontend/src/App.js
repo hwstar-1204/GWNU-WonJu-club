@@ -17,10 +17,11 @@ import MyClub from './Mypage/Myclub';
 import CreateClubPage from './CreateClub/CreateClubPage';
 import CreateEventPage from './Event/CreateEventPage';
 
-import SignupPage2 from './TestPage/SignUpPage2';
+import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
-import EmailConfirm from './TestPage/EmailConfirm';
+import NotFound from './TestPage/NotFound';
+
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <Route path="/login/reset-password" element={<ResetPasswordPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<MainPage />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/main-later" element={<MainLater />} />
         <Route path="/editif" element={<Editinformation />} />
         <Route path="/change-password" element={<Changepassword />} />
@@ -44,10 +45,11 @@ function App() {
         <Route path="/createclub" element={<CreateClubPage />} />
        <Route path="/createevent" element={<CreateEventPage />} />
 
-       <Route path="/login" element={<LoginPage2 />}></Route>
-        <Route path="/signup" element={<SignupPage2 />}></Route>
-        <Route path="/user" element={<UserDetail/>}></Route>
-        <Route path='/email_confirm' element={<EmailConfirm/>}></Route>
+        <Route path="/login" element={<LoginPage2 />}/>
+        <Route path="signup/*" element={<SignUpPage/>}/>
+        <Route path="/user" element={<UserDetail/>}/>
+        <Route path='*' element={<NotFound/>}/>
+
       </Routes>
     </UserProvider>
   );

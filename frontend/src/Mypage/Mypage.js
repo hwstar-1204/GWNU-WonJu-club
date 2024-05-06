@@ -72,7 +72,6 @@ const MyPage = () => {
         <Route path="edit-information" element={<Editinformation />} />
         <Route path="password-change" element={<PasswordChangeForm />} />
         {/* <Route path="my-club" element={<MyClubPage />} /> */}
-        {/* <Route path="" element={<MypageHome />} /> */}
       </Routes>
     </div>
 

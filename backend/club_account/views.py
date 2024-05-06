@@ -6,6 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from allauth.account.models import EmailConfirmation, EmailConfirmationHMAC
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.http import Http404
+
 
 # Create your views here.
 
@@ -16,7 +19,7 @@ class ConfirmEmailView(APIView):
         self.object = confirmation = self.get_object()
         confirmation.confirm(self.request)
         # A React Router Route will handle the success scenario
-        return HttpResponseRedirect('/login/success/')
+        return redirect('http://localhost:3000/login')
 
     def get_object(self, queryset=None):
         key = self.kwargs['key']
@@ -28,7 +31,8 @@ class ConfirmEmailView(APIView):
                 email_confirmation = queryset.get(key=key.lower())
             except EmailConfirmation.DoesNotExist:
                 # A React Router Route will handle the failure scenario
-                return HttpResponseRedirect('/login/failure/')
+                raise Http404("EmailConfirmation does not exist")
+                # return HttpResponseRedirect('club_account/registration/failure/')
         return email_confirmation
 
     def get_queryset(self):
