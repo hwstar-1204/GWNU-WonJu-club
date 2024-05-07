@@ -1,0 +1,33 @@
+.common-table {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+  border-collapse: collapse;
+  border-radius: 10px; /* 테이블 테두리 둥글게 만들기 */
+  overflow: hidden; /* 테이블 내용이 넘칠 경우 가리기 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.common-table-header-column {
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #f2f2f2;
+  color: #333; /* 헤더 텍스트 색상 */
+  text-transform: uppercase; /* 헤더 텍스트 대문자로 변경 */
+}
+
+.common-table-row:hover {
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.common-table-column {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 테이블 내의 마지막 행의 아래 경계를 제거 */
+.common-table-row:last-child .common-table-column {
+  border-bottom: none;
+}

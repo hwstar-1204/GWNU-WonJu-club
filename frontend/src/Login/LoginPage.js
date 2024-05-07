@@ -1,26 +1,20 @@
-
 // LoginPage.js
-import React, { useState, useContext } from 'react';
-import { Container, Form, Button, Alert, Row, Col, FormGroup, Modal } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
 
-import './LoginPage.css';
-import UserContext from '../UserContext'; // UserContext 가져오기
+import React, { useState } from "react";
+import { Container, Form, Button, Alert, Row, Col, FormGroup } from "react-bootstrap";
+import { Link, Navigate } from "react-router-dom";
+import "./LoginPage.css";
 
-const LoginPage = () => {
-  const [studentID, setStudentID] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = ({ setIsLoggedIn }) => {
+  const [studentID, setStudentID] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
-  const { isLoggedIn, login } = useContext(UserContext); // UserContext에서 로그인 함수 가져오기
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoggedIn, setIsLoggedInState] = useState(false); 
 
   const validateUser = (studentID, password) => {
-    const registeredStudentID = '123456';
-    const registeredPassword = 'password';
-
+    const registeredStudentID = "123456";
+    const registeredPassword = "password";
 
     return studentID === registeredStudentID && password === registeredPassword;
   };
@@ -29,30 +23,18 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (!studentID.trim() || !password.trim()) {
-      setErrorMessage('아이디(학번)와 비밀번호를 입력하세요.');
+      setErrorMessage("아이디(학번)와 비밀번호를 입력하세요.");
       return;
     }
 
     if (validateUser(studentID, password)) {
-
-      login(); // 로그인 함수 호출
-      setShowModal(true);
-
+      console.log("로그인 성공");
+      setIsLoggedInState(true);
+      setIsLoggedIn(true);
     } else {
-      setErrorMessage('아이디(학번)와 비밀번호가 일치하지 않습니다.');
+      setErrorMessage("아이디(학번)와 비밀번호가 일치하지 않습니다.");
     }
   };
-
-
-  const hideModal = () => {
-    setShowModal(false);
-    navigate('/main'); // 확인 버튼을 클릭하면 메인 페이지로 이동
-  };
-
-   // 로그인 상태에 따른 리다이렉션 처리
-  if (isLoggedIn) {
-    navigate('/main');
-  }
 
   return (
     <div className="login-background">
@@ -77,49 +59,37 @@ const LoginPage = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   className="input-field"
                 />
-                <FormGroup>
-
-                  <Row>
-                    <Col>
-                      <Form.Check
-                        type="checkbox"
-                        label="아이디 저장"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                      />
-                    </Col>
-                    <Col>
-                      <Link to="/login/reset-password" className="reset-password-link">비밀번호를 잊으셨나요?</Link>
-                    </Col>
-                  </Row>
-
+                <FormGroup className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <Form.Check
+                      type="checkbox"
+                      label="아이디 저장"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                  </div>
+                  <div>
+                    <Link to="/login/reset-password" className="reset-password-link">비밀번호를 잊으셨나요?</Link>
+                  </div>
                 </FormGroup>
-                <Button variant="primary" type="submit" className="login-button">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="login-button"
+                >
                   로그인
                 </Button>
                 <div className="signup-link-container">
-                  <Link to="/signup" className="signup-button">회원가입</Link>
+                  <Link to="/signup" className="signup-button">
+                    회원가입
+                  </Link>
                 </div>
               </Form>
             </div>
           </Col>
         </Row>
       </Container>
-
-      <Modal show={showModal} onHide={hideModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>로그인 성공</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>로그인이 성공적으로 완료되었습니다.</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={hideModal}>
-            확인
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* 로그인 상태에 따라 리다이렉션 처리 */}
-      {isLoggedIn && <useNavigate to="/main-later" />}
+      {isLoggedIn && <Navigate to="/main" />}
     </div>
   );
 };

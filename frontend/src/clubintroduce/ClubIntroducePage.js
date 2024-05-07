@@ -1,97 +1,90 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import './ClubintroducePage.css';
-import TopScreen from '../Main/TopScreen';
-import CategoryPage from '../Main/CategoryPage';
-import { useParams, useNavigate } from 'react-router-dom';
+import Kakao from '../clubintroduce/Assets/kakao.png';
+import InstagramIcon from '../clubintroduce/Assets/instagram.jpg';
+
 
 const ClubIntroducePage = () => {
-  const [clubs, setClubs] = useState([]);
-  const { category_id } = useParams(); // useParams 훅을 통해 URL 파라미터 접근
-  const navigate = useNavigate();
-  const [localCategoryId, setLocalCategoryId] = useState(''); // 로컬 카테고리 ID 상태
-  const categories = [
-    //'운동', '문화/예술/디자인', '자기계발/학습/독서', '패션/뷰티', '여행/레저', '종교', '기타'
-    'Category1', 'Category2', 'Category3', 'Category4', 'Category5', 'Category6', 'Category7'
+  const [selectedCategory, setSelectedCategory] = useState("전체"); // 선택된 카테고리 상태 추가
+  const [selectedType, setSelectedType] = useState("전체"); // 선택된 종류 상태 추가
+
+  // 카테고리 필터링 함수
+  const filterClubs = (clubs) => {
+    if (selectedCategory === "전체" && selectedType === "전체") {
+      return clubs; // 모든 동아리 반환
+    } else if (selectedCategory === "전체") {
+      return clubs.filter(club => club.type === selectedType); // 선택된 종류에 따라 필터링
+    } else if (selectedType === "전체") {
+      return clubs.filter(club => club.category === selectedCategory); // 선택된 카테고리에 따라 필터링
+    } else {
+      return clubs.filter(club => club.category === selectedCategory && club.type === selectedType); // 선택된 카테고리와 종류에 따라 필터링
+    }
+  };
+
+  // 동아리 목록 데이터
+  const clubs = [
+    { name: "댄스 동아리", category: "운동/스포츠", type: "정규동아리" },
+    { name: "게임 동아리", category: "자기계발/학습/독서", type: "가등록동아리" },
+    { name: "축구 동아리", category: "운동/스포츠", type: "학습동아리" },
+    { name: "요리 동아리", category: "기타", type: "소모임" },
+    { name: "영화 동아리", category: "기타", type: "소모임" } ,
+    { name: "독서 동아리", category: "자기계발/학습/독서", type: "학습동아리" }, 
+    { name: "미술 동아리", category: "미술/음악", type: "소모임" }
+    // 나머지 동아리 데이터도 추가
   ];
 
-  useEffect(() => {
-    fetchData(category_id);
-  }, [category_id]);
-
-  const fetchData = async (category_id) => {
-    const url = category_id ?
-      `http://localhost:8000/club_introduce/club_list/category_club/${category_id}` :
-      `http://localhost:8000/club_introduce/club_list/`;
-
-    try {
-      const response = await axios.get(url);
-      setClubs(response.data);
-    } catch (error) {
-      console.error('Failed to fetch clubs:', error);
-    }
-  };
-
-  const handleCategorySelect = async (category) => {
-    setLocalCategoryId(category);
-    console.log(`Selected category: ${category}`);
-    // URL을 업데이트하기 전에 데이터를 가져옵니다.
-    await fetchData(category);
-    // 데이터 가져오기가 완료된 후 URL을 업데이트합니다.
-    navigate(`/club_introduce/club_list/category_club/${category}`);
-  };
-
-  const handleSubmit = async (clubName) => {
-    const studentId = "123456"; // 예시 학번
-    try {
-      const response = await axios.post('http://localhost:8000/club_introduce/apply_club/', {
-        student_id: studentId,
-        club_name: clubName
-      });
-      console.log('Application successful:', response.data);
-      // 추가적인 성공 처리 로직 (예: 알림 메시지 등)
-    } catch (error) {
-      console.error('Application failed:', error);
-      // 실패 처리 로직 (예: 에러 메시지 표시)
-    }
-  };
-
-
-   return (
+  return (
     <div className="ClubintroducePage">
-      <TopScreen />
-      <div className="category-selector">
-        카테고리 선택
-        <div className="category-menu">
-          {categories.map((category, index) => (
-            <a key={index} onClick={() => handleCategorySelect(category)}>
-              {category}
-            </a>
-          ))}
-        </div>
-      </div>
-      <CategoryPage />
-      <section id="clubIntroducePage" className="card__wrap score section">
-        <div className="card__inner container">
-          {clubs.map(club => (
-            <article className="card" key={club.club_name}>
-              <figure className="card__header">
-                <img src={club.photo || 'default-image-url.jpg'} alt={club.club_name} />
-              </figure>
-              <div className="card__contents">
-                <p>{club.introducation}</p>
-                <div className="club-info">
-                  <img src={club.logo || 'default-logo-url.png'} alt={`${club.club_name} 로고`} className="club-logo" />
-                  <h3>{club.club_name}</h3>
+      <div className="content-wrapper">
+        <section id="clubIntroducePage" className="section">
+          <div className="filters">
+            {/* 카테고리 선택상자 */}
+            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+            <option value="전체">전체</option>
+              <option value="운동/스포츠">운동/스포츠</option>
+              <option value="자기계발/학습/독서">자기계발/학습/독서</option>
+              <option value="패션/뷰티">패션/뷰티</option>
+              <option value="여행/레저">여행/레저</option>
+              <option value="종교">종교</option>
+              <option value="기타">기타</option>
+              {/* 나머지 카테고리 추가 */}
+            </select>
+            {/* 종류 선택상자 */}
+            <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+              <option value="전체">전체</option>
+              <option value="정규동아리">정규동아리</option>
+              <option value="가등록동아리">가등록동아리</option>
+              <option value="학습동아리">학습동아리</option>
+              <option value="취업/창업동아리">취업/창업동아리</option>
+              <option value="소모임">소모임</option>
+            </select>
+          </div>
+          <div className="card__inner container">
+            {/* 필터링된 동아리 카드 표시 */}
+            {filterClubs(clubs).map((club, index) => (
+              <article key={index} className="card">
+                <figure className="card__header">
+                  <img src={club.imageUrl} alt={club.name} />
+                </figure>
+                <div className="card__contents">
+                  <p>{club.description}</p>
+                  <div className="club-info">
+                    <img src={club.logoUrl} alt={`${club.name} 로고`} className="club-logo" />
+                    <h3>{club.name}</h3>
+                  </div>
+                  <div className="social-icons">
+                  <a href="#"><img src={Kakao} alt="Kakao Talk" /></a>
+                    <a href="#"><img src={InstagramIcon} alt="Instagram" /></a>
+                  </div>
                 </div>
-              </div>
-              <div className="card__footer">
-                <button className="apply-button" onClick={() => handleSubmit(club.club_name)}>가입 신청</button>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+                <div className="card__footer">
+                  <button className="apply-button">가입 신청</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
