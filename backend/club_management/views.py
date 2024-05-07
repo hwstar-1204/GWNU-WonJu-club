@@ -6,10 +6,12 @@ from rest_framework.permissions import IsAuthenticated
 from club_management.serializer import *
 from club_management.models import *
 from club_introduce.models import *
-
-import backend
+import os
+from backend import settings
 from django.utils import timezone
 from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+
 
 # Create your views here.
 class ClubManagementHomeView(RetrieveAPIView):
@@ -65,6 +67,7 @@ class LogoCorrectionDelete(APIView):
         동아리 로고 디렉터리에 있는 파일 확인
         """
         club_name = os.path.basename(os.path.normpath(club_name))
+
         logo_directory_path = os.path.join(settings.MEDIA_ROOT, club_name, 'logo')
 
         try:
