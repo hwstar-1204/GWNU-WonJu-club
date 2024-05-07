@@ -39,8 +39,8 @@ urlpatterns = [
     path('club_introduce/', include('club_introduce.urls')),
     path('club_information/', include('club_information.urls')),
     path('club_account/', include('club_account.urls')),
-    path('club_board/', include('club_board.urls'))
-
+    path('club_board/', include('club_board.urls')),
+    path('club_management/', include('club_management.urls'))
 ]
 
 if settings.DEBUG:

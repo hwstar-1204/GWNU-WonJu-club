@@ -1,30 +1,26 @@
 from django.urls import path, re_path
-from club_management import views
+from club_management.views import *
 from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="Club API",
-        default_version='v1',
-        description="API documentation for all club related operations",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@example.com"),
-        license=openapi.License(name="BSD License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
 
 urlpatterns = [
-    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    # 동아리 홈 정보 조회
+    path('club/<str:club_name>/', ClubManagementHomeView.as_view(), name='club-home'),
 
-    path('<str:club_name>/', views.ClubManagementHomeAPIView.as_view(), name='club-management'),
-    path('<str:club_name>/approve/', views.ApproveMemberAPIView.as_view(), name='approve-club'),
-    path('<str:club_name>/logo/', views.LogoAPIView.as_view(), name='club-logo'),
-    path('<str:club_name>/photo/', views.PhotoAPIView.as_view(), name='club-photo'),
-    path('<str:club_name>/content/', views.IntroduceContentAPIView.as_view(), name='club-content')
+    # 회원 승인 및 삭제
+    path('club/<str:club_name>/member/<int:id>/', MemberApproveAPIView.as_view(), name='member-approve'),
+
+    # 로고 수정 및 삭제
+    path('club/<str:club_name>/logo/', LogoCorrectionDelete.as_view(), name='logo-correction-delete'),
+
+    # 로고 업로드
+    path('club/<str:club_name>/logo/upload/', LogoUpload.as_view(), name='logo-upload'),
+
+    # 사진 수정 및 삭제
+    path('club/<str:club_name>/photo/', PhotoCorrectionDelete.as_view(), name='photo-correction-delete'),
+
+    # 사진 업로드
+    path('club/<str:club_name>/photo/upload/', PhotoUpload.as_view(), name='photo-upload'),
+
+    # 동아리 소개 수정
+    path('club/<str:club_name>/introducation/', IntroducationCorrection.as_view(), name='introduction-correction'),
 ]

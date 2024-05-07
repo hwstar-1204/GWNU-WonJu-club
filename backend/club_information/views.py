@@ -1,28 +1,32 @@
 from rest_framework.generics import *
+from rest_framework.views import APIView
 from club_information.serializer import *
 from club_information.models import *
 from club_board.models import *
+from club_introduce.models import *
 from django.db.models import Q
 
 
 # Create your views here.
-class ClubHomeView(RetrieveAPIView):
+class ClubHomeView(APIView):
     serializer_class = HomeSerializer
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
         """
-        동아리 이름에 해당하는 홈 정보
+        동아리 이름에 해당하는 홈 정보 반환
         """
         club_name = self.kwargs.get('club_name', None)
         if club_name:
-            return Home.objects.filter(members__club_name__club_name=club_name, post__board__club_name=club_name)
-        return Home.objects.none()
+            queryset = ClubMember.objects.filter(club__club_name=club_name)
+            serializer = ClubMemberSerializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({"error": "Club name not provided or invalid"}, status=400)
 
 
 class AlbumView(ListAPIView):
     serializer_class = AlbumEventSerializer
 
-    def get_queryset(self):
+    def get(self):
         """
         동아리가 작성한 사진첩
         """
@@ -49,7 +53,7 @@ class AlbumView(ListAPIView):
 class EventView(ListAPIView):
     serializer_class = AlbumEventSerializer
 
-    def get_queryset(self):
+    def get(self):
         """
                 동아리가 작성한 이벤트
         """

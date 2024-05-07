@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from club_management.models import *
-
+from club_account.models import *
+from club_introduce.models import *
 
 class DynamicFieldModelSerializer(serializers.ModelSerializer):
     def __init__(self, *arg, **kwargs):
@@ -13,18 +14,21 @@ class DynamicFieldModelSerializer(serializers.ModelSerializer):
             for fields_name in existing - allowed:
                 self.fields.pop(fields_name)
 
-class ClubSerializer(DynamicFieldModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ClubManagement
-        fields = '__all__'
-class UserSerializer(DynamicFieldModelSerializer):
-    class Meta:
-        model = ManagementUser
-        fields = '__all__'
+        model = CustomUser
+        fields = ['name']
 
-class ClubMemberSerializer(DynamicFieldModelSerializer):
-    student_num = UserSerializer(read_only=False)
+class ClubMemberSerializer(serializers.ModelSerializer):
+    user = UserSerializer(source='customuser')
 
     class Meta:
-        model = ClubMemberManagement
-        fields = '__all__'
+        model = ClubMember
+        fields = ['id', 'joined_date', 'job', 'user']
+
+class ClubSerializer(serializers.ModelSerializer):
+    members = ClubMemberSerializer(source='clubmember_set', many=True)
+
+    class Meta:
+        model = Club
+        fields = ['introducation', 'photo', 'logo', 'members']
