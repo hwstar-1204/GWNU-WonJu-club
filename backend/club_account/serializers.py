@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer, PasswordChangeSerializer
 from allauth.account.utils import setup_user_email
 from allauth.account.adapter import get_adapter
-
 from club_account.models import CustomUser
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -37,13 +37,13 @@ class CustomRegisterSerializer(RegisterSerializer):
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
-        adapter.save_user(request, user, self)
+        adapter.save_user(request, user, self, True)
         self.custom_signup(request, user)
         setup_user_email(request, user, [])
         return user
 
 
-class UserInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['name', 'email', 'phone', 'study', 'date_joined', 'student_id', 'grade']
+class CustomUserDetailsSerializer(UserDetailsSerializer):
+    class Meta(UserDetailsSerializer.Meta):
+        fields = UserDetailsSerializer.Meta.fields + \
+                 ('name', 'student_id', 'grade', 'study', 'gender', 'phone',)

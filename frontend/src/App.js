@@ -22,10 +22,10 @@ import PostMain from './club_board/free_posts/free_posts_Component/PostMain';
 import PostView from './club_board/free_posts/free_posts_Component/PostView';
 import WritePost from './club_board/free_posts/free_posts_Component/WritePost';
 
-
-//import SignupPage2 from './TestPage/SignUpPage2';
-//import LoginPage2 from './TestPage/LoginPage2';
-//import SignupDetailPage2 from './TestPage/test';
+import SignUpPage from './TestPage/SignUpPage';
+import LoginPage2 from './TestPage/LoginPage2';
+import UserDetail from './TestPage/UserDetail';
+import NotFound from './TestPage/NotFound';
 
 
 function App() {
@@ -44,8 +44,8 @@ function App() {
         <Route path="/login/reset-password" element={<ResetPasswordPage />} />
         <Route path="/main" element={<MainPage />} />
         <Route path="/" element={<MainPage />} />
-        <Route path="/mypage" element={<MyPage />} />
         <Route path="/myclub" element={<Myclub />} />
+        <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/editif" element={<Editinformation />} />
         <Route path="/change-password" element={<Changepassword />} />
         <Route path="/eventpage/*" element={<EventPage />} />
@@ -60,9 +60,11 @@ function App() {
        <Route path='/postView/:no' element={<PostView />} />
         <Route path='/club_board' element={<PostMain/>} />
         <Route path="/write" element={<WritePost/>} />
+        <Route path="/login" element={<LoginPage2 />}/>
+        <Route path="signup/*" element={<SignUpPage/>}/>
+        <Route path="/user" element={<UserDetail/>}/>
+        <Route path='*' element={<NotFound/>}/>
 
-       {/*<Route path="/login" element={<LoginPage2 />}></Route>*/} 
-       {/*<Route path="/signup" element={<SignupPage2 />}></Route>*/}
       </Routes>
     </UserProvider>
     </div>

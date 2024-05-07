@@ -1,7 +1,4 @@
-/* 수정된 CSS */
-
-
-.profile,
+.profile-panel,
 .details,
 .myclub-panel {
     
@@ -15,16 +12,15 @@
     margin-bottom: 20px;
     /* 하단 여백 추가 */
     width: 400px;
-        
-    height: 500px;
 
+    height: 500px;
 }
 
 .profile-image{
-    margin: 10px auto;
-    width: 100px;
+    width: 200px;
     height: 200px;
     border-radius: 50%;
+    margin-bottom: 20px;
 }
 .club-logo {
     width: 100px;
@@ -41,45 +37,28 @@ justify-content: center;
 margin-bottom: 20px;
 }
 
-.details h2 {
-    margin-bottom: 20px;
+.details-head {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-.club-details {
-    margin-bottom: 20px;
-}
-
-.profile-panel {
+.club-info,
+.details-info {
   display: flex;
   flex-direction: column;
-  align-items: center; /* 이미지 및 버튼을 세로 방향으로 가운데 정렬 */
-}
-
-.profile {
-  text-align: center;
-}
-
-.profile-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  margin-top: 70px; 
 }
 
 .edit-button,
 .delete-button {
   margin-top: 10px; /* 버튼 위 여백 추가 */
-}
-
-.profile-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
-  /* 이미지 및 버튼을 세로 방향으로 가운데 정렬 */
-}
-
-.profile {
-  text-align: center;
+  margin-bottom: 10px;
 }
 
 .profile-image {
@@ -89,11 +68,6 @@ margin-bottom: 20px;
   margin-bottom: 20px;
 }
 
-.edit-button,
-.delete-button {
-  margin-bottom: 10px;
-   /* 버튼 위 여백 추가 */
-}
 .delete-button {
     background-color: gray;
 }
@@ -107,35 +81,4 @@ margin-bottom: 20px;
     margin-bottom: 20px;
     font-size: 24px;
 }
-
-.club-info-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-.details-head {
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.details-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 70px;
-    
-}
-
-.club-name,
-.membership-level {
-    align-items: flex-start;
-    font-size: 14px;
-    margin-bottom: 5px;
-}
+  

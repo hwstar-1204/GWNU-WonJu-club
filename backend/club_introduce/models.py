@@ -1,10 +1,12 @@
 from django.db import models
 from club_account.models import CustomUser
 
-def club_logo_diretory_path(instance, filename):
+def club_logo_directory_path(instance, filename):
+    # 파일 저장 경로를 'MEDIA_ROOT/club_name/logo/'로 설정
     return 'club/{0}/logo/{1}'.format(instance.club_name, filename)
 
-def club_photo_diretory_path(instance, filename):
+def club_photo_directory_path(instance: object, filename: object) -> object:
+    # 파일 저장 경로를 'MEDIA_ROOT/club_name/photo/'로 설정
     return 'club/{0}/photo/{1}'.format(instance.club_name, filename)
 
 class Club(models.Model):
@@ -15,8 +17,8 @@ class Club(models.Model):
     club_name = models.CharField(max_length=20, primary_key=True)  # 동아리 이름
     category = models.CharField(max_length=20)  # 동아리 카테고리
     introducation = models.TextField()  # 동아리 소개
-    photo = models.ImageField(upload_to=club_logo_diretory_path, null=True)  # 동아리 사진
-    logo = models.ImageField(upload_to=club_photo_diretory_path, null=True)  # 동아리 로고 null-> default
+    photo = models.ImageField(upload_to=club_photo_directory_path, null=True)  # 동아리 사진
+    logo = models.ImageField(upload_to=club_logo_directory_path, null=True)  # 동아리 로고 null-> default
     new_club = models.BooleanField(default=False)  # 신규 동아리 여부
 
 

@@ -14,12 +14,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='club',
             name='logo',
-            field=models.ImageField(null=True, upload_to=club_introduce.models.club_photo_diretory_path),
+            field=models.ImageField(null=True, upload_to=club_introduce.models.club_photo_directory_path),
         ),
         migrations.AlterField(
             model_name='club',
             name='photo',
-            field=models.ImageField(null=True, upload_to=club_introduce.models.club_logo_diretory_path),
+            field=models.ImageField(null=True, upload_to=club_introduce.models.club_logo_directory_path),
         ),
         migrations.AlterField(
             model_name='clubmember',

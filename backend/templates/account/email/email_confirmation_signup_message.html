@@ -1,4 +1,3 @@
-<!-- email_confirmation_signup_message.html (본문) -->
 {% load account %}
 {% load i18n %}
 {% block content %}
@@ -8,17 +7,15 @@
 
 <!DOCTYPE html>
 <html>
-...
+
 <p>
-  귀하의 아이디는
-  	<span style="font-weight:bold;">{{ user_display }}</span>
-  입니다.
+  <h2>귀하의 아이디는 <span style="font-weight:bold;">{{ user_display }}</span> 입니다.</h2>
 </p>
   
 <a href="{{ activate_url }}" target="_blank">
-  계정 인증하기
+  <h4>계정 인증하기</h4>
 </a>
-...
+감사합니다.
 </html>
 
 {% endblocktrans %}

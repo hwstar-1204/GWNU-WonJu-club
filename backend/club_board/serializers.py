@@ -35,10 +35,20 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post
         fields = '__all__'
 
-class PostCommentSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     """
     게시글 댓글
     """
     class Meta:
         model = Comment
         fields = '__all__'
+
+# class PostCommentSerializer(serializers.ModelSerializer):
+#     """
+#     댓글 리스트
+#     """
+#     # comments = CommentSerializer(many=True, read_only=True)
+#
+#     class Meta:
+#         model = Post
+#         fields = '__all__'
