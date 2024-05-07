@@ -1,7 +1,8 @@
 import CategoryPage from '../Main/CategoryPage';
-import MypageNav from './MypageNav';
+import './CompoentStyles/Myclub.css'
+
+
 import './Mypage.css';
-import './Myclub.css';
 import '../Main/TopScreen.js'
 import TopScreen from '../Main/TopScreen.js';
 import userData from './Mypage.js';

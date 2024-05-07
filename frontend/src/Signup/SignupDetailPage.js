@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './SignupDetailPage.css'; // 스타일시트 임포트
 import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
+import axios from 'axios'
+
 
 function SignupDetail() {
   const [formData, setFormData] = useState({
@@ -156,6 +158,36 @@ function SignupDetail() {
     }
   };
 
+  const handleFormSubmit = async () => {
+    console.log("실행시작")
+    try {
+      // 변수명 변경
+      const modifiedData = {
+        email: formData.email + '@' + formData.emailDomain,
+        password1: formData.password,
+        password2: formData.confirmPassword,
+        name: formData.name,
+        user_student_id: formData.studentId,
+        grade: formData.grade,
+        study: formData.department,
+        gender: true,
+        phone: formData.phoneNumber,
+      };
+      // 폼 데이터를 서버로 전송
+      const response = await axios.post('http://localhost:8000/club_account/registration/', formData);
+
+      // 서버로부터의 응답을 처리
+      console.log('서버 응답:', response.data);
+      
+      // 성공적으로 데이터를 전송하고 응답을 받았을 때 추가적인 작업을 수행할 수 있습니다.
+    } catch (error) {
+      // 데이터 전송 중 오류가 발생한 경우
+      console.error('데이터 전송 오류:', error);
+      
+      // 오류 처리를 위한 추가적인 작업을 수행할 수 있습니다.
+    }
+  };
+
 
   return (
     <div className="signup-form-container">
@@ -249,7 +281,7 @@ function SignupDetail() {
             <option value="11">산업경영공학과</option>
           </select>
         </label>
-        <button type="submit">회원가입</button>
+        <button type="submit" onclick={handleFormSubmit}>회원가입</button>
       </form>
     </div>
   );

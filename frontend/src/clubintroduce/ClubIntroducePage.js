@@ -96,5 +96,4 @@ const ClubIntroducePage = () => {
   );
 }
 
-
 export default ClubIntroducePage;

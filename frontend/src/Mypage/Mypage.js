@@ -1,43 +1,97 @@
-import CategoryPage from '../Main/CategoryPage';
-import MypageNav from './MypageNav';
-import React, { useState } from 'react';
-import MypageHome from './MypageHome';
-import './Mypage.css';
-import '../Main/TopScreen.js'
+import { Route,Routes, NavLink, Link } from 'react-router-dom';
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TopScreen from '../Main/TopScreen.js';
+import CategoryPage from '../Main/CategoryPage';
+import './Mypage.css';
+
+import MypageHome from './MypageHome';
+import Editinformation from './EditInformation.js';
+import PasswordChangeForm from './ChangePassword.js';
+import MyClubPage from './MyClubPage.js';
 
 
 const MyPage = () => {
-  
-    const [userData, setUserData] = useState({
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true); // 데이터 로딩 
+  // const [selectedPage, setSelectedPage] = useState('Home'); // 기본값으로 ComponentA 선택
 
-    profileImage: "profile_image_url_here.jpg",
-    name: "사용자 이름",
-    intro: "소개글",
-    email: "user@example.com",
-    phone: "010-1234-5678",
-    department: "사용자 소속 학과",
-    joinDate: "2024-04-16",
-    myClub: {
-
-      logo: "club_logo_url_here.jpg",
-      name: "나의 동아리",
-      membershipLevel: "회원 등급"
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      getUserDetails();
     }
-  });
+    
+  }, [token]);
+
+  const getUserDetails = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/club_account/user/', {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      });
+      const data = response.data;
+      setUserData(data);
+      
+    } catch (error) {
+      console.error('Error fetching user details:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // const handleNavigation = (page) => {
+  //     setSelectedPage(page);
+  // };
+
 
   return (
-    <div className="my-page">
-      {/* TopScreen 컴포넌트를 사용하여 로그인 상태를 유지합니다. */}
-      <TopScreen />
-      <CategoryPage />
-        <MypageNav userData={userData} />
-        {/* 로그인 상태에 따라 마이페이지 화면을 표시합니다. */}
-        <MypageHome userData={userData} />
+  <div className="my-page">
+    <TopScreen/>
+    <CategoryPage/>
+
+
+    <div className="my-category-container">
+      {/* 내비게이션 버튼 */}
+      <div className='category_btn'>
+        <Link to="" className="my-category-item" activeclassname="active-link">홈</Link>
+        <NavLink to="/mypage/edit-information" className="my-category-item" activeclassname="active-link">회원정보 수정</NavLink>
+        <NavLink to="/mypage/password-change" className="my-category-item" activeclassname="active-link">패스워드 변경</NavLink>
+        <NavLink to="/mypage/my-club" className="my-category-item" activeclassname="active-link">내 동아리 관리</NavLink>
+      </div>
+    </div>  
+
+    <MypageHome userData={userData} />
+
+    <div>
+      <Routes>
+        <Route path="edit-information" element={<Editinformation />} />
+        <Route path="password-change" element={<PasswordChangeForm />} />
+        {/* <Route path="my-club" element={<MyClubPage />} /> */}
+      </Routes>
     </div>
 
+  </div>  
+  
   );
 };
 
 export default MyPage;
 
+      
+{/* <div className="my-category-container">
+<div className='category_btn'>
+  <button onClick={() => handleNavigation('Home')}>홈</button>
+  <button onClick={() => handleNavigation('Editinformation')}>회원정보 수정</button>
+  <button onClick={() => handleNavigation('PasswordChangeForm')}>패스워드 변경</button>  
+</div>
+<NavLink to="/myclub" className="my-category-item" activeclassname="active-link">내 동아리 관리</NavLink>
+</div>
+<MypageHome userData={userData} />
+
+{selectedPage === 'Editinformation' && <Editinformation />}
+{selectedPage === 'PasswordChangeForm' && <PasswordChangeForm />} */}

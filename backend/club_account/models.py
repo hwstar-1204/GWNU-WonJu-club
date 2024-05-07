@@ -9,13 +9,20 @@ from club_account.managers import CustomUserManager
 
 # Create your models here.
 class CustomUser(AbstractUser, PermissionsMixin):
+    GENDER_CHOICES = (
+        ('남자', 'Male'),
+        ('여자', 'Female'),
+    )
+    username = None
+    first_name = None
+    last_name = None
 
+    name = models.CharField(max_length=30)  # 변경사항 (name)
     email = models.EmailField(_('email address'), unique=True)
-    name = models.CharField(max_length=30)
     student_id = models.IntegerField(unique=True, validators=[MinValueValidator(10000000), MaxValueValidator(100000000)])  # 학번
     grade = models.IntegerField()  # 학년
     study = models.CharField(max_length=20)  # 학과
-    gender = models.BooleanField(default=False)  # true = 남, false = 여
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='M')  # 변경사항
     phone = models.CharField(max_length=15)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -23,9 +30,6 @@ class CustomUser(AbstractUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    username = None
-    first_name = None
-    last_name = None
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     # USERNAME_FIELD = ''

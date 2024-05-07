@@ -61,11 +61,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -146,11 +146,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # For demo purposes only. Use a white list in the real world.
-CORS_ORIGIN_ALLOW_ALL = True
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000',  # React 앱 URL
-# ]
+CORS_ORIGIN_ALLOW_ALL = True  # False
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000', # react의 포트번호
+#     'http://127.0.0.1:3000',
+#     'http://localhost:8000', # django의 포트번호
+#     'http://127.0.0.1:8000'
+# )
+# CORS_ALLOW_CREDENTIALS = True
+# CSRF_TRUSTED_ORIGINS = (
+#     'http://localhost:8000',
+#     'http://127.0.0.1:8000',
+# )
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -163,16 +170,15 @@ REST_AUTH = {
     'ACCOUNT_LOGOUT_ON_GET': True,
 
     'REGISTER_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
-    'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'club_account.serializers.CustomUserDetailsSerializer',
+
 }
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticated',
         # 'rest_framework.permissions.IsAdminUser',
-
         'rest_framework.permissions.AllowAny',
-
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -180,11 +186,12 @@ REST_FRAMEWORK = {
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS' : 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  # 1 페이지당 보여줄 갯수
 }
 
 AUTH_USER_MODEL = 'club_account.CustomUser'
 ACCOUNT_ADAPTER = 'club_account.adapters.CustomAccountAdapter'
-
 # ALLAUTH's Account Configuration
 SITE_ID = 1
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -192,14 +199,14 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # email
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # none, Optional, mandatory
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'  # 익명의 사용자 이메일 인증시 이동 url
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'  # 인증된 사용자 이메일 인증시 이동 url
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # none, Optional, mandatory
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'  # 익명의 사용자 이메일 인증시 이동 url
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'  # 인증된 사용자 이메일 인증시 이동 url
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # 메일 호스트 서버
 EMAIL_PORT = '587'  # gmail과 통신하는 포트
-EMAIL_HOST_USER = '****@gwnu.ac.kr'  # 발신할 이메일
+EMAIL_HOST_USER = '***@gwnu.ac.kr'  # 발신할 이메일
 EMAIL_HOST_PASSWORD = '****'  # 발신할 메일의 비밀번호
 EMAIL_USE_TLS = True  # TLS 보안 방법
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # 발신할 이메일

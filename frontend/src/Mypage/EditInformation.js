@@ -1,120 +1,111 @@
-import CategoryPage from "../Main/CategoryPage.js";
-import MypageNav from "./MypageNav.js";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Editinf from "./Editinf.js";
-import "./Mypage.css";
-import "../Main/TopScreen.js";
-import TopScreen from "../Main/TopScreen.js";
-import userData from "./Mypage.js";
-import { Container, Form, Button, } from "react-bootstrap";
-import "./Editinformation.css";
+// import MypageNav from "./MypageNav.js";
+import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import "./CompoentStyles/Editinformation.css";
 
 const Editinformation = () => {
-  const [editCompleted, setEditCompleted] = useState(false);
+  const location = useLocation();
+  const userData = location.state ? location.state.userData : {}; 
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [name, setName] = useState(userData.name);
+  const [email, setEmail] = useState(userData.email);
+  const [phone, setPhone] = useState(userData.phone);
+  const [study, setStudy] = useState(userData.study);
+  
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+  
 
-  const handleEditComplete = () => {
-    setEditCompleted(true);
-    // 수정 완료 알림 호출
-    alert("수정 완료되었습니다");
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const updatedUserData = {
+            email: email,
+            name: name,
+            study: study,
+            phone: phone,
+            // student_id: 20191424,
+            // grade: 4,
+            // gender: '남자 ',
+        };
+
+        const response = await fetch('http://127.0.0.1:8000/club_account/user/', {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedUserData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('수정 완료되었습니다.');
+            window.location.replace('http://localhost:3000/mypage');
+        } else {
+            console.error('수정 실패:', data);
+        }
+    } catch (error) {
+        console.error('네트워크 오류:', error);
+    }
+};
+
+
 
   return (
-    <div className="my-page">
-      <TopScreen />
-      <CategoryPage />
-      <h1 className="mypage-header">마이페이지</h1>
-      <MypageNav userData={userData} />
-      <Editinf userData={userData} />
+  <div className="my-page">
 
-      <Container>
-        <h1 className="register-info">이용정보 등록</h1>
-        <Form>
-          <GenderSelection />
-          <BirthdayInput />
-
-          <div className="edit-button-container">
-            <Button
-              variant="primary"
-              type="button"
-              className="editif-button"
-              onClick={handleEditComplete}
-            >
-              수정 완료
-            </Button>
-            <Button variant="secondary" type="button" className="cancel-button">
-               <Link to="/mypage" className="cancel">
-                취소
-              </Link>
-            </Button>
-          </div>
-        </Form>
-        {/* 수정 완료 시 알림 표시 */}
-      </Container>
-    </div>
-
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="name">이름:</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="email">이메일:</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="phone">휴대전화:</label>
+        <input
+          type="text"
+          id="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="study">소속 학과:</label>
+        <input
+          type="text"
+          id="study"
+          value={study}
+          onChange={(e) => setStudy(e.target.value)}
+          className="form-control"
+        />
+      </div>
+      <button type="submit" className="btn btn-primary">저장</button>
+    </form>
+  </div>
   );
 };
 
 export default Editinformation;
-
-
-// 성별 선택 컴포넌트
-const GenderSelection = () => {
-  const [gender, setGender] = useState("");
-
-  const handleGenderChange = (e) => {
-    setGender(e.target.value);
-  };
-
-  return (
-    <Form>
-      <Form.Group controlId="formGender">
-        <Form.Label>성별</Form.Label>
-        <div>
-          <Form.Check
-            inline
-            type="radio"
-            label="남성"
-            value="male"
-            checked={gender === "male"}
-            onChange={handleGenderChange}
-          />
-          <Form.Check
-            inline
-            type="radio"
-            label="여성"
-            value="female"
-            checked={gender === "female"}
-            onChange={handleGenderChange}
-          />
-        </div>
-      </Form.Group>
-    </Form>
-  );
-
-};
-
-// 생일 입력 컴포넌트
-const BirthdayInput = () => {
-  const [birthdate, setBirthdate] = useState("");
-
-  const handleBirthdateChange = (e) => {
-    setBirthdate(e.target.value);
-  };
-
-  return (
-    <Form>
-      <Form.Group controlId="formBirthdate">
-        <Form.Label>생년월일</Form.Label>
-        <Form.Control
-          type="date"
-          value={birthdate}
-          onChange={handleBirthdateChange}
-          placeholder="생년월일을 선택하세요."
-        />
-      </Form.Group>
-    </Form>
-  );
-
-};
