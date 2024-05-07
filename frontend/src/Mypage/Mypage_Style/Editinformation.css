@@ -1,0 +1,25 @@
+.edit-button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.register-info {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px; 
+}
+   
+.cancel-button {
+    margin-right: 450px;
+    background-color: gray;
+    color: azure;
+}
+.editif-button {
+    background-color: #007bff;
+    margin-left: 450px;
+}
+.cancel {
+    color: azure;
+    text-decoration: none;
+}
