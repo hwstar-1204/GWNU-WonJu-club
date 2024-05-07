@@ -10,12 +10,15 @@ from club_introduce.models import ClubMember
 from .serializers import *
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.exceptions import PermissionDenied
-
+from rest_framework.pagination import PageNumberPagination
 
 # viewsets : provides default create(), retireve(), update(), destroy(), list(), partial_update()
 # Create your views here.
 
-
+# class BoardPostListView(ListAPIView):
+#     queryset = Post.objects.all()
+#     serializer_class = PostListSerializer
+#     pagination_class = PageNumberPagination
 
 
 def order_list(queryset, order):
@@ -25,13 +28,40 @@ def order_list(queryset, order):
         queryset = queryset.annotate(num_comments=Count('comments')).order_by('-num_comments')
     else:  # 기본값 최신순
         queryset = queryset.order_by('-created_date')
-
     return queryset
+
+# class BoardPostListView(ListAPIView):
+#     """ 동아리 게시판 글 불러오기 (정렬포함)"""
+#     serializer_class = PostListSerializer
+#     # pagination_class = PageNumberPagination
+#
+#
+#     def get_queryset(self):
+#         club_name = self.request.query_params.get('club_name')
+#         category = self.request.query_params.get('category')
+#         order = self.request.query_params.get('order')
+#
+#         if club_name == 'FreeBoard':
+#             queryset = Post.objects.filter(board__club_name=club_name)
+#             print(queryset)
+#
+#         else:
+#             queryset = Post.objects.filter(board__club_name=club_name, board__category=category)
+#             print(queryset)
+#
+#
+#         queryset = order_list(queryset, order)
+#         return queryset
+#
+#     def list(self, request, *args, **kwargs):
+#         queryset = self.get_queryset()
+#         serializer = self.serializer_class(queryset, many=True)
+#         return Response(serializer.data)
 
 class ClubBoardPostViewSet(viewsets.ModelViewSet):
     """ 특정 동아리 게시판 카테고리에 해당하는 글 불러오기 (정렬포함)"""
     serializer_class = PostListSerializer
-
+    pagination_class = PageNumberPagination
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
@@ -48,7 +78,7 @@ class ClubBoardPostViewSet(viewsets.ModelViewSet):
 class FreeBoardPostViewSet(viewsets.ModelViewSet):
     """ 자유 게시판 카테고리에 해당하는 글 불러오기 (정렬포함)"""
     serializer_class = PostListSerializer
-
+    pagination_class = PageNumberPagination
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
@@ -63,8 +93,8 @@ class FreeBoardPostViewSet(viewsets.ModelViewSet):
         return queryset
 
 # 자유 게시판을 시스템 관리자가 생성,수정 삭제
-
 # 특정 동아리 게시판을 동아리 관리자가 생성,수정,삭제
+# 검색 기능
 
 
 class PostCreateView(CreateAPIView):
