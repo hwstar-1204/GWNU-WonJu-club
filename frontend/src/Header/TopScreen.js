@@ -1,12 +1,29 @@
 // TopScreen.js
-import React from 'react';
+import React ,{useState,useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
+
 
 import logo2 from '../Main/Main_assets/logo2.PNG';
 import './TopScreen.css';
 
-const TopScreen = ({ isLoggedIn, setIsLoggedIn }) => { // setIsLoggedIn을 props로 받음
+const TopScreen = () => { 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  let navigate = useNavigate();
+
+  const handleLogout = () => {
+      localStorage.removeItem('token');
+      setIsLoggedIn(false)
+      navigate("/");
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) { 
+      setIsLoggedIn(true)  // 토큰값이 로컬스토리지에 존재 하면 로그인한 상태
+    }
+  }, []);
+
 
   
 
@@ -14,7 +31,7 @@ const TopScreen = ({ isLoggedIn, setIsLoggedIn }) => { // setIsLoggedIn을 props
     <Navbar bg="white" expand="lg" className="mb-3">
       <Container>
       
-        <Navbar.Brand as={Link} to="/main">
+        <Navbar.Brand as={Link} to="/">
           <img
             src={logo2}
             width="180"
@@ -35,7 +52,7 @@ const TopScreen = ({ isLoggedIn, setIsLoggedIn }) => { // setIsLoggedIn을 props
               <>
                 <Nav.Link as={Link} to="mypage">마이페이지</Nav.Link>
                 {/* 로그아웃 버튼 추가 */}
-                <Nav.Link onClick={() => setIsLoggedIn(false)}>로그아웃</Nav.Link>
+                <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
               </>
             )}
           </Nav>

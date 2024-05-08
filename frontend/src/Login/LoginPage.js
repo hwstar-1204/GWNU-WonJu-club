@@ -89,7 +89,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
           </Col>
         </Row>
       </Container>
-      {isLoggedIn && <Navigate to="/main" />}
+      {isLoggedIn && <Navigate to="/" />}
     </div>
   );
 };

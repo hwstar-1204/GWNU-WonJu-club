@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PostList from './PostList.js';
 import { Link } from 'react-router-dom'; 
-import { postList } from './Data'; // 데이터 가져오기
+import { postList } from './Data.js'; // 데이터 가져오기
 
 const PostMain = () => {
   const [sortBy, setSortBy] = useState("선택");

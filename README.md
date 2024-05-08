@@ -40,6 +40,8 @@
 6. 동아리별 게시판
 7. 동아리 추천 및 질의를 해주는 chatbot
 
+## Chatbot Process
+![image](https://github.com/hwstar-1204/GWNU-WonJu-club/assets/105586186/0610ee10-e47d-43b9-9b98-808331d5983b)
 
 ## Chatbot
 데이터 label  
@@ -53,4 +55,27 @@
 7 활동  
 8 생성  
 
+## 프로젝트 멤버  
+**이형원**
+  - PM, BackEnd
+  - [@hwstar-1204](https://github.com/hwstar-1204) 
 
+**송승주**
+  - BackEnd
+  - [@songjju](https://github.com/songjju)
+
+**김철기**
+  - FrontEnd
+  - [@ksina123](https://github.com/ksina123)
+
+**김관호**
+  - FrontEnd
+  - [@khkim0428](https://github.com/khkim0428)
+
+**모인지**
+  - AI ChatBot
+  - [@moinji](https://github.com/moinji)
+
+**김유민**
+  - AI ChatBot
+  - [@yuminK](https://github.com/kimyuuuuuu)

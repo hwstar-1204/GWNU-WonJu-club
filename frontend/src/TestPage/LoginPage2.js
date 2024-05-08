@@ -1,38 +1,30 @@
-import React, { useState, useContext } from 'react';
-import { Container, Form, Button, Alert, Row, Col, FormGroup, Modal } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import '../Login/LoginPage.css';
-import UserContext from '../UserContext';
+// components/user/LoginPage2.js
+import React, { useState, useEffect } from 'react';
 
 const LoginPage2 = () => {
-  const [studentID, setStudentID] = useState('');
+  const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const navigate = useNavigate();
-  const { isLoggedIn, login } = useContext(UserContext);
+  const [errors, setErrors] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const validateUser = (studentID, password) => {
-    const registeredStudentID = '123456';
-    const registeredPassword = 'password';
-    return studentID === registeredStudentID && password === registeredPassword;
-  };
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (!studentID.trim() || !password.trim()) {
-      setErrorMessage('아이디(학번)와 비밀번호를 입력하세요.');
-      return;
+  useEffect(() => {
+		// 이미 로그인이 되어있다면 redirect
+    if (localStorage.getItem('token') !== null) {
+      window.location.replace('http://localhost:3000');
+    } else {
+      setLoading(false);
     }
-    if (validateUser(studentID, password)) {
-      login();
-      setShowModal(true);
-      // 여기에 서버 요청 및 응답 처리 코드를 추가합니다.
-      const user = {
-        email: studentID,
+  }, []);
+
+	// 로그인 버튼 event
+  const onSubmit = e => {
+    e.preventDefault();
+    const user = {
+        email: email,
         password: password
       };
+
       fetch('http://127.0.0.1:8000/club_account/login/', {
         method: 'POST',
         headers: {
@@ -43,90 +35,55 @@ const LoginPage2 = () => {
         .then(res => res.json())
         .then(data => {
           if (data.key) {
-            localStorage.clear();
+            // localStorage.clear();
             localStorage.setItem('token', data.key);
-            navigate('/main'); // 로그인 성공 시 메인 페이지로 리다이렉트
+            window.location.replace('http://localhost:3000');
+            setLoggedIn(true);
           } else {
-            setErrorMessage('아이디(학번)와 비밀번호가 일치하지 않습니다.');
+            setemail('');
+            setPassword('');
+            localStorage.clear();
+            setErrors(true);
           }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          setErrorMessage('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
         });
-    } else {
-      setErrorMessage('아이디(학번)와 비밀번호가 일치하지 않습니다.');
-    }
-  };
-
-  const hideModal = () => {
-    setShowModal(false);
-    navigate('/main');
-  };
-
-  return (
-    <div className="login-background">
-      <Container>
-        <Row className="justify-content-center align-items-center min-vh-100">
-          <Col md={6}>
-            <div className="login-container">
-              <h2 className="login-header">로그인</h2>
-              {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <Form onSubmit={handleLogin}>
-                <Form.Control
-                  type="text"
-                  placeholder="아이디(학번)을 입력하세요"
-                  value={studentID}
-                  onChange={(e) => setStudentID(e.target.value)}
-                  className="input-field"
+    };
+    return (
+      <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          {loading === false && <h1 class="mb-4">로그인</h1>}
+          {errors === true && <h2 class="text-danger">Cannot log in with provided credentials</h2>}
+          {loading === false && (
+            <form onSubmit={onSubmit}>
+              <div class="form-group mt-5">
+                <label for='email'>이메일</label>
+                <input
+                  name='email'
+                  type='email'
+                  class="form-control"
+                  value={email}
+                  required
+                  onChange={e => setemail(e.target.value)}
                 />
-                <Form.Control
-                  type="password"
-                  placeholder="비밀번호를 입력하세요"
+              </div>
+              <div class="form-group mt-2">
+                <label for='password'>패스워드</label>
+                <input
+                  name='password'
+                  type='password'
+                  class="form-control"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
+                  required
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <FormGroup>
-                  <Row>
-                    <Col>
-                      <Form.Check
-                        type="checkbox"
-                        label="아이디 저장"
-                        checked={rememberMe}
-                        onChange={(e) => setRememberMe(e.target.checked)}
-                      />
-                    </Col>
-                    <Col>
-                      <Link to="/login/reset-password" className="reset-password-link">비밀번호를 잊으셨나요?</Link>
-                    </Col>
-                  </Row>
-                </FormGroup>
-                <Button variant="primary" type="submit" className="login-button">
-                  로그인
-                </Button>
-                <div className="signup-link-container">
-                  <Link to="/signup" className="signup-button">회원가입</Link>
-                </div>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-
-      <Modal show={showModal} onHide={hideModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>로그인 성공</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>로그인이 성공적으로 완료되었습니다.</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={hideModal}>
-            확인
-          </Button>
-        </Modal.Footer>
-      </Modal>
+              </div>
+              <button type="submit" class="btn btn-primary mt-5">Login</button>
+            </form>
+          )}
+        </div>
+      </div>
     </div>
-  );
-};
 
+      );
+    };
 export default LoginPage2;
