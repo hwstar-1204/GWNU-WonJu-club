@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './ClubintroducePage.css';
-import Kakao from '../clubintroduce/Assets/kakao.png';
-import InstagramIcon from '../clubintroduce/Assets/instagram.jpg';
+import './ClubIntroducePage.css';
+import Kakao from '../Club_Introduce/Assets/kakao.png';
+import InstagramIcon from '../Club_Introduce/Assets/instagram.jpg';
 
 
 const ClubIntroducePage = () => {

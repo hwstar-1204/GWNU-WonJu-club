@@ -1,13 +1,7 @@
-import CategoryPage from '../Main/CategoryPage';
-import './CompoentStyles/Myclub.css'
+import './Mypage_Style/Myclub.css'
 
-
-import './Mypage.css';
-import '../Main/TopScreen.js'
-import TopScreen from '../Main/TopScreen.js';
-import userData from './Mypage.js';
 import { Container, Col } from 'react-bootstrap';
-import defaultimage from '../Mypage_assets/logo.png';
+import defaultimage from './logo.png';
 
 const MyClub = () => {
 
