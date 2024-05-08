@@ -53,4 +53,27 @@
 7 활동  
 8 생성  
 
+## 프로젝트 멤버  
+**이형원**
+  - PM, BackEnd
+  - [@hwstar-1204](https://github.com/hwstar-1204) 
 
+**송승주**
+  - BackEnd
+  - [@songjju](https://github.com/songjju)
+
+**김철기**
+  - FrontEnd
+  - [@ksina123](https://github.com/ksina123)
+
+**김관호**
+  - FrontEnd
+  - [@khkim0428](https://github.com/khkim0428)
+
+**모인지**
+  - AI ChatBot
+  - [@moinji](https://github.com/moinji)
+
+**김유민**
+  - AI ChatBot
+  - [@yuminK](https://github.com/kimyuuuuuu)
