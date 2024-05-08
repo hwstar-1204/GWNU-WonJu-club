@@ -55,9 +55,6 @@
 7 활동  
 8 생성  
 
-## Chatbot Process
-![image](https://github.com/hwstar-1204/GWNU-WonJu-club/assets/105586186/0610ee10-e47d-43b9-9b98-808331d5983b)
-
 ## 프로젝트 멤버  
 **이형원**
   - PM, BackEnd
