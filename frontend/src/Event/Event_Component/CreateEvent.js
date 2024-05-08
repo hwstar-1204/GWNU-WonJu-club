@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, InputGroup, FormControl, Alert } from 'react-bootstrap';
 import axios from 'axios'; // Axios 라이브러리 import
 import 'bootstrap/dist/css/bootstrap.min.css';
-import EventCard from '../../Main/Main_Component/EventCard'; // EventCard 컴포넌트 import
+import EventCard from '../Event_Component/EventCard';
 
 const CreateEvent = ({ onCreateEvent }) => {
   const [title, setTitle] = useState('');
