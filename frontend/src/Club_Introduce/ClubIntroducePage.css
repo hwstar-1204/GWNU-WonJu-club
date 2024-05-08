@@ -1,0 +1,218 @@
+
+.score {
+  font-family: 'SCoreDream', sans-serif; /* 폰트 설정을 직접 추가합니다. */
+  font-weight: 300;
+}
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #000;
+}
+img {
+  width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+/* common */
+.container {
+  width: 1160px;
+  padding: 0 20px;
+  margin: 0 auto;
+  min-width: 1160px;
+}
+.section {
+  padding: 120px 0;
+}
+.section > h2 {
+  font-size: 50px;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.section > p {
+  font-size: 22px;
+  font-weight: 300;
+  color: #666;
+  text-align: center;
+  margin-bottom: 70px;
+}
+/* blind */
+.blind {
+  position:absolute;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+}
+/* cardType03 */
+.card__inner {
+  display: flex;
+  justify-content: center;/* 카드를 수평 중앙 정렬합니다. */
+  gap: 20px; /* 카드 사이의 간격을 조정합니다. */
+  flex-wrap: wrap;
+}
+
+.card {
+  padding: 20px;
+  width: 100%; /* 카드의 너비를 100%로 설정합니다. */
+  max-width: 300px; /* 카드의 최대 너비를 300px로 설정합니다. */
+  background-color: #fff;
+  border-radius: 10px; /* 카드의 모서리를 둥글게 만듭니다. */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 카드에 그림자를 추가합니다. */
+  margin-right: 0; 
+    flex: 0 0 calc(25% - 20px); /* 각 카드의 너비를 25%로 설정하고 간격을 조절합니다. */
+    margin: 10px; /* 각 카드 사이의 간격 설정 */
+
+}
+
+.card__header img {
+  width: 100%; /* 이미지를 카드 너비에 맞게 조정합니다. */
+  border-radius: 10px; /* 이미지 모서리를 둥글게 만듭니다. */
+  box-shadow: none; /* 이미지에 그림자를 제거합니다. */
+}
+
+.card__header figcaption {
+  right: auto; /* 우측 위치를 조정합니다. */
+  left: 10px; /* 좌측에 위치하도록 설정합니다. */
+  top: 10px;
+  padding: 6px 16px;
+  border-radius: 20px; /* 모서리를 둥글게 만듭니다. */
+  background-color: #2254C3; /* 배경색을 변경합니다. */
+  color: #fff; /* 글자색을 변경합니다. */
+}
+
+.card__contents h3 {
+  font-size: 18px; /* 제목의 크기를 줄입니다. */
+  margin-bottom: 15px; /* 아래 여백을 조정합니다. */
+}
+
+.card__contents p {
+  font-size: 14px; /* 본문의 크기를 줄입니다. */
+  margin-bottom: 15px; /* 아래 여백을 조정합니다. */
+  color: #333; /* 본문의 색상을 변경합니다. */
+}
+
+.card__footer {
+  display: flex;
+  justify-content: space-between; /* 푸터의 요소들을 좌우로 분산 정렬합니다. */
+}
+
+.card__footer h4 {
+  margin: 0; /* 마진을 초기화합니다. */
+  color: #DD2A2A; /* 글자색을 변경합니다. */
+}
+
+.card__footer em {
+  color: #666; /* 글자색을 변경합니다. */
+}
+
+.club-logo {
+  width: 80px; /* 로고 이미지의 너비를 조정합니다. */
+  margin-bottom: 10px; /* 아래 여백을 조정합니다. */
+}
+
+.social-icons {
+  display: flex; /* 소셜 미디어 아이콘을 가로로 나열합니다. */
+}
+
+.social-icons a {
+  margin-right: 10px; /* 아이콘들 간의 오른쪽 여백을 조정합니다. */
+}
+
+.social-icons img {
+  width: 30px; /* 아이콘 이미지의 크기를 조정합니다. */
+}
+
+.apply-button {
+  padding: 10px 20px; /* 버튼의 내부 여백을 조정합니다. */
+  background-color: #2254C3; /* 배경색을 변경합니다. */
+  color: #fff; /* 글자색을 변경합니다. */
+  border: none; /* 테두리를 없앱니다. */
+  border-radius: 5px; /* 버튼의 모서리를 둥글게 만듭니다. */
+  cursor: pointer; /* 마우스 커서를 손가락 모양으로 변경합니다. */
+}
+
+.apply-button:hover {
+  background-color: #15408A; /* 버튼에 마우스를 올렸을 때의 배경색을 변경합니다. */
+}
+
+/* 필터링 섹션 스타일 */
+.category-filter select {
+  position: absolute;
+  top: 170px; /* 원하는 위치로 조정 */
+  right: 100px;
+}
+
+/* 카테고리 필터 스타일 */
+.category-filter select {
+  width: 200px; /* 필터링 선택 영역의 너비 조정 */
+  height: 40px; /* 필터링 선택 영역의 높이 조정 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+/* ClubintroducePage.css */
+
+/* 필터링 컨테이너 */
+.filters {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-bottom: 40px; /* 필터링과 카드 사이의 간격 조정 */
+  margin-top: -100px;
+  margin-right: -200px; 
+}
+
+/* 선택 상자 */
+.filters select {
+  margin-left: 10px; /* 선택 상자 사이의 간격 조정 */
+  padding: 8px 12px; /* 선택 상자 내부 패딩 */
+  font-size: 14px; /* 폰트 크기 */
+  border: 1px solid #ccc; /* 테두리 */
+  border-radius: 5px; /* 테두리 둥글기 */
+  background-color: #fff; /* 배경색 */
+  color: #333; /* 글자색 */
+  cursor: pointer; /* 커서 모양 */
+}
+
+/* 선택 상자 호버 효과 */
+.filters select:hover {
+  border-color: #999; /* 호버 시 테두리 색상 변경 */
+}
+
+/* 선택 상자 포커스 효과 */
+.filters select:focus {
+  outline: none; /* 포커스 효과 제거 */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* 포커스 시 그림자 효과 */
+}
+
+/* 선택 상자 옵션 */
+.filters select option {
+  background-color: #fff; /* 배경색 */
+  color: #333; /* 글자색 */
+}
+
+/* 선택 상자 화살표 아이콘 */
+.filters select::-ms-expand {
+  display: none; /* IE에서 화살표 아이콘 숨김 */
+}
+
+.filters select::before {
+  content: '▼'; /* 화살표 아이콘 */
+  position: absolute;
+  right: 10px; /* 오른쪽 여백 */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 선택 상자 화살표 아이콘 호버 효과 */
+.filters select:hover::before {
+  color: #666; /* 호버 시 아이콘 색상 변경 */
+}

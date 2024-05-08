@@ -1,0 +1,84 @@
+.profile-panel,
+.details,
+.myclub-panel {
+    
+    text-align: center;
+    padding: 20px;
+    /* 내부 여백 추가 */
+    border: 1px solid #ced4da;
+    /* 테두리 추가 */
+    border-radius: 10px;
+    /* 둥근 네모로 조정 */
+    margin-bottom: 20px;
+    /* 하단 여백 추가 */
+    width: 400px;
+
+    height: 500px;
+}
+
+.profile-image{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+.club-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    border: 2px solid #ced4da;
+    /* 테두리 추가 */
+}
+
+.edit-button,
+.delete-button {
+    margin-right: 10px;
+justify-content: center;
+margin-bottom: 20px;
+}
+
+.details-head {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.club-info,
+.details-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 70px; 
+}
+
+.edit-button,
+.delete-button {
+  margin-top: 10px; /* 버튼 위 여백 추가 */
+  margin-bottom: 10px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.delete-button {
+    background-color: gray;
+}
+
+.myclub-head {
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+  

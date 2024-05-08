@@ -1,0 +1,46 @@
+.club-notice {
+  margin-bottom: 20px;
+}
+
+.notice-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.notice-board {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-right: 20px; 
+}
+
+.notice-item {
+  border-bottom: 1px solid #ccc;
+}
+
+.notice-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notice-date {
+  font-size: 14px;
+  color: #333;
+}
+
+.notice-author {
+  font-size: 14px;
+  color: #333;
+}
+
+.notice-content {
+  padding: 10px;
+}
+
+.notice-content p {
+  margin-bottom: 10px;
+}
