@@ -24,7 +24,7 @@ const LoginPage2 = () => {
         email: email,
         password: password
       };
-  
+
       fetch('http://127.0.0.1:8000/club_account/login/', {
         method: 'POST',
         headers: {
@@ -35,7 +35,7 @@ const LoginPage2 = () => {
         .then(res => res.json())
         .then(data => {
           if (data.key) {
-            localStorage.clear();
+            // localStorage.clear();
             localStorage.setItem('token', data.key);
             window.location.replace('http://localhost:3000');
             setLoggedIn(true);
@@ -47,11 +47,6 @@ const LoginPage2 = () => {
           }
         });
     };
-
-       // 로그인 상태에 따른 리다이렉션 처리
-      // if (isLoggedIn) {
-      //   navigate('/main');
-      // } 
     return (
       <div class="container mt-5">
       <div class="row justify-content-center">
@@ -88,7 +83,7 @@ const LoginPage2 = () => {
         </div>
       </div>
     </div>
-    
+
       );
     };
 export default LoginPage2;

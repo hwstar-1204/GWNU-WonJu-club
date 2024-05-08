@@ -1,0 +1,84 @@
+.category-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-item {
+  position: relative; /* 서브 메뉴가 부모 요소를 기준으로 정렬되도록 position 속성 추가 */
+  cursor: pointer;
+  text-decoration: none; /* 밑줄 제거 */
+}
+
+/* 만약 활성화된 링크의 밑줄도 없애고 싶다면 activeClassName에도 같은 스타일을 적용합니다. */
+.category-item.active {
+  text-decoration: none;
+}
+
+
+.sub-menu {
+  position: absolute; /* 서브 메뉴를 절대 위치로 설정 */
+  top: 100%; /* 부모 요소 아래에 위치하도록 설정 */
+  left: 0; /* 왼쪽 정렬 */
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 0;
+  width: 200px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* 다른 요소들 위에 표시되도록 설정 */
+  display: none; /* 초기에는 보이지 않도록 설정 */
+}
+
+.category-item:hover .sub-menu {
+  display: block; /* 부모 요소에 마우스를 올리면 서브 메뉴가 보이도록 설정 */
+}
+
+.sub-menu-item {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+.sub-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* 마우스를 올렸을 때 카테고리 아이템의 효과 */
+.category-item:hover {
+  transform: scale(1.05); /* 마우스를 올렸을 때 약간 확대됩니다. */
+}
+
+
+.link-style {
+  text-decoration: none;
+  /* 링크의 텍스트 장식 제거 */
+  color: inherit;
+  /* 기본 색상 상속 */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  /* 호버 시 텍스트 장식 제거 */
+  color: inherit;
+  /* 호버 시 기본 색상 상속 */
+}
+
+/* 서브메뉴가 표시될 때 클릭 이벤트를 가로챌 레이어 스타일 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999; /* 다른 요소보다 위에 표시될 수 있도록 설정 */
+  background-color: transparent; /* 배경색은 투명하게 설정 */
+}
+
+/* 서브메뉴가 표시될 때 클릭 이벤트를 가로챌 레이어가 표시되면서 배경을 어둡게 만들기 위한 스타일 */
+.overlay.active {
+  background-color: rgba(0, 0, 0, 0.5); /* 투명한 검은색 배경을 통해 다른 요소를 가리도록 설정 */
+  /* 원하는 투명도 및 색상으로 설정 가능 */
+}

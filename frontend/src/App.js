@@ -1,57 +1,67 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainPage from './Main/MainPage';
-import LoginPage from './Login/LoginPage';
-import PrivacyPolicyPage from './Signup/PrivacyPolicyPage';
-import SignupDetailPage from './Signup/SignupDetailPage';
-import ResetPasswordPage from './Login/ResetPasswordPage';
+import TopScreen from './Header/TopScreen';
+import MainPage from './Main/Main_Component/MainPage';
 import MyPage from './Mypage/Mypage';
-import MainLater from './Main/Main-later';
-import Editinformation from './Mypage/EditInformation';
-import Changepassword from './Mypage/ChangePassword';
-
 import { UserProvider } from './UserContext';
-import CategoryPage from './Main/CategoryPage'; // 카테고리 페이지 import 추가
-import ClubIntroducePage from './clubintroduce/ClubIntroducePage'; // 동아리 소개 페이지 import 추가
-import MyClub from './Mypage/Myclub';
+import CategoryPage from './Header/CategoryPage'; // 카테고리 페이지 import 추가
+import ClubIntroducePage from './Club_Introduce/ClubIntroducePage'; // 동아리 소개 페이지 import 추가
+import Myclub from './Mypage/Myclub';
 import CreateClubPage from './CreateClub/CreateClubPage';
-import CreateEventPage from './Event/CreateEventPage';
-
+import CreateEventPage from './Event/Event_Component/CreateEventPage';
+import EventPage from './Event/Event_Component/EventPage';
+import ClubPage from './Club/ClubPage';
+import PostMain from './Club_Board/free_posts/free_posts_Component/PostMain';
+import PostView from './Club_Board/free_posts/free_posts_Component/PostView';
+import WritePost from './Club_Board/free_posts/free_posts_Component/WritePost';
 import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
 import NotFound from './TestPage/NotFound';
 
-
+// import LoginPage from './Login/LoginPage';
+// import PrivacyPolicyPage from './Signup/PrivacyPolicyPage';
+// import SignupDetailPage from './Signup/SignupDetailPage';
+// import ResetPasswordPage from './Login/ResetPasswordPage';
 function App() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
+    <div>
+    <TopScreen/>
+    <CategoryPage/>
     <UserProvider>
       <Routes>
-        {/* <Route path="/login" element={<LoginPage />} /> */}
-        {/* <Route path="/signup" element={<PrivacyPolicyPage />} /> */}
-        <Route path="/signup/details" element={<SignupDetailPage />} />
-        <Route path="/login/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/main" element={<MainPage />} />
+
         <Route path="/" element={<MainPage />} />
+        <Route path="/login" element={<LoginPage2 setIsLoggedIn={setIsLoggedIn}/>}/>  {/*백엔드 서버 사용시 로그인*/}
+        {/* <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} /> */}  {/*프론트 서버 사용시 로그인*/}
+        <Route path="/myclub" element={<Myclub />} />
         <Route path="/mypage/*" element={<MyPage />} />
-        <Route path="/main-later" element={<MainLater />} />
-        <Route path="/editif" element={<Editinformation />} />
-        <Route path="/change-password" element={<Changepassword />} />
-        <Route path="/category" element={<CategoryPage />} /> {/* 카테고리 페이지에 대한 Route 추가 */}
-        {/* <Route path="/club-introduce" element={<ClubIntroducePage />} /> 동아리 소개 페이지에 대한 Route 추가 */}
-        <Route path="/club_introduce/club_list/" element={<ClubIntroducePage />} /> {/* 동아리 소개 페이지에 대한 Route 추가 */}
+        <Route path="/eventpage/*" element={<EventPage />} />
+        <Route path="/clubpage/*" element={<ClubPage />} />
+        <Route path="/category" element={<CategoryPage />} /> 
+        <Route path="/club-introduce" element={<ClubIntroducePage />} /> 
+        <Route path="/club_introduce/club_list/" element={<ClubIntroducePage />} /> 
         <Route path="/club_introduce/club_list/category_club/:category_id" element={<ClubIntroducePage />} />
         <Route path="/club_introduce/apply_club/" element={<ClubIntroducePage />} />
         <Route path="/createclub" element={<CreateClubPage />} />
        <Route path="/createevent" element={<CreateEventPage />} />
-
-        <Route path="/login" element={<LoginPage2 />}/>
+       <Route path='/postView/:no' element={<PostView />} />
+        <Route path='/club_board' element={<PostMain/>} />
+        <Route path="/write" element={<WritePost/>} />
+        
         <Route path="signup/*" element={<SignUpPage/>}/>
         <Route path="/user" element={<UserDetail/>}/>
         <Route path='*' element={<NotFound/>}/>
 
+               {/* <Route path="/signup" element={<PrivacyPolicyPage />} /> */}
+        {/* <Route path="/signup/details" element={<SignupDetailPage />} /> */}
+        {/* <Route path="/login/reset-password" element={<ResetPasswordPage />} /> */}
       </Routes>
     </UserProvider>
+    </div>
   );
 }
 
