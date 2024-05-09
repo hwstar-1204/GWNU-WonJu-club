@@ -33,25 +33,34 @@ class CategoryClubAPIView(APIView):
         return Response(clubs_data)
 
 class ApplyClubAPIView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         club_name = request.data.get('club_name')
-        student_id = request.data.get('student_id')
+
+        user = request.user
+        student_id = user.student_id
+
+        # Club 인스턴스를 가져옵니다. 이를 위해 club_name이 실제로 Club 모델의 이름이나 ID 등을 기반으로 해야 합니다.
+        try:
+            club = Club.objects.get(name=club_name)  # 예를 들어 Club 모델에 'name' 필드가 있다고 가정
+        except Club.DoesNotExist:
+            return JsonResponse({'error': 'Club not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        # 동아리 가입 신청이 이미 되어 있는지 확인
+        if ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=True).exists():
+            return JsonResponse({'message': '가입신청이 되어 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 이미 동아리 회원인지 확인
+        elif ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=False).exists():
+            return JsonResponse({'message': '동아리 회원입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 새로운 동아리 가입신청
+        apply_user = ClubMember()
+        apply_user.club_name = club
+        apply_user.student_id = user
+        apply_user.joined_date = None  # 처음 가입 신청시 joined_date는 None
+        apply_user.save()
+
+        return Response({'message': '가입신청이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
 
-        # club = Club.objects.get(club_name=club_name)
-        # student = CustomUser.objects.get(student_id=student_id)
-        print(club_name)
-        print(student_id)
-            # apply_user = ClubMember()
-            # apply_user.club_name = club
-            # apply_user.student_id = student
-            # apply_user.save()
-        if club_name and student_id:
-            return Response({'message': '가입신청이 완료되었습니다.'}, status=status.HTTP_201_CREATED)
-        # except Club.DoesNotExist:
-        #     return Response({'error': '해당 동아리가 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
-        # except CustomUser.DoesNotExist:
-        #     return Response({'error': '해당 학생이 존재하지 않습니다.'}, status=status.HTTP_404_NOT_FOUND)
-        # except Exception as e:
-        #     return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
