@@ -1,6 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import *
 from club_introduce.serializer import *
 from club_introduce.models import *
 from django.views.generic import *
@@ -8,6 +9,7 @@ from django.views.generic import *
 
 # Create your views here.
 class ClubListAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         clubs = Club.objects.all()
         clubs_data = ClubSerializer(clubs, many=True).data
@@ -15,6 +17,7 @@ class ClubListAPIView(APIView):
 
 
 class CategoryClubAPIView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, category_id):
         # 분류할 카테고리 데이터가 없으면 오류
         if not category_id:
@@ -30,6 +33,7 @@ class CategoryClubAPIView(APIView):
         return Response(clubs_data)
 
 class ApplyClubAPIView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         club_name = request.data.get('club_name')
         student_id = request.data.get('student_id')
