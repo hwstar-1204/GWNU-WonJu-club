@@ -60,7 +60,7 @@ const SignUp = () => {
     })
     .then(res => {
       setIsLoading(false);
-      if (res.status === 201) {
+      if (res.status >= 200 && res.status < 300) {
         window.location.href = `/signup/email_confirm?email=${encodeURIComponent(email)}`;
         alert('이메일 인증을 진행해 주세요.');
       } else {

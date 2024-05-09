@@ -1,12 +1,8 @@
 import { Route,Routes, NavLink, Link } from 'react-router-dom';
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import TopScreen from '../Main/TopScreen.js';
-import CategoryPage from '../Main/CategoryPage';
-import './Mypage.css';
-
-import MypageHome from './MypageHome';
+import './Mypage_Style/Mypage.css';
+import MypageHome from './MypageHome.js';
 import Editinformation from './EditInformation.js';
 import PasswordChangeForm from './ChangePassword.js';
 import MyClubPage from './MyClubPage.js';
@@ -51,10 +47,6 @@ const MyPage = () => {
 
   return (
   <div className="my-page">
-    <TopScreen/>
-    <CategoryPage/>
-
-
     <div className="my-category-container">
       {/* 내비게이션 버튼 */}
       <div className='category_btn'>

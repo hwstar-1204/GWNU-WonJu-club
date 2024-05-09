@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import "./CompoentStyles/Editinformation.css";
+import "./Mypage_Style/Editinformation.css";
 
 const Editinformation = () => {
   const location = useLocation();

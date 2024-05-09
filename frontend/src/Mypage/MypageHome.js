@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col } from "react-bootstrap";
 
-import "./MypageHome.css";
+import "./Mypage_Style/MypageHome.css";
 import defaultImage from "./profile.jpg";
 import logo from "./logo.png";
 
