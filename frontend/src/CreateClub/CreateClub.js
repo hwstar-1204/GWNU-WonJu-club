@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
 
-const CreateClubPage = () => {
+const CreateClubPage = ({ addClub }) => {
   const [clubName, setClubName] = useState("");
   const [clubType, setClubType] = useState("");
   const [introduction, setIntroduction] = useState("");
@@ -18,8 +18,32 @@ const CreateClubPage = () => {
     setBackground(URL.createObjectURL(e.target.files[0]));
 
   const handleSubmit = () => {
-    // 로직을 추가하여 서버에 데이터를 전송합니다.
-    alert("동아리가 등록되었습니다!");
+    const newClub = {
+      name: clubName,
+      type: clubType,
+      introduction: introduction,
+      logo: logo,
+      background: background,
+    };
+
+    // API 호출 부분 추가
+    fetch('/club_introduce/apply_club/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newClub),
+    })
+    .then(response => response.json())
+    .then(data => {
+      // 서버에서 새로운 동아리를 추가한 후 클라이언트에서도 동기화해야 할 경우
+      addClub(data);
+      alert("동아리가 등록되었습니다!");
+    })
+    .catch(error => {
+      console.error('Error adding club:', error);
+      alert("동아리 등록에 실패했습니다.");
+    });
   };
 
   const handleCancel = () => {

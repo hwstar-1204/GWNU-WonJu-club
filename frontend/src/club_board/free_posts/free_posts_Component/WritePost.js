@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../free_posts_Style/WritePost.css'; // WritePost 컴포넌트에 대한 CSS 파일 import
 
-const WritePost = () => {
+const WritePost = ({ postId, onEdit, onDelete }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
@@ -32,13 +32,10 @@ const WritePost = () => {
     reader.readAsDataURL(selectedImage);
   };
 
-  const handleSubmit = () => {
-    // 이 부분에 게시글을 서버로 보내는 로직을 추가할 수 있습니다.
-    console.log("제목:", title);
-    console.log("작성자:", author);
-    console.log("내용:", content);
-    console.log("사진:", image);
-    // 작성 완료 후 추가로 필요한 작업을 여기에 추가할 수 있습니다.
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // 게시글 작성 완료 로직 추가
+    console.log("게시글 작성 완료");
   };
 
   return (
@@ -65,6 +62,13 @@ const WritePost = () => {
           {imagePreview && <img src={imagePreview} alt="이미지 프리뷰" className="image-preview" />}
         </div>
         <button type="submit">작성 완료</button>
+        {postId && (
+          <div>
+            {/* postId가 있을 경우 수정 및 삭제 버튼 표시 */}
+            <button onClick={() => onEdit(postId)}>수정</button>
+            <button onClick={() => onDelete(postId)}>삭제</button>
+          </div>
+        )}
       </form>
     </div>
   );
