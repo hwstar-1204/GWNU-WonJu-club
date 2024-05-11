@@ -1,19 +1,18 @@
 import ClubHeader from "./Club_Component/Club_head";
-// import ClubMembers from "./Club_Component/memebers";
-// import ClubBackground from "./Club_Component/Club_background";
-import ClubNotice from "../Main/Main_Component/ClubNotice";
-// import ClubPhotoalbum from "../Main/Main_Component/ClubPhotoalbum";
-import ClubIntroduce from "./Club_Component/Club_introduce";
+import ClubMembers from "./Club_Component/Club_members";
+import ClubBackground from "./Club_Component/Club_background";
+import ClubBoard from "./Club_Component/Club_board";
+import ClubGallery from "./Club_Component/Club_gallery";
+
 
 const ClubPage = () => {
   return (
     <div>
       <ClubHeader />
-      {/* <ClubBackground /> */}
-      <ClubIntroduce />
-      {/* <ClubMembers /> */}
-      <ClubNotice />
-      {/* <ClubPhotoalbum /> */}
+      <ClubBackground />
+      <ClubMembers />
+      <ClubBoard />
+      <ClubGallery />
     </div>
   );
 };

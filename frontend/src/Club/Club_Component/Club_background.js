@@ -1,9 +1,12 @@
-import logo from '.../Assets/logo.png';
+import React from "react";
+import '../Club_Style/Club_background.css';
 
-const ClubBackground = () => {
-
-    
-  return <img src={require(logo)} alt="Club Background" />;
+const ClubBackground = ({ backgroundImage, introduction }) => {
+  return (
+    <div className="club-info-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className="introduction">{introduction}</div>
+    </div>
+  );
 };
-export default ClubBackground;
 
+export default ClubBackground;

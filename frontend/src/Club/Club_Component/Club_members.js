@@ -1,24 +1,22 @@
-import React from 'react';
+import React from "react";
+import "../Club_Style/Club_members.css";
 
 
-const ClubMembers = () => {
-  // 더미 데이터
-  const members = [
-    { id: 1, name: 'John', profileImage: 'url_to_image_1', membershipLevel: 'Gold' },
-    { id: 2, name: 'Jane', profileImage: 'url_to_image_2', membershipLevel: 'Silver' },
-    // 나머지 멤버들...
-  ];
-
+const ClubMembers = ({ members }) => {
   return (
-    <div className="members">
-      <h1 style={{ fontWeight: 'bold' }}>회원 정보</h1>
-      {members.map((member) => (
-        <div key={member.id}>
-          <img src={member.profileImage} alt={member.name} />
-          <p>{member.name}</p>
-          <p>{member.membershipLevel}</p>
-        </div>
-      ))}
+    <div className="member-info-container">
+      <h2>회원정보</h2>
+      <div className="members">
+        {members.map((member, index) => (
+          <div key={index} className="member-card">
+            <img src={member.profileImage} alt="Profile" />
+            <div className="member-details">
+              <div className="member-name">{member.name}</div>
+              <div className="member-membership-level">{member.membershipLevel}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
