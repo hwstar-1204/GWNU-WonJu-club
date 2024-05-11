@@ -38,7 +38,7 @@ class HomeSerializer(serializers.Serializer):
 
     def get_members(self, obj):
         club_name = self.context.get('club_name')
-        members = ClubMember.objects.filter(club__club_name=club_name)
+        members = ClubMember.objects.filter(club_name_id=club_name)
 
         leaders = members.filter(job__in=['회장', '부회장'])
 

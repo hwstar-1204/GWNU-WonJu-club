@@ -38,7 +38,7 @@
 
     "test": "react-app-rewired test",
 
-    "start": "react-app-rewired start",
+    "start": "react-scripts start",
 
     "build": "react-app-rewired build",
 
@@ -107,4 +107,3 @@
   }
 
 }
-
