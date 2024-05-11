@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('joined_date', models.DateTimeField(null=True)),
                 ('job', models.CharField(default='일반회원', max_length=5)),
-                ('club', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='club_introduce.club')),
+                ('club_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='club_introduce.club')),
                 ('student_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, to_field='student_id')),
             ],
             options={
