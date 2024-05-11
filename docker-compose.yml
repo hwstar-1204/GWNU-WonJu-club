@@ -1,0 +1,35 @@
+# version: "3.0"
+# 버전 정의, 서비스 정의, 볼륨 정의, 네트워크 정의
+
+services:
+  frontend:
+    # image: ./frontend
+    build: ./frontend/
+    container_name: gwnu-club-frontend
+    ports:
+          - "3000:3000"
+    command: ["npm", "start"]
+    volumes:
+      - ./frontend:/App/frontend
+
+
+
+  backend:
+    # image: ./backend
+    build: ./backend/
+    container_name: gwnu-club-backend
+    ports:
+      - "8000:8000"
+    # 컨테이너가 시작될 때 실행할 명령
+    command: ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+    # command: 
+    #   - bash
+    #   - -c
+    #   - |
+    #     python manage.py migrate
+    #     python manage.py runserver localhost:8000
+
+    # 실시간 업데이트 호스트, 컨테이너 사이 앱을 연결한다.
+    volumes:
+      - ./backend:/App/backend
+    # restart: always
