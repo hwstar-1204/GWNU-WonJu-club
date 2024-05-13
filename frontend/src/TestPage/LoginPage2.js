@@ -38,7 +38,7 @@ const LoginPage2 = () => {
             // localStorage.clear();
             localStorage.setItem('token', data.key);
             window.location.replace('http://localhost:3000');
-            setLoggedIn(true);
+            setIsLoggedIn(true);
           } else {
             setemail('');
             setPassword('');

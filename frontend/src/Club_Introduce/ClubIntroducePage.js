@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './ClubIntroducePage.css';
 import Kakao from '../Club_Introduce/Assets/kakao.png';
 import InstagramIcon from '../Club_Introduce/Assets/instagram.jpg';
+import axios from 'axios';
 
 
 const ClubIntroducePage = () => {
@@ -21,17 +22,23 @@ const ClubIntroducePage = () => {
     }
   };
 
-  // 동아리 목록 데이터
-  const clubs = [
-    { name: "댄스 동아리", category: "운동/스포츠", type: "정규동아리" },
-    { name: "게임 동아리", category: "자기계발/학습/독서", type: "가등록동아리" },
-    { name: "축구 동아리", category: "운동/스포츠", type: "학습동아리" },
-    { name: "요리 동아리", category: "기타", type: "소모임" },
-    { name: "영화 동아리", category: "기타", type: "소모임" } ,
-    { name: "독서 동아리", category: "자기계발/학습/독서", type: "학습동아리" }, 
-    { name: "미술 동아리", category: "미술/음악", type: "소모임" }
-    // 나머지 동아리 데이터도 추가
-  ];
+  //아직 모름
+  useEffect(() => {
+    async function fetchClubs() {
+      try {
+        const response = await axios.get("/club_introduce/club_list/"); // 서버의 동아리 목록 엔드포인트
+        setClubs(response.data); // 서버로부터 받은 동아리 목록 설정
+      } catch (error) {
+        console.error('Error fetching clubs:', error);
+      }
+    }
+
+    fetchClubs();
+  }, []);
+// CreateClub에서 추가한 동아리 목록을 가져옴
+//"/club_introduce/club_list/" 이게맞는지??
+
+ 
 
   return (
     <div className="ClubintroducePage">

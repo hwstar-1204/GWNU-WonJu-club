@@ -1,0 +1,29 @@
+.gallery-container {
+    margin-top: 20px;
+}
+
+.images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.image {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.image img {
+    width: 100%;
+    height: auto;
+}
+
+.image-title {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.image-date {
+    margin-top: 5px;
+    color: #666;
+}
