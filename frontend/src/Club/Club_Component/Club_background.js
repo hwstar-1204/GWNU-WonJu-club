@@ -1,9 +1,9 @@
 import React from "react";
 import '../Club_Style/Club_background.css';
 
-const ClubBackground = ({ backgroundImage, introduction }) => {
+const ClubBackground = ({ background, introduction }) => {
   return (
-    <div className="club-info-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div className="club-info-container" style={{ background: `url(${background})` }}>
       <div className="introduction">{introduction}</div>
     </div>
   );

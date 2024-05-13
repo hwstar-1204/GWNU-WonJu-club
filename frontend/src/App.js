@@ -11,9 +11,9 @@ import CreateClubPage from './CreateClub/CreateClubPage';
 import CreateEventPage from './Event/Event_Component/CreateEventPage';
 import EventPage from './Event/Event_Component/EventPage';
 import ClubPage from './Club/ClubPage';
-import PostMain from './club_board/free_posts/free_posts_Component/PostMain';
-import PostView from './club_board/free_posts/free_posts_Component/PostView';
-import WritePost from './club_board/free_posts/free_posts_Component/WritePost';
+import PostMain from './Board/free_posts/free_posts_Component/PostMain';
+import PostView from './Board/free_posts/free_posts_Component/PostView';
+import WritePost from './Board/free_posts/free_posts_Component/WritePost';
 import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
@@ -49,7 +49,7 @@ function App() {
         <Route path="/createclub" element={<CreateClubPage />} />
        <Route path="/createevent" element={<CreateEventPage />} />
        <Route path='/postView/:no' element={<PostView />} />
-        <Route path='/club_board' element={<PostMain/>} />
+        <Route path='/Board' element={<PostMain/>} />
         <Route path="/write" element={<WritePost/>} />
         
         <Route path="signup/*" element={<SignUpPage/>}/>

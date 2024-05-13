@@ -2,12 +2,12 @@ import React from "react";
 import "../Club_Style/Club_members.css";
 
 
-const ClubMembers = ({ members }) => {
+const ClubMembers = ({ member }) => {
   return (
     <div className="member-info-container">
       <h2>회원정보</h2>
       <div className="members">
-        {members.map((member, index) => (
+        {member.map((member, index) => (
           <div key={index} className="member-card">
             <img src={member.profileImage} alt="Profile" />
             <div className="member-details">
