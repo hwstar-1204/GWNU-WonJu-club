@@ -40,7 +40,6 @@ const WritePost = ({ postId, onEdit, onDelete }) => {
 
   return (
     <div className="write-post-container">
-      <h2>게시물 작성</h2>
       <form className="write-post-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">제목:</label>

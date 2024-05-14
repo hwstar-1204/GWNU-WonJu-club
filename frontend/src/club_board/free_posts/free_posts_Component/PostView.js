@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPostByNo, increaseRecommendCount, postList } from './Data'; // postList 추가
+import { getPostByNo, increaseRecommendCount, deletePost } from './Data';
 import '../free_posts_Style/PostView.css';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
 const PostView = () => {
   const [data, setData] = useState(null);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const { no } = useParams();
   const navigate = useNavigate();
@@ -15,132 +14,117 @@ const PostView = () => {
     const fetchData = async () => {
       const postData = await getPostByNo(no);
       setData(postData);
-      // 댓글 데이터를 가져오는 API 호출
-      // 댓글 데이터를 서버로부터 가져와야 합니다.
-      const commentData = await fetchComments(no);
-      setComments(commentData);
     };
     fetchData();
-  }, [no]);
-
-  const fetchComments = async (postId) => {
-    // 댓글 데이터를 서버로부터 가져오는 API 호출
-    // 여기서는 가상의 댓글 데이터를 반환합니다.
-    return [
-      { id: 1, content: "첫 번째 댓글" },
-      { id: 2, content: "두 번째 댓글" },
-      { id: 3, content: "세 번째 댓글" },
-    ];
-  };
+  }, [no]); 
 
   const goBack = () => {
     navigate(-1);
   };
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
   };
 
   const addComment = () => {
-    // 댓글을 추가하는 로직
-    // 실제로는 서버로 댓글을 추가하는 API를 호출해야 합니다.
     const newComment = { id: comments.length + 1, content: comment };
     setComments([...comments, newComment]);
-    setComment(""); // 댓글 입력란 비우기
+    setComment('');
   };
 
   const handleRecommend = () => {
-    // 추천하기 기능을 수행하는 함수
-    // 실제로는 서버로 추천 데이터를 전송해야 합니다.
     increaseRecommendCount(no);
-    // 추천 수를 증가하고 다시 데이터를 가져오도록 설정
     const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
     setData(updatedData);
   };
 
+  const deleteComment = (id) => {
+    const updatedComments = comments.filter(comment => comment.id !== id);
+    setComments(updatedComments);
+  };
+
+  const editComment = (id, newContent) => {
+    const updatedComments = comments.map(comment => {
+      if (comment.id === id) {
+        return { ...comment, content: newContent };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+  };
+
+  const handleDeletePost = () => {
+    deletePost(no);
+    navigate(-1);
+  };
+
   return (
-    <Container className="py-4">
-      <h2 className="text-center mb-4">게시글 상세정보</h2>
-      <div className="post-view-wrapper">
-        {data ? (
-          <div className="post-view-content">
-            {/* 게시글 정보 표시 */}
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">게시글 번호:</Col>
-              <Col md={10}>{data.no}</Col>
-            </Row>
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">제목:</Col>
-              <Col md={10}>{data.title}</Col>
-            </Row>
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">작성자:</Col>
-              <Col md={10}>{data.author}</Col>
-            </Row>
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">작성일:</Col>
-              <Col md={10}>{data.createDate}</Col>
-            </Row>
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">조회수:</Col>
-              <Col md={10}>{data.readCount}</Col>
-            </Row>
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">내용:</Col>
-              <Col md={10}>
-                {data.content}
-                {data.imageUrl && (
-                  <img src={data.imageUrl} alt="게시글 이미지" className="post-image mt-3" />
-                )}
-              </Col>
-            </Row>
-            {/* 추천하기 버튼 */}
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">추천하기:</Col>
-              <Col md={10}>
-                <Button variant="primary" onClick={handleRecommend}>추천</Button>
-              </Col>
-            </Row>
-            {/* 댓글 입력란 */}
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">댓글:</Col>
-              <Col md={7}>
-                <Form.Control
-                  type="text"
-                  value={comment}
-                  onChange={handleCommentChange}
-                  placeholder="댓글을 입력하세요"
-                />
-              </Col>
-              <Col md={3}>
-                <Button variant="primary" onClick={addComment}>댓글 추가</Button>
-              </Col>
-            </Row>
-            {/* 댓글 목록 */}
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">댓글 목록:</Col>
-              <Col md={10}>
-                <ul>
-                  {comments.map((comment) => (
-                    <li key={comment.id}>{comment.content}</li>
-                  ))}
-                </ul>
-              </Col>
-            </Row>
-            {/* 추천 수 */}
-            <Row className="post-view-row mb-3">
-              <Col md={2} className="fw-bold">추천수:</Col>
-              <Col md={10}>{data.recommendCount}</Col> {/* 추천 수 표시 */}
-            </Row>
+    <div className="post-view-container">
+      {data ? (
+        <>
+          <div className="post-view-header">
+            <h2 className="post-view-title">{data.title}</h2>
+            <div className="post-view-info">
+              <span className="post-view-author">작성자: {data.author}</span>
+              <span className="post-view-date">작성일: {data.createDate}</span>
+            </div>
           </div>
-        ) : (
-          <div className="text-center">해당 게시글을 찾을 수 없습니다.</div>
-        )}
-        <div className="text-center mt-4">
-          <Button variant="primary" onClick={goBack}>목록으로 돌아가기</Button>
-        </div>
-      </div>
-    </Container>
+
+          <div className="post-view-content">
+            {data.content}
+            {data.imageUrl && (
+              <img src={data.imageUrl} alt="게시물 이미지" className="post-view-image" />
+            )}
+          </div>
+
+          <div className="post-view-actions">
+            <button className="post-view-recommend-button" onClick={handleRecommend}>
+              추천하기 ({data.recommendCount})
+            </button>
+            <div className="post-view-buttons">
+              <button className="post-view-edit-button" onClick={() => navigate(`/edit/${no}`)}>
+                수정
+              </button>
+              <button className="post-view-delete-button" onClick={handleDeletePost}>
+                삭제
+              </button>
+            </div>
+          </div>
+
+          <div className="post-view-comments">
+            <h3>댓글 ({comments.length})</h3>
+            <ul className="post-view-comments-list">
+              {comments.map((comment) => (
+                <li key={comment.id} className="post-view-comment">
+                  {comment.content}
+                  <button onClick={() => deleteComment(comment.id)}>삭제</button>
+                  <button onClick={() => editComment(comment.id, prompt("댓글 수정", comment.content))}>편집</button>
+                </li>
+              ))}
+            </ul>
+
+            <div className="post-view-add-comment">
+              <input
+                type="text"
+                placeholder="댓글을 입력하세요"
+                value={comment}
+                onChange={handleCommentChange}
+                className="post-view-comment-input"
+              />
+              <button className="post-view-add-comment-button" onClick={addComment}>
+                댓글 추가
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <p>게시물을 불러오는 중입니다.</p>
+      )}
+
+      <button className="post-view-back-button" onClick={goBack}>
+        목록으로 돌아가기
+      </button>
+    </div>
   );
 };
 

@@ -1,5 +1,6 @@
 // Data.js
 
+
 const postList = [
   {
     "no": 1,
@@ -8,7 +9,7 @@ const postList = [
     "createDate": "2020-10-25",
     "readCount": 6,
     "author": "작성자1",
-    "recommendCount": 33 // 추가: 추천 수
+    "recommendCount": 0 // 추가: 추천 수
   },
   {
     "no": 2,
@@ -17,7 +18,7 @@ const postList = [
     "createDate": "2020-10-25",
     "readCount": 2,
     "author": "작성자2",
-    "recommendCount": 22 // 추가: 추천 수
+    "recommendCount": 0 // 추가: 추천 수
   },
   {
     "no": 3,
@@ -26,7 +27,7 @@ const postList = [
     "createDate": "2020-10-25",
     "readCount": 1,
     "author": "작성자2",
-    "recommendCount": 11 // 추가: 추천 수
+    "recommendCount": 0 // 추가: 추천 수
   },
   {
     "no": 4,
@@ -35,7 +36,7 @@ const postList = [
     "createDate": "2020-10-25",
     "readCount": 3,
     "author": "작성자2",
-    "recommendCount": 55 // 추가: 추천 수
+    "recommendCount": 0 // 추가: 추천 수
   },
   {
     "no": 5,
@@ -44,7 +45,7 @@ const postList = [
     "createDate": "2020-10-25",
     "readCount": 8,
     "author": "작성자2",
-    "recommendCount": 66 // 추가: 추천 수
+    "recommendCount": 0 // 추가: 추천 수
   }
 ];
 
@@ -68,3 +69,21 @@ export {
   getPostByNo,
   increaseRecommendCount
 };
+
+
+export async function deletePost(postId) {
+  // postId를 사용하여 게시물을 삭제하는 로직을 구현합니다.
+  // 예를 들어:
+  // 서버 API를 호출하여 해당 postId를 가진 게시물을 삭제합니다.
+  try {
+    const response = await fetch(`/api/posts/${postId}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete post');
+    }
+    console.log(`Post with ID ${postId} deleted successfully.`);
+  } catch (error) {
+    console.error('Error deleting post:', error.message);
+  }
+}
