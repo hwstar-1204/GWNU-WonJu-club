@@ -10,7 +10,7 @@ venv/
 *.njsproj
 *.sln
 *.swp
-
+.env
 # Django
 *.log
 *.pot
