@@ -1,6 +1,21 @@
 // Data.js
 
+// 공지사항 목록
+const noticeList = [
+  {
+    "no": 6,
+    "title": "공지사항 첫번째 게시글입니다.",
+    "content": "공지사항 첫번째 게시글 내용입니다.",
+    "createDate": "2020-10-26",
+    "readCount": 10,
+    "author": "관리자",
+    "recommendCount": 0 // 추가: 추천 수
+  },
 
+];
+
+
+// 일반 게시글 목록
 const postList = [
   {
     "no": 1,
@@ -46,17 +61,25 @@ const postList = [
     "readCount": 8,
     "author": "작성자2",
     "recommendCount": 0 // 추가: 추천 수
-  }
+  },
 ];
 
-const getPostByNo = no => {
-  const array = postList.filter(x => x.no == no);
-  if (array.length == 1) {
-    return array[0];
+// 게시글 번호에 해당하는 게시글 또는 공지사항 가져오기
+const getPostByNo = (no) => {
+  const post = postList.find((item) => item.no === parseInt(no));
+  if (post) {
+    return post;
   }
-  return null;
-}
 
+  const notice = noticeList.find((item) => item.no === parseInt(no));
+  if (notice) {
+    return notice;
+  }
+// 게시글이나 공지사항이 없는 경우
+  return null;
+};
+
+// 추천 수 증가 함수
 const increaseRecommendCount = (no) => {
   const post = postList.find(item => item.no === no);
   if (post) {
@@ -64,13 +87,7 @@ const increaseRecommendCount = (no) => {
   }
 }
 
-export {
-  postList,
-  getPostByNo,
-  increaseRecommendCount
-};
-
-
+// 게시글 삭제 함수
 export async function deletePost(postId) {
   // postId를 사용하여 게시물을 삭제하는 로직을 구현합니다.
   // 예를 들어:
@@ -87,3 +104,11 @@ export async function deletePost(postId) {
     console.error('Error deleting post:', error.message);
   }
 }
+
+
+export {
+  postList,
+  noticeList,
+  getPostByNo,
+  increaseRecommendCount
+};

@@ -4,12 +4,18 @@ import { getPostByNo, increaseRecommendCount, deletePost } from './Data';
 import '../free_posts_Style/PostView.css';
 
 const PostView = () => {
+  // 게시글 데이터 상태
   const [data, setData] = useState(null);
+  // 댓글 입력 상태
   const [comment, setComment] = useState('');
+  // 댓글 목록 상태
   const [comments, setComments] = useState([]);
+  // URL 파라미터 가져오기
   const { no } = useParams();
+  // 페이지 이동 함수
   const navigate = useNavigate();
 
+  // 게시글 데이터 불러오기
   useEffect(() => {
     const fetchData = async () => {
       const postData = await getPostByNo(no);
@@ -18,31 +24,37 @@ const PostView = () => {
     fetchData();
   }, [no]); 
 
+  // 뒤로 가기 함수
   const goBack = () => {
     navigate(-1);
   };
 
+  // 댓글 입력 값 변경 이벤트 핸들러
   const handleCommentChange = (event) => {
     setComment(event.target.value);
   };
 
+  // 댓글 추가 함수
   const addComment = () => {
     const newComment = { id: comments.length + 1, content: comment };
     setComments([...comments, newComment]);
     setComment('');
   };
 
+  // 추천하기 함수
   const handleRecommend = () => {
     increaseRecommendCount(no);
     const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
     setData(updatedData);
   };
 
+  // 댓글 삭제 함수
   const deleteComment = (id) => {
     const updatedComments = comments.filter(comment => comment.id !== id);
     setComments(updatedComments);
   };
 
+  // 댓글 수정 함수
   const editComment = (id, newContent) => {
     const updatedComments = comments.map(comment => {
       if (comment.id === id) {
@@ -53,6 +65,7 @@ const PostView = () => {
     setComments(updatedComments);
   };
 
+  // 게시글 삭제 함수
   const handleDeletePost = () => {
     deletePost(no);
     navigate(-1);
@@ -60,8 +73,10 @@ const PostView = () => {
 
   return (
     <div className="post-view-container">
+      {/* 게시글 데이터가 있을 때 */}
       {data ? (
         <>
+          {/* 게시글 헤더 */}
           <div className="post-view-header">
             <h2 className="post-view-title">{data.title}</h2>
             <div className="post-view-info">
@@ -70,6 +85,7 @@ const PostView = () => {
             </div>
           </div>
 
+          {/* 게시글 내용 및 이미지 */}
           <div className="post-view-content">
             {data.content}
             {data.imageUrl && (
@@ -77,6 +93,7 @@ const PostView = () => {
             )}
           </div>
 
+          {/* 게시글 액션 버튼 */}
           <div className="post-view-actions">
             <button className="post-view-recommend-button" onClick={handleRecommend}>
               추천하기 ({data.recommendCount})
@@ -91,6 +108,7 @@ const PostView = () => {
             </div>
           </div>
 
+          {/* 댓글 섹션 */}
           <div className="post-view-comments">
             <h3>댓글 ({comments.length})</h3>
             <ul className="post-view-comments-list">
@@ -103,6 +121,7 @@ const PostView = () => {
               ))}
             </ul>
 
+            {/* 댓글 추가 입력창 */}
             <div className="post-view-add-comment">
               <input
                 type="text"
@@ -118,9 +137,11 @@ const PostView = () => {
           </div>
         </>
       ) : (
+        // 게시글 데이터가 없을 때
         <p>게시물을 불러오는 중입니다.</p>
       )}
 
+      {/* 뒤로 가기 버튼 */}
       <button className="post-view-back-button" onClick={goBack}>
         목록으로 돌아가기
       </button>
