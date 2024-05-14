@@ -1,0 +1,25 @@
+# git
+.gitignore
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+.idea
+node_modules
+package-lock.json
+*.log
+*.tmp
+*.cache
+
+__tests__
+*.spec.js
+*.test.js
+
+Dockerfile.dev
+docker-compose.dev.yml
+
+webpack.config.js
+babel.config.js
+tsconfig.json
