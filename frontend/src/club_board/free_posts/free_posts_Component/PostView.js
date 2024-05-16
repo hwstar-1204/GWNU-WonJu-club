@@ -1,33 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getPostByNo, increaseRecommendCount, deletePost } from './Data';
 import '../free_posts_Style/PostView.css';
 
 const PostView = () => {
   // 게시글 데이터 상태
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   // 댓글 입력 상태
   const [comment, setComment] = useState('');
   // 댓글 목록 상태
   const [comments, setComments] = useState([]);
   // URL 파라미터 가져오기
-  const { no } = useParams();
+  const params = useParams();
   // 페이지 이동 함수
   const navigate = useNavigate();
+  const postId = params.postId;
+  const token = localStorage.getItem('token');
 
   // 게시글 데이터 불러오기
   useEffect(() => {
-    const fetchData = async () => {
-      const postData = await getPostByNo(no);
-      setData(postData);
-    };
-    fetchData();
-  }, [no]); 
+    if (postId) { // postId 값이 존재하는 경우에만 데이터를 불러옴
+      const fetchData = async () => {
+        const postData = await getPostByNo(params.postId, token);
+        setData(postData);
+      };
+      fetchData();
+    }
+  }, [postId]);
 
   // 뒤로 가기 함수
   const goBack = () => {
     navigate(-1);
   };
+
+  // 게시글 수정하기
+  const handlePostChange = () => {
+    const mode = 'edit';
+    const existingPost = data;
+    navigate('edit', { state: { mode, existingPost } });
+  }
 
   // 댓글 입력 값 변경 이벤트 핸들러
   const handleCommentChange = (event) => {
@@ -43,7 +54,7 @@ const PostView = () => {
 
   // 추천하기 함수
   const handleRecommend = () => {
-    increaseRecommendCount(no);
+    increaseRecommendCount(postId);
     const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
     setData(updatedData);
   };
@@ -67,8 +78,12 @@ const PostView = () => {
 
   // 게시글 삭제 함수
   const handleDeletePost = () => {
-    deletePost(no);
-    navigate(-1);
+    const isConfirmed = window.confirm("정말로 이 게시글을 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      deletePost(postId, token);
+      navigate(-1);
+    }
   };
 
   return (
@@ -80,8 +95,8 @@ const PostView = () => {
           <div className="post-view-header">
             <h2 className="post-view-title">{data.title}</h2>
             <div className="post-view-info">
-              <span className="post-view-author">작성자: {data.author}</span>
-              <span className="post-view-date">작성일: {data.createDate}</span>
+              <span className="post-view-author">작성자: {data.author_name}</span>
+              <span className="post-view-date">작성일: {new Date(data.created_date).toLocaleDateString('ko-KR') }</span>
             </div>
           </div>
 
@@ -99,7 +114,8 @@ const PostView = () => {
               추천하기 ({data.recommendCount})
             </button>
             <div className="post-view-buttons">
-              <button className="post-view-edit-button" onClick={() => navigate(`/edit/${no}`)}>
+              {/* <button className="post-view-edit-button" onClick={() => navigate(`/edit/${postId}`)}> */}
+              <button className="post-view-edit-button" onClick={handlePostChange}>
                 수정
               </button>
               <button className="post-view-delete-button" onClick={handleDeletePost}>

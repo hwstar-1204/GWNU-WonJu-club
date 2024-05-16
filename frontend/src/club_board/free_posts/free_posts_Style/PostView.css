@@ -4,13 +4,14 @@ body {
 }
 
 .post-view-container {
-  width: 90%; /* 조금 더 좁게 설정 */
-  margin: 0 auto;
-  padding: 20px;
+  width: 90%; 
+  margin: 20px auto;
+  align-self: center;
+  padding: 30px;
   border: 1px solid #ccc;
-  border-radius: 10px; /* 조금 더 둥글게 설정 */
+  border-radius: 10px; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top : 150px
+  margin-top : 70px
 }
 
 /* Header Container */
@@ -40,15 +41,27 @@ body {
 /* Header Styles */
 .post-view-header {
   display: flex;
+  font-size: large;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+
+.post-view-content {
+  text-align: left;
+  font-size: large;
 }
 
 .post-view-info {
   font-size: 16px;
   color: #999;
   margin-left: 20px;
+}
+.post-view-info
+.post-view-author {
+  margin-right: 12px;
+
 }
 
 /* Content Styles */

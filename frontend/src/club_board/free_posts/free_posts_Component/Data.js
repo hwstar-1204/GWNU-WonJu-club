@@ -65,18 +65,24 @@ const postList = [
 ];
 
 // 게시글 번호에 해당하는 게시글 또는 공지사항 가져오기
-const getPostByNo = (no) => {
-  const post = postList.find((item) => item.no === parseInt(no));
-  if (post) {
-    return post;
-  }
+const getPostByNo = async (postId,token) => {
+  let url = 'http://127.0.0.1:8000/club_board/post_detail/'+postId;
+  let options = {
+    method: 'GET',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Token ${token}`
+    },
+  };
 
-  const notice = noticeList.find((item) => item.no === parseInt(no));
-  if (notice) {
-    return notice;
+  try {
+    const res = await fetch(url, options);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
   }
-// 게시글이나 공지사항이 없는 경우
-  return null;
 };
 
 // 추천 수 증가 함수
@@ -88,13 +94,14 @@ const increaseRecommendCount = (no) => {
 }
 
 // 게시글 삭제 함수
-export async function deletePost(postId) {
-  // postId를 사용하여 게시물을 삭제하는 로직을 구현합니다.
-  // 예를 들어:
-  // 서버 API를 호출하여 해당 postId를 가진 게시물을 삭제합니다.
+export async function deletePost(postId,token) {
   try {
-    const response = await fetch(`/api/posts/${postId}`, {
+    const response = await fetch(`http://127.0.0.1:8000/club_board/post_detail/${postId}/`, {
       method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        Authorization: `Token ${token}`
+      },
     });
     if (!response.ok) {
       throw new Error('Failed to delete post');

@@ -12,13 +12,11 @@ import CreateEventPage from './Event/Event_Component/CreateEventPage';
 import EventPage from './Event/Event_Component/EventPage';
 import ClubPage from './Club/ClubPage';
 import PostMain from './club_board/free_posts/free_posts_Component/PostMain';
-import PostView from './club_board/free_posts/free_posts_Component/PostView';
-import WritePost from './club_board/free_posts/free_posts_Component/WritePost';
 import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
 import NotFound from './TestPage/NotFound';
-
+import './App.css';
 // import LoginPage from './Login/LoginPage';
 // import PrivacyPolicyPage from './Signup/PrivacyPolicyPage';
 // import SignupDetailPage from './Signup/SignupDetailPage';
@@ -28,9 +26,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div>
+    <div className='content'>
     <TopScreen/>
     <CategoryPage/>
+    <div className='content-main'>
     <UserProvider>
       <Routes>
 
@@ -48,10 +47,7 @@ function App() {
         <Route path="/club_introduce/apply_club/" element={<ClubIntroducePage />} />
         <Route path="/createclub" element={<CreateClubPage />} />
        <Route path="/createevent" element={<CreateEventPage />} />
-       <Route path='/postView/:no' element={<PostView />} />
-        <Route path='/club_board' element={<PostMain/>} />
-        <Route path="/write" element={<WritePost/>} />
-        
+        <Route path='/club_board/*' element={<PostMain/>} />
         <Route path="signup/*" element={<SignUpPage/>}/>
         <Route path="/user" element={<UserDetail/>}/>
         <Route path='*' element={<NotFound/>}/>
@@ -61,6 +57,7 @@ function App() {
         {/* <Route path="/login/reset-password" element={<ResetPasswordPage />} /> */}
       </Routes>
     </UserProvider>
+    </div>
     </div>
   );
 }
