@@ -112,6 +112,57 @@ export async function deletePost(postId,token) {
   }
 }
 
+// 댓글 수정 삭제 함수
+export const handleComment = async(method, comment_id, token, data='') => {
+  const url = `http://127.0.0.1:8000/club_board/comment_detail/${comment_id}/`
+  const options = {
+    method: method,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Token ${token}`
+    }
+  };
+  if (method != 'DELETE') {
+
+    options.body = JSON.stringify({content: data});
+  }
+
+  try {
+    const res = await fetch(url, options);
+    console.log(res.ok);
+    // const data = await res.json();
+    // return res.status;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const createComment = async(post_id, content,token) => { // TODO post_id back front 수정
+  const url = `http://127.0.0.1:8000/club_board/comment_create/`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Token ${token}`
+    },
+    body: JSON.stringify({
+      content: content,
+      post_id: post_id
+    })
+  };
+
+  try {
+    const res = await fetch(url, options);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 
 export {
   postList,

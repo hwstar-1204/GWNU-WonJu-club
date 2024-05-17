@@ -17,6 +17,9 @@ from rest_framework import serializers
 #         fields = '__all__'
 
 
+class AuthorNameMixin:
+    def get_author_name(self, obj):
+        return obj.author.name
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -61,20 +64,31 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
         return Post.objects.create(**validated_data)
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentSerializer(AuthorNameMixin, serializers.ModelSerializer):
     """
     게시글 댓글
     """
+    author_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ['id', 'content', 'author_name', 'created_date']
 
-# class PostCommentSerializer(serializers.ModelSerializer):
-#     """
-#     댓글 리스트
-#     """
-#     # comments = CommentSerializer(many=True, read_only=True)
-#
-#     class Meta:
-#         model = Post
-#         fields = '__all__'
+class CommentCreateSerializer(AuthorNameMixin,serializers.ModelSerializer):
+    """
+    댓글 생성
+    """
+    author_name = serializers.SerializerMethodField()
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'author_name', 'created_date']
+
+    def create(self, validated_data):
+        post_id = self.context['request'].data.get('post_id')
+        post = Post.objects.get(id=post_id)
+        validated_data['post'] = post
+
+        author = self.context['request'].user
+        validated_data['author'] = author
+
+        return Comment.objects.create(**validated_data)
