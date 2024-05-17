@@ -1,26 +1,80 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Table, TableBody, TableCell, TableHead, TableRow, Button, Typography } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-//게시글 클릭시 게시글로 이동
+const ClubPosts = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [category, setCategory] = useState('all');
+  const [order, setOrder] = useState('latest');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const clubName = queryParams.get('clubName');
 
-const BulletinBoard = ({ posts }) => {
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/club_board/club_posts/`, {
+          params: {
+            club_name: clubName,
+            category: category === 'all' ? 'all' : category,
+            order: order === 'created_data' ? 'created_data' : order
+          }
+        });
+        setPosts(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [category, order]);
+
+  if (loading) return <Typography>로딩 중...</Typography>;
+  if (error) return <Typography>오류 발생: {error.message}</Typography>;
+
   return (
-    <div className="bulletin-board-container">
-      <h2>게시판</h2>
-      <div className="posts">
-        {posts.map((post, index) => (
-          <div key={index} className="post">
-            <div className="post-title">{post.title}</div>
-            <div className="post-content">{post.content}</div>
-            <div className="post-meta">
-              <span className="post-author">작성자: {post.author}</span>
-              <span className="post-date">작성일: {post.date}</span>
-              <span className="post-views">조회수: {post.views}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div>
+      <Typography variant="h4">동아리 게시물</Typography>
+      {/* 카테고리 선택 */}
+      <Button onClick={() => setCategory('all')} variant={category === 'all' ? 'contained' : 'outlined'}>전체</Button>
+      <Button onClick={() => setCategory('notice')} variant={category === 'notice' ? 'contained' : 'outlined'}>공지</Button>
+      <Button onClick={() => setCategory('board')} variant={category === 'board' ? 'contained' : 'outlined'}>게시판</Button>
+      {/* 정렬 선택 */}
+      <Button onClick={() => setOrder('latest')} variant={order === 'latest' ? 'contained' : 'outlined'}>작성순</Button>
+      <Button onClick={() => setOrder('views')} variant={order === 'views' ? 'contained' : 'outlined'}>조회순</Button>
+      <Button onClick={() => setOrder('comments')} variant={order === 'comments' ? 'contained' : 'outlined'}>댓글순</Button>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>번호</TableCell>
+            <TableCell>작성일</TableCell>
+            <TableCell>제목</TableCell>
+            <TableCell>작성자</TableCell>
+            <TableCell>조회수</TableCell>
+            <TableCell>추천수</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {posts.map(post => (
+            <TableRow key={post.id} onClick={() => navigate(`/club_board/post_detail/${post.id}/`)} style={{ cursor: 'pointer' }}>
+              <TableCell>{post.id}</TableCell>
+              <TableCell>{new Date(post.created_date).toLocaleDateString()}</TableCell>
+              <TableCell>{post.title}</TableCell>
+              <TableCell>{post.author}</TableCell>
+              <TableCell>{post.view_cnt}</TableCell>
+              <TableCell>{post.recommended_cnt}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
 
-export default BulletinBoard;
+export default ClubPosts;

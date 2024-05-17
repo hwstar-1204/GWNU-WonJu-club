@@ -11,6 +11,10 @@ import CreateClubPage from './CreateClub/CreateClubPage';
 import CreateEventPage from './Event/Event_Component/CreateEventPage';
 import EventPage from './Event/Event_Component/EventPage';
 import ClubPage from './Club/ClubPage';
+import ClubMember from './Club/Club_Component/Club_members';
+import ClubAlbum from './Club/Club_Component/Club_gallery';
+import ClubEvent from './Club/Club_Component/Club_event';
+import ClubPosts from './Club/Club_Component/Club_board';
 import PostMain from './Board/free_posts/free_posts_Component/PostMain';
 import PostView from './Board/free_posts/free_posts_Component/PostView';
 import WritePost from './Board/free_posts/free_posts_Component/WritePost';
@@ -41,6 +45,11 @@ function App() {
         <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/eventpage/*" element={<EventPage />} />
         <Route path="/clubpage/*" element={<ClubPage />} />
+        <Route path="/club_information/club/:club_name/home/" element={<ClubPage />} />
+        <Route path="/club_information/club/:club_name/members/" element={<ClubMember />} />
+        <Route path="/club_information/club/:club_name/albums/" element={<ClubAlbum />} />
+        <Route path="/club_information/club/:club_name/events/" element={<ClubEvent />} />
+        <Route path="/club_board/club_posts/" element={<ClubPosts location={location} />} />
         <Route path="/category" element={<CategoryPage />} /> 
         <Route path="/club-introduce" element={<ClubIntroducePage />} /> 
         <Route path="/club_introduce/club_list/" element={<ClubIntroducePage />} /> 
