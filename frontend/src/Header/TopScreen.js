@@ -1,36 +1,32 @@
 // TopScreen.js
-import React ,{useState,useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link,useNavigate } from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../redux/actions/authActions'; // 경로는 실제 구조에 맞게 조정 필요
 
 import logo2 from '../Main/Main_assets/logo2.PNG';
 import './TopScreen.css';
 
 const TopScreen = () => { 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   let navigate = useNavigate();
 
-  const handleLogout = () => {
-      localStorage.removeItem('token');
-      setIsLoggedIn(false)
-      navigate("/");
-  };
-
   useEffect(() => {
-    if (localStorage.getItem('token') !== null) { 
-      setIsLoggedIn(true)  // 토큰값이 로컬스토리지에 존재 하면 로그인한 상태
-    }
-  }, []);
+    console.log('로그인 상태:', isLoggedIn);
+  }, [isLoggedIn]);
 
-
-  
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(logout());
+    navigate("/");
+    console.log('로그아웃 되었습니다.');
+  };
 
   return (
     <Navbar bg="white" expand="lg" className="mb-3">
       <Container>
-      
         <Navbar.Brand as={Link} to="/">
           <img
             src={logo2}
@@ -51,17 +47,13 @@ const TopScreen = () => {
             ) : (
               <>
                 <Nav.Link as={Link} to="mypage">마이페이지</Nav.Link>
-                {/* 로그아웃 버튼 추가 */}
                 <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
               </>
             )}
           </Nav>
         </Navbar.Collapse>
       </Container>
-      
-       
     </Navbar>
-    
   );
 };
 

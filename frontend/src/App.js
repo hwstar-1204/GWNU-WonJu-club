@@ -33,6 +33,7 @@ function App() {
 
   return (
     <div>
+        <Provider store={store}>
     <TopScreen/>
     <CategoryPage/>
     <UserProvider>
@@ -70,6 +71,7 @@ function App() {
         {/* <Route path="/login/reset-password" element={<ResetPasswordPage />} /> */}
       </Routes>
     </UserProvider>
+    </Provider>
     </div>
   );
 }
