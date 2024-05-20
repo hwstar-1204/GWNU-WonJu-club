@@ -8,10 +8,18 @@ from .models import Club, ClubMember
 # Create your views here.
 class ClubListAPIView(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request):
         clubs = Club.objects.all()
         clubs_data = ClubSerializer(clubs, many=True).data
         return Response(clubs_data)
+
+    def post(self, request):
+        serializer = ClubSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryClubAPIView(APIView):

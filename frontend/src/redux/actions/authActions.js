@@ -5,6 +5,9 @@ export const loginSuccess = (user) => ({
   payload: user
 });
 
-export const logout = () => ({
-  type: LOGOUT
-});
+export function logout() {
+  return async dispatch => {
+    // perform async operations
+    dispatch({ type: 'LOGOUT' });
+  };
+}

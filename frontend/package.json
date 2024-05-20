@@ -18,6 +18,8 @@
 
     "@mui/material": "^5.15.18",
 
+    "@reduxjs/toolkit": "^2.2.5",
+
     "axios": "^1.6.8",
 
     "bcrypt": "^5.1.1",

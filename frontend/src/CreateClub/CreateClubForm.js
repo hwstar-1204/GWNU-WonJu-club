@@ -6,7 +6,7 @@ import "./CreateClub.css";
 import defaultImage from "../Assets/default_image.png";
 import defaultLogo from "../Assets/club_logo.png";
 
-const CreateClubPage = () => {
+const CreateClubForm = ({ addClub }) => {
   const [clubName, setClubName] = useState("");
   const [clubType, setClubType] = useState("");
   const [clubCategory, setClubCategory] = useState("");
@@ -17,14 +17,8 @@ const CreateClubPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !clubName ||
-      !clubType||
-      !clubCategory ||
-      !introduction
-    ) {
+    if (!clubName || !clubType || !clubCategory || !introduction) {
       alert("모든 필드를 작성해주세요.");
-      console.log("모든 필드를 작성해주세요.");
       return;
     }
 
@@ -38,18 +32,13 @@ const CreateClubPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/club_information/apply_club/",
+        "http://localhost:8000/club_list/",
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
       if (response.status === 201) {
-        console.log("Club added:", response.data)
-        alert("동아리가 등록되었습니다!");
-        navigate("/club_list"); // 예시로 클럽 리스트 페이지로 이동
+        addClub(response.data); // 상위 컴포넌트의 addClub 함수를 호출
+        navigate("/");
       } else {
         throw new Error("Failed to add club");
       }
@@ -165,4 +154,4 @@ const CreateClubPage = () => {
   );
 };
 
-export default CreateClubPage;
+export default CreateClubForm;
