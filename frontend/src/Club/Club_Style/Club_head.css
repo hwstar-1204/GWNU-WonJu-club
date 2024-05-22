@@ -1,111 +1,58 @@
-.header-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+.club-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    /* 전체 너비를 80%로 설정 */
+    margin: 0 auto;
+    /* 가운데 정렬 */
 }
 
-.club-logo-container {
-  margin: 20px;
+.club-header img {
+    margin-right: 20px;
 }
 
-.club-logo {
-  width: 150px;
+.club-header h1 {
+    margin-right: 20px;
+    /* 동아리명과 카테고리 리스트 사이의 간격 */
 }
 
-.horizontal-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+.club-header nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* nav를 가운데 정렬 */
+    flex-grow: 1;
+    /* nav가 가능한 많은 공간을 차지하도록 */
 }
 
-.member {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 5px;
-  padding: 10px;
+.club-header nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    justify-items: center;
+    padding: 0;
 }
 
-.member-job {
-  font-weight: bold;
-  margin-bottom: 5px; /* 추가: 각 항목 사이에 공간을 추가 */
+.club-header nav ul li {
+    margin-right: 30px;
+    padding: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.member-id {
-  font-size: small;
+.club-header nav ul li:hover {
+    background-color: #e0e0e0;
+    color: #333;
 }
 
-.posts-table {
-  width: 100%;
-  margin-bottom: 20px;
-  border-collapse: collapse;
-}
-
-.posts-table th, .posts-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.club-albums-container {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.album {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.album-title {
-  font-weight: bold;
-  margin-bottom: 1px;
-}
-
-.album-stats {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.views, .recommended {
-  padding: 3px;
-  margin: 3px;
-}
-
-.club-events-container {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.event {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.event-title {
-  font-weight: bold;
-  margin-bottom: 1px;  /* 제목 아래에 조금의 여백을 추가 */
-}
-
-.event-stats {
-  display: flex;
-  justify-content: center;  /* 중앙 정렬을 통해 더 깔끔하게 표시 */
-  width: 100%;
-}
-
-.views, .recommended {
-  padding: 3px;
-  margin: 0 10px;  /* 각각의 요소 사이의 간격을 조정 */
+.manage {
+    margin-left: auto;
+    /* 동아리 관리를 오른쪽으로 밀어내기 */
+    margin-right: 50px;
 }
