@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from "axios";
-import ClubHeader from "./Club_Component/Club_head";
+import ClubHeader from "./Club_Component/Club_head.js";
+import ClubBody from "./Club_Component/Club_body.js";
 
 const ClubPage = () => {
   const { club_name } = useParams();  // URL에서 clubName 추출
@@ -26,6 +27,9 @@ const ClubPage = () => {
   return (
     <div>
       <ClubHeader
+      clubName={club_name}
+      />
+      <ClubBody
         clubData={clubInfo}
         clubName={club_name}
       />

@@ -1,0 +1,86 @@
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.section-header h3 {
+  flex-grow: 1;
+}
+
+.section-header button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.club-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.club-logo-container {
+  margin: 20px auto;
+  /* 상하 마진은 그대로 유지하고 좌우 마진을 auto로 설정 */
+}
+
+
+.horizontal-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.posts-table {
+  width: 100%;
+  margin: 20px auto;
+  /* 상하 마진을 20px로 설정하고 좌우 마진을 auto로 설정 */
+  border-collapse: collapse;
+}
+
+.club-albums-container {
+  width: 70%;
+  padding: 10px;
+  margin: 20px auto;
+  /* 상하 마진을 20px로 설정하고 좌우 마진을 auto로 설정 */
+}
+
+.club-events-container {
+  width: 70%;
+  padding: 10px;
+  margin: 20px auto;
+  /* 상하 마진을 20px로 설정하고 좌우 마진을 auto로 설정 */
+}
+
+.club-posts-container {
+width: 70%;
+  padding: 10px;
+  margin: 20px auto;
+}
+
+.club-members-container {
+  width: 70%;
+  padding: 10px;
+  margin: 20px auto;
+  /* 상하 마진을 20px로 설정하고 좌우 마진을 auto로 설정 */
+}
