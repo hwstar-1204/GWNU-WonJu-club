@@ -9,7 +9,6 @@ const CreateEvent = ({ onCreateEvent }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [content, setContent] = useState('');
-  const [thumbnail, setThumbnail] = useState(null);
   const [images, setImages] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showEventCard, setShowEventCard] = useState(false); // 이벤트 카드 활성화 상태
@@ -32,7 +31,6 @@ const CreateEvent = ({ onCreateEvent }) => {
         startDate,
         endDate,
         content,
-        thumbnail,
         images
       });
       const responseData = response.data;
@@ -42,7 +40,6 @@ const CreateEvent = ({ onCreateEvent }) => {
         setStartDate('');
         setEndDate('');
         setContent('');
-        setThumbnail(null);
         setImages([]);
         setShowSuccessMessage(true); // 등록 완료 메시지를 표시합니다.
         setEventData(responseData); // 이벤트 데이터 상태 업데이트
@@ -101,13 +98,6 @@ const CreateEvent = ({ onCreateEvent }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             style={{ height: '100px' }}
-          />
-        </InputGroup>
-        <InputGroup className="mb-3" style={{ marginBottom: "5%" }}>
-          <InputGroup.Text>썸네일</InputGroup.Text>
-          <FormControl
-            type="file"
-            onChange={(e) => setThumbnail(e.target.files[0])}
           />
         </InputGroup>
         <InputGroup className="mb-3" style={{ marginBottom: "5%" }}>

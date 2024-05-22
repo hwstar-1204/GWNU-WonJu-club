@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
 import { Button, Col, Row } from "react-bootstrap";
@@ -9,45 +9,43 @@ import "../Event_Style/EventList.css";
 
 const EventList = () => {
   const navigate = useNavigate();
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "이벤트 1",
-      thumbnail: "url_to_thumbnail_1",
-      author: "김황",
-      likes: 10,
-      startDate: "4/12",
-      endDate: "4/14",
-    },
-    {
-      id: 2,
-      title: "이벤트 2",
-      thumbnail: "url_to_thumbnail_2",
-      author: "박철",
-      likes: 5,
-      startDate: "4/16",
-      endDate: "4/19",
-    },
-    {
-      id: 3,
-      title: "이벤트 3",
-      thumbnail: "url_to_thumbnail_2",
-      author: "박철",
-      likes: 5,
-      startDate: "4/16",
-      endDate: "4/19",
-    },
-    // 필요에 따라 더 많은 이벤트 추가
-  ]);
-
+  const [events, setEvents] = useState([]);
   const eventsPerPage = 3; // 한 페이지당 카드 수 변경
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
- const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const token = localStorage.getItem('token')
+
+  
+  useEffect(() => {
+    let url = `http://127.0.0.1:8000/club_board/event/`;
+    let options = {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+          Authorization: `Token ${token}`
+      }
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(data => {
+        const count = data.count;
+        const results = data.results;
+        console.log(results);
+        setEvents(results);
+        // 여기서 results에는 실제 데이터 배열이 들어 있습니다.
+        // 원하는 작업을 수행하세요.
+      })
+      .catch(error => console.error('Error:', error));
+  }, []);
+
+
+
 
   const handleCreateClubClick = () => {
     if (!isLoggedIn) {
