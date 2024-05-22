@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
 
-const CreateClubPage = ({ addClub }) => {
+const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
   const [clubType, setClubType] = useState("");
   const [introduction, setIntroduction] = useState("");

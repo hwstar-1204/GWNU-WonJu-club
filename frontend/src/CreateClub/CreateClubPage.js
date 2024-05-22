@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CreateClubForm from "./CreateClubForm";
+import CreateClub from './CreateClub';
 
 const CreateClubPage = () => {
   const [clubs, setClubs] = useState([]);
@@ -11,7 +12,8 @@ const CreateClubPage = () => {
 
   return (
     <div>
-      <CreateClubForm addClub={addClub} />
+      {/* <CreateClubForm addClub={addClub} /> */}
+      <CreateClub />
     </div>
   );
 };
