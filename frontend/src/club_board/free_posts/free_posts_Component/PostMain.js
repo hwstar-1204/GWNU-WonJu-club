@@ -20,12 +20,15 @@ const PostMain = () => {
       <Routes>
         {/* 게시판 */}
         <Route path='/' element={<PostList/>}/> 
+        
         {/* 글쓰기 */}
-        <Route path='write' element={<PostForm />} />  
+        {/* <Route path='write' element={<PostForm />} />   */}
+        <Route path='write' element={<WritePost />} />
 
         {/* 특정 게시글 */}
         <Route path='postView/:postId' element={<PostView />} />
         {/* <Route path='write' element={<WritePost />} /> */}
+
         {/* 게시글 수정 */}
         <Route path='postView/:postId/edit' element={<PostForm />} />
 
