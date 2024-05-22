@@ -33,9 +33,9 @@ export const AppRoutes = () => (
     <Route path="/club_information/club/:club_name/events/" element={<ClubEvent />} />
     <Route path="/create_club" element={<CreateClubPage/>} />
     <Route path="/club_board/club_posts/" element={<ClubPosts />} />
-    <Route path='/postView/:no' element={<PostView />} />
-    <Route path='/Board' element={<PostMain />} />
-    <Route path="/write" element={<WritePost />} />
+    {/* <Route path='/postView/:no' element={<PostView />} /> */}
+    <Route path='/club_board/*' element={<PostMain/>} />
+    {/* <Route path="/write" element={<WritePost />} /> */}
     <Route path="signup/*" element={<SignUpPage />} />
     <Route path="/user" element={<UserDetail />} />
     <Route path='*' element={<NotFound />} />

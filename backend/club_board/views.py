@@ -1,9 +1,10 @@
 from rest_framework import viewsets
 from django.db.models import Count
 from rest_framework import permissions, status
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 from club_account.models import CustomUser
 from club_introduce.models import ClubMember
@@ -11,6 +12,7 @@ from .serializers import *
 from .permissions import IsAuthorOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.authentication import TokenAuthentication
 
 # viewsets : provides default create(), retireve(), update(), destroy(), list(), partial_update()
 # Create your views here.
@@ -30,116 +32,64 @@ def order_list(queryset, order):
         queryset = queryset.order_by('-created_date')
     return queryset
 
-# class BoardPostListView(ListAPIView):
-#     """ 동아리 게시판 글 불러오기 (정렬포함)"""
-#     serializer_class = PostListSerializer
-#     # pagination_class = PageNumberPagination
-#
-#
-#     def get_queryset(self):
-#         club_name = self.request.query_params.get('club_name')
-#         category = self.request.query_params.get('category')
-#         order = self.request.query_params.get('order')
-#
-#         if club_name == 'FreeBoard':
-#             queryset = Post.objects.filter(board__club_name=club_name)
-#             print(queryset)
-#
-#         else:
-#             queryset = Post.objects.filter(board__club_name=club_name, board__category=category)
-#             print(queryset)
-#
-#
-#         queryset = order_list(queryset, order)
-#         return queryset
-#
-#     def list(self, request, *args, **kwargs):
-#         queryset = self.get_queryset()
-#         serializer = self.serializer_class(queryset, many=True)
-#         return Response(serializer.data)
-
-class ClubBoardPostViewSet(viewsets.ModelViewSet):
-    """ 특정 동아리 게시판 카테고리에 해당하는 글 불러오기 (정렬포함)"""
+class BoardPostListView(ListAPIView):
+    """ 동아리 게시판 글 불러오기 (정렬포함)"""
     serializer_class = PostListSerializer
-    pagination_class = PageNumberPagination
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
+    # pagination_class = PageNumberPagination
+
     def get_queryset(self):
-        club_name = self.request.query_params.get('club_name')
-        category = self.request.query_params.get('category')
-        order = self.request.query_params.get('order')
+        club_name = self.kwargs.get('club_name')
+        category = self.kwargs.get('category')
+        order = self.kwargs.get('order')
 
         queryset = Post.objects.filter(board__club_name=club_name, board__category=category)
         queryset = order_list(queryset, order)
         return queryset
 
-class FreeBoardPostViewSet(viewsets.ModelViewSet):
-    """ 자유 게시판 카테고리에 해당하는 글 불러오기 (정렬포함)"""
-    serializer_class = PostListSerializer
-    pagination_class = PageNumberPagination
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
-    def get_queryset(self):
-        club_name = 'FreeBoard'  # self.request.query_params.get('club_name')
-        category = self.request.query_params.get('category')
-        order = self.request.query_params.get('order')
-
-        queryset = Post.objects.filter(board__club_name=club_name, board__category=category)
-        queryset = order_list(queryset, order)
-        return queryset
 
 # 자유 게시판을 시스템 관리자가 생성,수정 삭제
 # 특정 동아리 게시판을 동아리 관리자가 생성,수정,삭제
 # 검색 기능
 
-
-class PostCreateView(CreateAPIView):
+class PostCreateView(APIView):
     """
     게시글 생성
     - 자유 게시판 게시글, 댓글 생성 : 로그인한사람
     - 특정 동아리 게시판 게시글, 댓글 생성 : 로그인하고 특정 동아리 회원인 사람
     """
-    serializer_class = PostDetailSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # 게시글의 board_id를 요청 파라미터에서 가져옴
-        user = self.request.user
-        user_id = user.id
-
-        data = self.request.data
-        # board = data.get('board')
-        # club_name = board.club_name
-        board = serializer.validated_data.get('board')
-        club_name = board.club_name.club_name
-        print(club_name)
-        # board의 club_name에 따라 권한 부여
-        if club_name == 'FreeBoard':
-            # 자유 게시판인 경우 로그인한 사용자만 게시글 작성 가능
-            serializer.save(author=user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        else:
-            # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
-            student_id = CustomUser.objects.get(id=user_id).student_id
-            if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():  #board.club.members.all():
-                serializer.save(author=user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+    def post(self, request, format=None):
+        serializer = PostCreateSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            # 동아리명에 따라 처리
+            club_name = request.data.get('club_name')
+            if club_name == 'FreeBoard':
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)  # serializer.data,
             else:
-                # 권한이 없는 경우 에러 처리
-                raise PermissionDenied("You don't have permission to create a post in this board.")
+                # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
+                user = request.user
+                student_id = user.student_id
+                if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+                else:
+                    # 권한이 없는 경우 에러 처리
+                    raise PermissionDenied("You don't have permission to create a post in this board.")
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PostDetailView(RetrieveUpdateDestroyAPIView):
     """
     특정 게시글 읽기, 수정, 삭제
     """
     serializer_class = PostDetailSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    # permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+
 
     def get_object(self):
         post_id = self.kwargs.get('post_id')
@@ -148,37 +98,60 @@ class PostDetailView(RetrieveUpdateDestroyAPIView):
 
 
 
-class CommentCreateView(CreateAPIView):
+class CommentCreateView(APIView):
     """
     특정 게시글에 대한 댓글 생성
     """
-    serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # 게시글의 board_id를 요청 파라미터에서 가져옴
-        user = self.request.user
-        data = self.request.data
-        # post = data.get('post')
-        post = serializer.validated_data.get('post')
-        club_name = post.board.club_name.club_name
-        print(club_name)
-        # board의 club_name에 따라 권한 부여
-        if club_name == 'FreeBoard':
-            # 자유 게시판인 경우 로그인한 사용자만 게시글 작성 가능
-            serializer.save(author=user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        else:
-            # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
-            student_id = CustomUser.objects.get(id=user).student_id
-            if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():  # board.club.members.all():
-                serializer.save(author=user)
+    def post(self, request, format=None):
+        serializer = CommentCreateSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            # post_id 따라 처리
+            post_id = request.data.get('post_id')
+            club_name = Post.objects.get(id=post_id).board.club_name.club_name
+            print(club_name)
+            if club_name == 'FreeBoard':
+                serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-
             else:
-                # 권한이 없는 경우 에러 처리
-                raise PermissionDenied("You don't have permission to create a post in this board.")
+                # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
+                user = request.user
+                student_id = user.student_id
+                if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    # 권한이 없는 경우 에러 처리
+                    raise PermissionDenied("You don't have permission to create a post in this board.")
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+    # serializer_class = CommentSerializer
+    # permission_classes = [IsAuthenticated]
+    #
+    # def perform_create(self, serializer):
+    #     # 게시글의 board_id를 요청 파라미터에서 가져옴
+    #     user = self.request.user
+    #     data = self.request.data
+    #     # post = data.get('post')
+    #     post = serializer.validated_data.get('post')
+    #     club_name = post.board.club_name.club_name
+    #     # board의 club_name에 따라 권한 부여
+    #     if club_name == 'FreeBoard':
+    #         # 자유 게시판인 경우 로그인한 사용자만 게시글 작성 가능
+    #         serializer.save(author=user)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #
+    #     else:
+    #         # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
+    #         student_id = CustomUser.objects.get(id=user).student_id
+    #         if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():  # board.club.members.all():
+    #             serializer.save(author=user)
+    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #
+    #         else:
+    #             # 권한이 없는 경우 에러 처리
+    #             raise PermissionDenied("You don't have permission to create a post in this board.")
 
 
 class CommentDetailView(RetrieveUpdateDestroyAPIView):
@@ -186,12 +159,11 @@ class CommentDetailView(RetrieveUpdateDestroyAPIView):
     특정 댓글에 대한 읽기, 수정, 삭제
     """
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    # permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
 
     def get_object(self):  # 특정 댓글 단일 객체
         comment_id = self.kwargs.get('comment_id')
         return Comment.objects.get(id=comment_id)
-
 
 class PostCommentDetail(ListAPIView):
     """
@@ -202,5 +174,9 @@ class PostCommentDetail(ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         queryset = Comment.objects.filter(post_id=post_id)
-        return  queryset
+        return queryset
 
+    # def list(self, request, *args, **kwargs):
+    #     queryset = self.get_queryset()
+    #     serializer = self.serializer_class(queryset, many=True)
+    #     return Response(serializer.data)

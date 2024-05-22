@@ -1,19 +1,107 @@
-.post-view-wrapper {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-.post-view-content {
-  font-size: 16px;
+.post-view-container {
+  width: 90%; 
+  margin: 20px auto;
+  align-self: center;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top : 70px
 }
 
-.post-view-row {
-  margin-bottom: 10px;
+/* Header Container */
+.post-view-title-container {
+  background-color: #f0f0f0; /* 밝은 회색 배경색 */
+  padding: 15px; /* 내부 여백 추가 */
+  border-radius: 8px; /* 더 둥글게 설정 */
+  margin-bottom: 20px;
 }
 
-.fw-bold {
+/* Title Styles */
+.post-view-title {
+  font-size: 24px;
   font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* Content Container */
+.post-view-content-container {
+  background-color: #f9f9f9; /* 매우 연한 회색 배경색 */
+  padding: 20px; /* 내부 여백 추가 */
+  border-radius: 8px; /* 더 둥글게 설정 */
+  margin-bottom: 20px;
+}
+
+/* Header Styles */
+.post-view-header {
+  display: flex;
+  font-size: large;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.post-view-info {
+  font-size: 16px;
+  color: #999;
+  margin-left: 20px;
+}
+.post-view-info
+.post-view-author {
+  margin-right: 12px;
+
+}
+
+/* Content Styles */
+.post-view-content {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: large;
+  height: 350px;
+  padding: 25px;
+
+}
+
+.post-view-content p {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.post-view-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Actions Styles */
+.post-view-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.post-view-recommend-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px; /* 더 작은 값으로 설정 */
+  background-color: #ff6f61; /* 밝은 분홍색으로 변경 */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.post-view-recommend-button:hover {
+  background-color: #e63c2e; /* 어두운 분홍색으로 변경 */
 }

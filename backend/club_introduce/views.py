@@ -2,12 +2,16 @@ from rest_framework import status
 from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import *
-from .serializer import ClubSerializer
-from .models import Club, ClubMember
+from club_introduce.serializer import *
+from club_introduce.models import *
+from rest_framework import generics
+
+
 
 # Create your views here.
 class ClubListAPIView(APIView):
     permission_classes = [AllowAny]
+
 
     def get(self, request):
         clubs = Club.objects.all()
@@ -24,6 +28,7 @@ class ClubListAPIView(APIView):
 
 class CategoryClubAPIView(APIView):
     permission_classes = [AllowAny]
+
     def get(self, request, category_id):
         # 분류할 카테고리 데이터가 없으면 오류
         if not category_id:
@@ -38,8 +43,10 @@ class CategoryClubAPIView(APIView):
         clubs_data = ClubSerializer(category_clubs, many=True).data
         return Response(clubs_data)
 
+
 class ApplyClubAPIView(APIView):
     permission_classes = [IsAuthenticated]
+
     def post(self, request):
         club_name = request.data.get('club_name')
 
@@ -70,3 +77,20 @@ class ApplyClubAPIView(APIView):
         return Response({'message': '가입신청이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
 
+class CreateClub(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Club.objects.all()
+    serializer_class = ClubCreateSerializer
+
+    def create(self, request, *args, **kwargs):
+        print("확인: ", request.data)
+        serializer = self.get_serializer(data=request.data)
+
+        if not serializer.is_valid():
+            print(serializer.errors)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
