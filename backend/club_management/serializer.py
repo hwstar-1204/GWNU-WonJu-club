@@ -27,8 +27,17 @@ class ClubMemberSerializer(serializers.ModelSerializer):
         fields = ['id', 'joined_date', 'job', 'user']
 
 class ClubSerializer(serializers.ModelSerializer):
-    members = ClubMemberSerializer(source='clubmember_set', many=True)
+    existing_members = serializers.SerializerMethodField()
+    applying_members = serializers.SerializerMethodField()
 
     class Meta:
         model = Club
-        fields = ['introducation', 'photo', 'logo', 'members']
+        fields = ['introducation', 'photo', 'logo', 'existing_members', 'applying_members']
+
+    def get_existing_members(self):
+        members = ClubMember.objects.filter(joined_data__isnull=False)
+        return ClubMemberSerializer(members, many=True).data
+
+    def get_applying_members(self):
+        members = ClubMember.objectsfilter(joined_data__isnull=True)
+        return ClubMemberSerializer(members, many=True).data

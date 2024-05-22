@@ -10,16 +10,7 @@ urlpatterns = [
     path('club/<str:club_name>/member/<int:id>/', MemberApproveAPIView.as_view(), name='member-approve'),
 
     # 로고 수정 및 삭제
-    path('club/<str:club_name>/logo/', LogoCorrectionDelete.as_view(), name='logo-correction-delete'),
-
-    # 로고 업로드
-    path('club/<str:club_name>/logo/upload/', LogoUpload.as_view(), name='logo-upload'),
-
-    # 사진 수정 및 삭제
-    path('club/<str:club_name>/photo/', PhotoCorrectionDelete.as_view(), name='photo-correction-delete'),
-
-    # 사진 업로드
-    path('club/<str:club_name>/photo/upload/', PhotoUpload.as_view(), name='photo-upload'),
+    path('club/<str:club_name>/imgae/', ImageCorrectionDelete.as_view(), name='logo-correction-delete'),
 
     # 동아리 소개 수정
     path('club/<str:club_name>/introducation/', IntroducationCorrection.as_view(), name='introduction-correction'),

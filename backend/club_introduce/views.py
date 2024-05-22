@@ -13,10 +13,18 @@ from django.http import JsonResponse
 class ClubListAPIView(APIView):
     permission_classes = [AllowAny]
 
+
     def get(self, request):
         clubs = Club.objects.all()
         clubs_data = ClubSerializer(clubs, many=True).data
         return Response(clubs_data)
+
+    def post(self, request):
+        serializer = ClubSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CategoryClubAPIView(APIView):
@@ -50,15 +58,15 @@ class ApplyClubAPIView(APIView):
         try:
             club = Club.objects.get(name=club_name)  # 예를 들어 Club 모델에 'name' 필드가 있다고 가정
         except Club.DoesNotExist:
-            return JsonResponse({'error': 'Club not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Club not found.'}, status=status.HTTP_404_NOT_FOUND)
 
         # 동아리 가입 신청이 이미 되어 있는지 확인
         if ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=True).exists():
-            return JsonResponse({'message': '가입신청이 되어 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': '가입신청이 되어 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 이미 동아리 회원인지 확인
         elif ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=False).exists():
-            return JsonResponse({'message': '동아리 회원입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': '동아리 회원입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
         # 새로운 동아리 가입신청
         apply_user = ClubMember()

@@ -3,11 +3,11 @@ from club_account.models import CustomUser
 
 def club_logo_directory_path(instance, filename):
     # 파일 저장 경로를 'MEDIA_ROOT/club_name/logo/'로 설정
-    return 'club/{0}/logo/{1}'.format(instance.club_name, filename)
+    return 'club/logo/'
 
 def club_photo_directory_path(instance: object, filename: object) -> object:
     # 파일 저장 경로를 'MEDIA_ROOT/club_name/photo/'로 설정
-    return 'club/{0}/photo/{1}'.format(instance.club_name, filename)
+    return 'club/photo/'
 
 class Club(models.Model):
     class Meta:
@@ -27,10 +27,10 @@ class ClubMember(models.Model):
     class Meta:
         verbose_name = '동아리 회원'
         verbose_name_plural = '동아리 회원들'
-    club_name = models.ForeignKey('Club', on_delete=models.CASCADE)  # 변경
+    club_name = models.ForeignKey('Club', on_delete=models.CASCADE, to_field='club_name', null=True)  # 변경
     # club_name = models.CharField(max_length=20)
     student_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, to_field='student_id') # 변경
     # student_id = models.IntegerField()
 
-    joined_date = models.DateTimeField(null=True)
+    joined_date = models.DateTimeField(null=False)
     job = models.CharField(max_length=5, default='일반회원')
