@@ -32,7 +32,7 @@ const CreateClubForm = ({ addClub }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/club_list/",
+        "http://localhost:8000/club_intoduce/apply_club/",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

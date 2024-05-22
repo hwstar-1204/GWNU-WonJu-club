@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
 import { Button, Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import {useNavigate} from "react-router-dom";
 import EventCard from "../Event_Component/EventCard";
 import "../Event_Style/EventList.css";
 
 const EventList = () => {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([
     {
       id: 1,
@@ -44,13 +47,23 @@ const EventList = () => {
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+ const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
+  const handleCreateClubClick = () => {
+    if (!isLoggedIn) {
+      alert("회원만 사용할 수 있습니다. 로그인하시겠습니까?");
+      navigate('/login'); // 로그인 페이지 경로가 '/login'이라고 가정
+      return;
+    }
+    // 로그인이 되어 있다면 동아리 만들기 페이지로 이동
+    navigate('/create_event');
+  };
   return (
     <div className="event-list-container">
       <Row className="align-items-center">
         <Col className="create-event">
           <NavLink to="create_event">
-            <Button variant="primary">+ 이벤트</Button>
+            <Button onClick = {handleCreateClubClick} variant="primary">+ 이벤트 </Button >
           </NavLink>
         </Col>
       </Row>
