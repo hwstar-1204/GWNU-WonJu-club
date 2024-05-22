@@ -8,6 +8,8 @@ const CreateClubPage = ({ addClub }) => {
   const [introduction, setIntroduction] = useState("");
   const [logo, setLogo] = useState("");
   const [background, setBackground] = useState("");
+  const token = localStorage.getItem('token');
+
 
   const handleNameChange = (e) => setClubName(e.target.value);
   const handleTypeChange = (e) => setClubType(e.target.value);
@@ -19,26 +21,29 @@ const CreateClubPage = ({ addClub }) => {
 
   const handleSubmit = () => {
     const newClub = {
-      name: clubName,
-      type: clubType,
-      introduction: introduction,
-      logo: logo,
-      background: background,
+      club_name: clubName,
+      category: clubType,
+      introducation: introduction,
+      // logo: logo,
+      // photo: background,
     };
 
     // API 호출 부분 추가
-    fetch('/club_introduce/apply_club/', {
+    fetch('http://127.0.0.1:8000/club_introduce/create_club/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Token ${token}`,
       },
       body: JSON.stringify(newClub),
     })
-    .then(response => response.json())
-    .then(data => {
-      // 서버에서 새로운 동아리를 추가한 후 클라이언트에서도 동기화해야 할 경우
-      addClub(data);
+    // .then(response => response.json())
+    .then(res => {
+      // addClub(data);
+      console.log("생성된 동아리: ",res.status);
       alert("동아리가 등록되었습니다!");
+      // TODO 해당 동아리 페이지로 이동 
     })
     .catch(error => {
       console.error('Error adding club:', error);
@@ -75,11 +80,11 @@ const CreateClubPage = ({ addClub }) => {
             style={{ width: "30%" }}
           >
             <option>선택</option>
-            <option value="regular">정규 동아리</option>
-            <option value="membership">가등록 동아리</option>
-            <option value="learning">학습 동아리</option>
-            <option value="employment">취업/창업 동아리</option>
-            <option value="community">소모임</option>
+            <option value="정규">정규 동아리</option>
+            <option value="가등록">가등록 동아리</option>
+            <option value="학습">학습 동아리</option>
+            <option value="취업">취업/창업 동아리</option>
+            <option value="소모임">소모임</option>
           </Form.Control>
         </Form.Group>
 
