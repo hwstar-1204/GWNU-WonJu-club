@@ -19,5 +19,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 class IsSystemAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         # 시스템 관리자인 경우에만 생성, 수정, 삭제 권한을 허용, 읽기는 누구나
+        print("권한 체크: ", request.user.is_staff or request.method in permissions.SAFE_METHODS)
+
         return request.user.is_staff or request.method in permissions.SAFE_METHODS
 

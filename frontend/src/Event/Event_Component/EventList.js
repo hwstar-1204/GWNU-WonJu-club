@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
@@ -19,32 +20,28 @@ const EventList = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const token = localStorage.getItem('token')
 
-  
   useEffect(() => {
-    let url = `http://127.0.0.1:8000/club_board/event/`;
-    let options = {
-      method: 'GET',
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json;charset=UTF-8',
-          Authorization: `Token ${token}`
-      }
-    };
-
-    fetch(url, options)
-      .then(res => res.json())
-      .then(data => {
-        const count = data.count;
-        const results = data.results;
-        console.log(results);
-        setEvents(results);
-        // 여기서 results에는 실제 데이터 배열이 들어 있습니다.
-        // 원하는 작업을 수행하세요.
-      })
-      .catch(error => console.error('Error:', error));
+    fetchData();
   }, []);
 
-
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/club_board/event/', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': `Token ${token}`
+        }
+      });
+      const { data } = response
+      // const count = data.count;
+      const results = data.results;
+      console.log(results);
+      setEvents(results);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
 
   const handleCreateClubClick = () => {

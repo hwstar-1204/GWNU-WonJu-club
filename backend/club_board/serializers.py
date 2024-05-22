@@ -102,3 +102,9 @@ class EventSerializer(AuthorNameMixin, serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ['id', 'title', 'content', 'start_time', 'end_time', 'author_name', 'photo']
+
+    def create(self, validated_data):
+        author = self.context['request'].user
+        validated_data['author'] = author
+
+        return Event.objects.create(**validated_data)
