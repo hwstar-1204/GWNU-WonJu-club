@@ -41,6 +41,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # ai chatbot
+    'channels',
+    'daphne',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,6 +69,7 @@ INSTALLED_APPS = [
     'club_introduce',
     'club_information',
     'club_management',
+    'ai_chatbot',
 
 ]
 
@@ -223,6 +228,6 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # 유저가 받은 링크를 클릭하면 �
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1  # 이메일 유효기간
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # 이메일에 자동으로 표시되는 사이트 정보
 
-
+ASGI_APPLICATION = 'backend.asgi.application'
 
 

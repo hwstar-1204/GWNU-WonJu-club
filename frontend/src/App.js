@@ -16,6 +16,7 @@ import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
 import NotFound from './TestPage/NotFound';
+import ChatbotPage from './TestPage/ChatbotPage';
 import './App.css';
 // import LoginPage from './Login/LoginPage';
 // import PrivacyPolicyPage from './Signup/PrivacyPolicyPage';
@@ -34,6 +35,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={<MainPage />} />
+        <Route path="/chatbot" element={<ChatbotPage />} />        
         <Route path="/login" element={<LoginPage2 setIsLoggedIn={setIsLoggedIn}/>}/>  {/*백엔드 서버 사용시 로그인*/}
         {/* <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} /> */}  {/*프론트 서버 사용시 로그인*/}
         <Route path="/myclub" element={<Myclub />} />
