@@ -6,7 +6,6 @@ from club_introduce.serializer import *
 from club_introduce.models import *
 from rest_framework import generics
 
-from django.http import JsonResponse
 
 
 # Create your views here.
