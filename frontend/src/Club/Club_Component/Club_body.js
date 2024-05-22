@@ -1,6 +1,7 @@
 import React from 'react';
 import ClubBackground from "./Club_background";;
 import { useNavigate } from 'react-router-dom'; // useHistory를 react-router-dom에서 불러옵니다.
+import '../Club_Style/Club_body.css';
 
 const ClubBody = ({ clubData, clubName }) => {
   const navigate = useNavigate();
@@ -44,12 +45,12 @@ const ClubBody = ({ clubData, clubName }) => {
     <div className="header-container">
       <ClubBackground
         introduction={clubData.club_introduction}
-        logo={clubData.club_data.logo}
+        logo={clubData.club_data.background}
       />
 
       <div className="club-members-container">
         <div style={sectionHeaderStyle}>
-          <h3>회원 정보</h3>
+          <h3>회원</h3>
           <button onClick={() => handleClick('members')} style={buttonStyle}>+</button>
         </div>
         <div className="horizontal-list">
@@ -90,7 +91,7 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-posts-container">
         <div style={sectionHeaderStyle}>
-          <h3>최신 쓴 글</h3>
+          <h3>{clubName} 게시판 </h3>
           <button onClick={() => handleClick('posts')} style={buttonStyle}>+</button>
         </div>
         <table className="posts-table">
@@ -127,9 +128,9 @@ const ClubBody = ({ clubData, clubName }) => {
         </table>
       </div>
 
-      <div className="club-events-container">
+      {/* <div className="club-events-container">
         <div style={sectionHeaderStyle}>
-          <h3>이벤트</h3>
+          <h3>일정</h3>
           <button onClick={() => handleClick('event')} style={buttonStyle}>+</button>
         </div>
         <div className="horizontal-list">
@@ -151,7 +152,7 @@ const ClubBody = ({ clubData, clubName }) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

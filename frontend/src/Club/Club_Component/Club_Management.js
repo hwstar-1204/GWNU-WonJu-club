@@ -12,15 +12,16 @@ const ClubManagementPage = ({ clubName }) => {
 
   useEffect(() => {
     axios
-      .get(`/club_management/club/${clubName}`)
+      .get(`/club_management/club/${clubName}/`)
       .then((response) => {
         setClubInfo(response.data);
         setPendingMembers(response.data.pendingMembers);
         setNewDescription(response.data.description);
       })
-      .catch((error) =>
-        console.error("Error fetching club management data:", error)
-      );
+      .catch((error) => {
+        console.error("Error fetching club management data:", error);
+        // UI에 에러 메시지 표시 추가
+      });
   }, [clubName]);
 
   const handleBack = () => {
@@ -29,11 +30,9 @@ const ClubManagementPage = ({ clubName }) => {
 
   const approveMember = (memberId) => {
     axios
-      .post(`/club_management/club/${clubName}/approve_member`, { memberId })
+      .post(`/club_management/club/${clubName}/member/${memberId}/`, { memberId })
       .then(() => {
-        setPendingMembers(
-          pendingMembers.filter((member) => member.id !== memberId)
-        );
+        setPendingMembers(prevMembers => prevMembers.filter(member => member.id !== memberId));
         alert("회원 승인이 완료되었습니다.");
       })
       .catch((error) => {
@@ -73,7 +72,7 @@ const ClubManagementPage = ({ clubName }) => {
           </li>
         ))}
       </ul>
-      <h2>동아리 로고 및 배경 수정</h2>
+      <h2>동아리 로�� 및 배경 수정</h2>
       <form onSubmit={updateClubInfo}>
         <label>
           로고:

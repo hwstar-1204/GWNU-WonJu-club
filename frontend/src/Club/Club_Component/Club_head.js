@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Club_Style/Club_head.css'; // 스타일을 위한 CSS 파일
+import logo from '../../Assets/club_logo.png'; // 동아리 로고 이미지
 
 const ClubHeader = ({ clubName }) => {
   const navigate = useNavigate();
@@ -19,20 +20,20 @@ const ClubHeader = ({ clubName }) => {
       navigate(`/club_information/club/${clubName}/events/`);
     }
     else if (section === 'manage') {
-      navigate(`/club_management/club/${clubName}/management/`);
+      navigate(`/club_management/club/${clubName}`);
     }
   };
 
   return (
     <div className="club-header">
-      <img src="/path/to/logo.png" alt="Logo" style={{ width: '70px', height: '70px' }} />
+      <img src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} />
       <h1>{clubName}</h1>
       <nav className='club-header-nav'>
         <ul>
           <li onClick={() => handleClick('members')}>회원정보</li>
           <li onClick={() => handleClick('posts')}>게시판</li>
           <li onClick={() => handleClick('album')}>사진첩</li>
-          <li onClick={() => handleClick('event')}>일정</li>
+          {/* <li onClick={() => handleClick('event')}>일정</li> */}
         </ul>
         <li className="manage" onClick={() => handleClick('manage')}>동아리관리</li>
       </nav>
