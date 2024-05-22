@@ -23,3 +23,8 @@
     color: azure;
     text-decoration: none;
 }
+
+
+.form-group {
+    width: 200px;
+}

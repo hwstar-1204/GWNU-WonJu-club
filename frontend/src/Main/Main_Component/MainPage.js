@@ -11,10 +11,9 @@ function MainPage() {
 
   return (
     <div className="MainPage">
-      <BannerCarousel />
+      <BannerCarousel className="banner-carousel"/>
 
       <div className="content-wrapper">
-        <EventCard />
         <EventCard />
         <EventCard />
         <div className="club-notice-container">

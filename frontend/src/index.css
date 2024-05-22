@@ -6,3 +6,6 @@ html, body, #root {
     padding: 0;
   }
   
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+    }

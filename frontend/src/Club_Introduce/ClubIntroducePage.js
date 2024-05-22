@@ -104,10 +104,6 @@ const ClubIntroducePage = () => {
                       <img src={club.logo} alt={`${club.club_name} 로고`} className="club-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
-                    <div className="social-icons">
-                      <a href="#"><img src={Kakao} alt="Kakao Talk" /></a>
-                      <a href="#"><img src={InstagramIcon} alt="Instagram" /></a>
-                    </div>
                   </div>
                   <div className="card__footer">
                     <button className="apply-button">가입 신청</button>

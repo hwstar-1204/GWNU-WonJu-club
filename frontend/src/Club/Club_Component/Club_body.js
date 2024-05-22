@@ -50,7 +50,7 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-members-container">
         <div style={sectionHeaderStyle}>
-          <h3>회원</h3>
+          <h3 className='list1'>회원</h3>
           <button onClick={() => handleClick('members')} style={buttonStyle}>+</button>
         </div>
         <div className="horizontal-list">
@@ -65,7 +65,7 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-albums-container">
         <div style={sectionHeaderStyle}>
-          <h3>사진첩</h3>
+          <h3 className='list2'>사진첩</h3>
           <button onClick={() => handleClick('album')} style={buttonStyle}>+</button>
         </div>
         <div className="horizontal-list">
@@ -91,7 +91,7 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-posts-container">
         <div style={sectionHeaderStyle}>
-          <h3>{clubName} 게시판 </h3>
+          <h3 className='list3'>{clubName} 게시판 </h3>
           <button onClick={() => handleClick('posts')} style={buttonStyle}>+</button>
         </div>
         <table className="posts-table">
@@ -128,9 +128,9 @@ const ClubBody = ({ clubData, clubName }) => {
         </table>
       </div>
 
-      {/* <div className="club-events-container">
+      <div className="club-events-container">
         <div style={sectionHeaderStyle}>
-          <h3>일정</h3>
+          <h3 className='list4'>일정</h3>
           <button onClick={() => handleClick('event')} style={buttonStyle}>+</button>
         </div>
         <div className="horizontal-list">
@@ -152,7 +152,7 @@ const ClubBody = ({ clubData, clubName }) => {
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

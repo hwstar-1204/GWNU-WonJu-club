@@ -33,9 +33,9 @@ const ClubHeader = ({ clubName }) => {
           <li onClick={() => handleClick('members')}>회원정보</li>
           <li onClick={() => handleClick('posts')}>게시판</li>
           <li onClick={() => handleClick('album')}>사진첩</li>
-          {/* <li onClick={() => handleClick('event')}>일정</li> */}
+          <li onClick={() => handleClick('event')}>일정</li>
+          <li className="manage" onClick={() => handleClick('manage')}>동아리관리</li>
         </ul>
-        <li className="manage" onClick={() => handleClick('manage')}>동아리관리</li>
       </nav>
     </div>
   );

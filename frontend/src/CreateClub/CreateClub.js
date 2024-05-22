@@ -57,7 +57,7 @@ const CreateClubPage = () => {
   };
 
   return (
-    <Container style={{ padding: "5%" }}>
+    <Container>
       <h1 className="create-head">동아리 만들기</h1>
       <Form>
         {/* 동아리 이름 입력 */}

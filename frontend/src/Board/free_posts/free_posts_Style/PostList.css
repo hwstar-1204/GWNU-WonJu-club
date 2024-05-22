@@ -1,3 +1,15 @@
+.post-list-container {
+    display: flex;
+    flex-direction: column; /* 요소들을 수직으로 정렬 */
+    width: 80%; /* 전체 화면의 80%만큼 넓이를 사용 */
+    margin: 20px auto; /* 상하 20px, 좌우 자동으로 중앙 정렬 */
+    padding: 20px; /* 내부 여백을 20px로 설정 */
+}
+.post-list-title {
+    text-align: left;
+    font-weight: bold
+}
+
 .post-table {
     width: 100%; 
     margin: 0 auto;
@@ -8,6 +20,11 @@
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+}
+
+.post-list-sort-select {
+    width: 180px;
+    margin-left: 210px;
 }
 
 .post-table th {

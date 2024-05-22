@@ -84,3 +84,16 @@ width: 70%;
   margin: 20px auto;
   /* 상하 마진을 20px로 설정하고 좌우 마진을 auto로 설정 */
 }
+
+.list1 {
+  font-weight: bold;
+}
+.list2 {
+  font-weight: bold;
+}
+.list3 {
+  font-weight: bold;
+}
+.list4 {
+  font-weight: bold;
+}

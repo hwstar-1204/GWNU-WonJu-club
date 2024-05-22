@@ -29,8 +29,8 @@ const TopScreen = () => {
   };
 
   return (
-    <Navbar bg="white" expand="lg" className="mb-3">
-      <Container>
+    <Navbar>
+      <Container className='top-screen-container'>
         <Navbar.Brand as={Link} to="/">
           <img
             src={logo2}
@@ -42,7 +42,7 @@ const TopScreen = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
+          <Nav className="login-container">
             {!isLoggedIn ? (
               <>
                 <Nav.Link as={Link} to="/login">로그인</Nav.Link>
