@@ -26,13 +26,8 @@ const ClubPage = () => {
 
   return (
     <div>
-      <ClubHeader
-      clubName={club_name}
-      />
-      <ClubBody
-        clubData={clubInfo}
-        clubName={club_name}
-      />
+      <ClubHeader clubName={club_name} />
+      <ClubBody clubData={clubInfo} clubName={club_name} />
     </div>
   );
 
