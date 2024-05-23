@@ -61,7 +61,7 @@ const Editinformation = () => {
   return (
   <div className="my-page">
 
-    <form onSubmit={handleSubmit}>
+    <form classname = "edit-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="name">이름:</label>
         <input

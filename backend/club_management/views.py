@@ -2,240 +2,334 @@ from rest_framework import status
 from rest_framework.decorators import APIView
 from rest_framework.generics import *
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import *
+from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import AuthenticationFailed
+from club_management.permissions import *
 from club_management.serializer import *
 from club_management.models import *
 from club_introduce.models import *
+from club_account.models import *
 import os
+import base64
+from urllib.parse import unquote
 from backend import settings
+from django.http import HttpResponse, FileResponse
+from django.db import transaction, IntegrityError
 from django.utils import timezone
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.signing import Signer
+from django.core.files import File
+from django.conf import settings
 
 
+class ClubManageListView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        token_key = request.headers.get('Authorization')
+        if not token_key:
+            return Response({'error': 'Authorization header is missing'}, status=401)
+
+        try:
+            token = token_key.split(' ')[1]
+        except IndexError:
+            return Response({'error': 'Invalid Authorization header format'}, status=401)
+
+        try:
+            # 토큰이 유효한지 확인하는 부분
+            token_obj = Token.objects.get(key=token)
+        except Token.DoesNotExist:
+            return Response({'error': 'Invalid token'}, status=401)
+
+        user_id = token_obj.user.id
+
+        try:
+            # 사용자의 id 값을 이용하여 CustomUser 모델에서 해당 사용자를 찾습니다.
+            user = CustomUser.objects.get(id=user_id)
+            # 사용자의 student_id 값을 가져옵니다.
+            user_student_id = user.student_id
+
+            # ClubMember 모델에서 해당하는 student_id 값을 가진 클럽 멤버를 찾습니다.
+            club_members = ClubMember.objects.filter(student_id=user_student_id)
+
+            if not club_members.exists():
+                return Response({'error': 'Club not found for the given student ID'}, status=404)
+
+            # Serialize the club members
+            serializer = ClubListSerializer(club_members, many=True)
+            return Response(serializer.data)
+        except get_user_model().DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+        except Exception as e:
+            return Response({'error': str(e)}, status=500)
 # Create your views here.
 class ClubManagementHomeView(RetrieveAPIView):
     serializer_class = ClubSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsPresidentOrAdmin]
 
-    def get_object(self):
+    def get(self, *args, **kwargs):
         """
         동아리 관리 페이지 홈
         """
         club_name = self.kwargs.get('club_name')
         try:
-            return Club.objects.get(club_name=club_name)
+            club_manage = Club.objects.get(club_name=club_name)
         except Club.DoesNotExist:
-            raise Http404
+            raise NotFound(detail="동아리 관리정보를 가져올 수 없습니다.")
 
-class MemberApproveAPIView(RetrieveUpdateDestroyAPIView):
+        club_info = self.get_serializer(club_manage).data
+        existing_members = ClubSerializer.get_existing_members(club_name)
+        applying_members = ClubSerializer.get_applying_members(club_name)
+
+        response = {
+            'club_info': club_info,
+            'existing_members': existing_members,
+            'applying_members': applying_members
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
+class MemberApproveAPIView(APIView):
     serializer_class = ClubMemberSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsPresidentOrAdmin]
+    http_method_names = ['delete', 'patch']
 
-    def get_object(self):
-        id = self.kwargs.get('id')
-        club_name = self.kwargs.get('club_name')
-        return ClubMember.objects.get(id=id, club_name=club_name)
+    def get_object(self, club_name, id):
 
-    def delete(self, request, *args, **kwargs):
+        # 객체를 안전하게 가져오기
+        try:
+            # 객체를 안전하게 가져오기
+            return ClubMember.objects.get(id=id, club_name=club_name)
+        except ClubMember.DoesNotExist:
+            # 객체가 없는 경우 적절한 HTTP 상태 코드와 메시지를 반환
+            return Response({'error': 'No ClubMember found matching the given query.'},
+                            status=status.HTTP_404_NOT_FOUND)
+        except ClubMember.MultipleObjectsReturned:
+            # 객체가 여러 개 있는 경우 적절한 HTTP 상태 코드와 메시지를 반환
+            return Response({'error': 'Multiple ClubMembers found. Please specify unique identifier.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, club_name, id):
         """
         신규 회원 거부
         """
-        member = self.get_object()
+        member = self.get_object(club_name, id)
         member.delete()
-        Response({"message": "신청을 거부했습니다."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "신청을 거부했습니다."}, status=status.HTTP_204_NO_CONTENT)
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request, club_name, id):
         """
         신규 회원 승인
         """
-        member = self.get_object()
+        member = self.get_object(club_name, id)
         member.joined_date = timezone.now()
-        member.job = '일반회원'
+        member.save()
 
-        serializer = self.get_serializer(member)
+        serializer = ClubMemberSerializer(member, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'message': '승인이 완료되었습니다.'}, status=status.HTTP_200_OK)
 
-class LogoCorrectionDelete(APIView):
-    permission_classes = [IsAuthenticated]
+class ImageCorrectionDelete(APIView):
+    permission_classes = [IsPresidentOrAdmin]
+    http_method_names = ['get', 'patch', 'delete', 'post']
+
+    def _sign_url(self, url):
+        signer = Signer()
+        return signer.sign(url)
 
     def get(self, request, club_name):
-        """
-        동아리 로고 디렉터리에 있는 파일 확인
-        """
-        club_name = os.path.basename(os.path.normpath(club_name))
+        club_name = club_name.replace(' ', '_')
 
-        logo_directory_path = os.path.join(settings.MEDIA_ROOT, club_name, 'logo')
+        image = request.GET.get('image')
+        directory_path = ''
+
+        if image == 'logo':
+            directory_path = os.path.join(settings.MEDIA_ROOT, 'logos')
+        elif image == 'photo':
+            directory_path = os.path.join(settings.MEDIA_ROOT, 'photos')
 
         try:
-            logo_files = os.listdir(logo_directory_path)
-            logo_urls = [request.build_absolute_uri(settings.MEDIA_URL + f'{club_name}/logo/' + file) for file in logo_files]
+            image_files = os.listdir(directory_path)
+            matching_files = [file_name for file_name in image_files if file_name.startswith(club_name)]
+
+            if not matching_files:
+                return Response({'error': f'No {image} found for {club_name}.'}, status=status.HTTP_404_NOT_FOUND)
+
+            image_data = []
+            for file_name in matching_files:
+                file_path = os.path.join(directory_path, file_name)
+                with open(file_path, 'rb') as image_file:
+                    encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+                image_data.append({'file_name': file_name, 'data': encoded_image})
+
+            return Response({'images': image_data}, status=status.HTTP_200_OK)
+
         except FileNotFoundError:
-            return Response({'error': f'Logo directory for {club_name} not found.'})
-
-        return Response({'logo': logo_urls}, status=status.HTTP_200_OK)
-
-    def patch(self, request, club_name):
-        """
-        동아리 로고 수정
-        """
-        club = Club.objects.get(club_name=club_name)
-        file_name = request.data.get('file_name')
-
-        if not file_name:
-            return Response({'error': 'File name is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        file_path = os.path.join(settings.MEDIA_ROOT, club_name, 'logo', file_name)
-        if not os.path.exists(file_path):
-            return Response({'error': 'File does not exist in the specified directory.'}, status=status.HTTP_404_NOT_FOUND)
-
-        club.logo = os.path.join(settings.MEDIA_ROOT, club_name, 'logo', file_name)
-        club.save()
-
-        return Response({'message': 'Logo updated successfully.', 'new_logo': club.logo}, status=status.HTTP_200_OK)
-
-    def delete(self, request, club_name):
-        """
-        동아리 로고 삭제
-        """
-        file_name = request.data.get('file_name')
-
-        if not file_name:
-            return Response({'error': 'File name is required.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        file_path = os.path.join(settings.MEDIA_ROOT, club_name, 'logo', file_name)
-        if not os.path.exists(file_path):
-            return Response({'error': 'File does not exist in the specified directory.'}, status=status.HTTP_404_NOT_FOUND)
-
-        try:
-            # 파일 삭제
-            default_storage.delete(file_path)
-            return Response({'message': 'File deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+            return Response({'error': f'Directory for {club_name} not found.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class LogoUpload(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = ClubSerializer
-
-    def get_object(self):
-        club_name = self.kwargs.get('club_name')
-        return Club.objects.get(club_name=club_name)
-
-    def post(self, request, *args, **kwargs):
-        """
-        동아리 로고 추가
-        """
-        file = request.FILES.get('logo')
-        club_name = kwargs.get('club_name')
-
-        if not file:
-            return Response({'message': 'No logo provided'}, status=status.HTTP_400_BAD_REQUEST)
-
-        directory_path = os.path.join(settings.MEDIA_ROOT, club_name, 'logo')
-        full_path = os.path.join(directory_path, file)
-
-        if default_storage.exists(full_path):
-            return Response({'messege': 'logo exsit'}, status=status.HTTP_400_BAD_REQUEST)
-
-        default_storage.save(full_path, ContentFile(file.read()))
-        return Response({'message': 'upload logo'}, status=status.HTTP_200_OK)
-
-class PhotoCorrectionDelete(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, club_name):
-        """
-        동아리 사진 디렉터리에 있는 파일 확인
-        """
-        club_name = os.path.basename(os.path.normpath(club_name))
-        photo_directory_path = os.path.join(settings.MEDIA_ROOT, club_name, 'photo')
-
-        try:
-            photo_files = os.listdir(photo_directory_path)
-            photo_urls = [request.build_absolute_uri(settings.MEDIA_URL + f'{club_name}/photo/' + file) for file in photo_files]
-        except FileNotFoundError:
-            return Response({'error': f'Logo directory for {club_name} not found.'})
-
-        return Response({'photo': photo_urls}, status=status.HTTP_200_OK)
-
     def patch(self, request, club_name):
         """
-        동아리 사진 수정
+        동아리 로고, 사진 수정
         """
+
         club = Club.objects.get(club_name=club_name)
-        file_name = request.data.get('file_name')
+        file = request.FILES.get('image')
 
-        if not file_name:
-            return Response({'error': 'File name is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not file:
+            return Response({'error': 'File is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        file_path = os.path.join(settings.MEDIA_ROOT, club_name, 'photo', file_name)
-        if not os.path.exists(file_path):
-            return Response({'error': 'File does not exist in the specified directory.'}, status=status.HTTP_404_NOT_FOUND)
+        image_name = unquote(os.path.basename(file.name)).replace('"', '')
+        image_type = image_name.split('_')[-1].split('.')[0]
 
-        club.photo = os.path.join(settings.MEDIA_ROOT, club_name, 'photo', file_name)
-        club.save()
+        if image_type == 'logo':
+            logo_path = os.path.join(settings.MEDIA_ROOT, 'logos', image_name)
+            if os.path.exists(logo_path):
+                club.logo = logo_path
+                club.save()
+                with open(logo_path, 'rb') as logo_file:
+                    encoded_logo = base64.b64encode(logo_file.read()).decode('utf-8')
+                return Response({
+                    'success': 'Logo updated successfully.',
+                    'logo': encoded_logo
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Logo file does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+        elif image_type == 'photo':
+            photo_path = os.path.join(settings.MEDIA_ROOT, 'photos', image_name)
+            if os.path.exists(photo_path):
+                club.photo = photo_path
+                club.save()
+                with open(photo_path, 'rb') as photo_file:
+                    encoded_photo = base64.b64encode(photo_file.read()).decode('utf-8')
+                return Response({
+                    'success': 'Photo updated successfully.',
+                    'photo': encoded_photo
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'Logo file does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'message': 'photo updated successfully.', 'new_photo': club.photo}, status=status.HTTP_200_OK)
+        return Response({'message': 'Logo updated successfully.', 'new_logo': club.logo.url}, status=status.HTTP_200_OK)
 
     def delete(self, request, club_name):
         """
-        동아리 사진 삭제
+        동아리 로고, 사진 삭제
         """
-        file_name = request.data.get('file_name')
+        club = Club.objects.get(club_name=club_name)
+        file = request.data.get('image')
 
-        if not file_name:
+        if not file:
             return Response({'error': 'File name is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        file_path = os.path.join(settings.MEDIA_ROOT, club_name, 'photo', file_name)
+        image_name = unquote(os.path.basename(file)).replace('"', '')
+        image_type = image_name.split('_')[-1].split('.')[0]
+
+        if image_type == 'logo':
+            file_path = os.path.join(settings.MEDIA_ROOT, 'logos', image_name)
+        elif image_type == 'photo':
+            file_path = os.path.join(settings.MEDIA_ROOT, 'photos', image_name)
+        else:
+            return Response({'error': 'Invalid image type provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
         if not os.path.exists(file_path):
             return Response({'error': 'File does not exist in the specified directory.'}, status=status.HTTP_404_NOT_FOUND)
-
+            # 삭제를 시도하기 전에 파일이 존재하는지 확인
+        if not default_storage.exists(file_path):
+            return Response({'error': 'File does not exist in the specified directory.'},
+                            status=status.HTTP_404_NOT_FOUND)
         try:
             # 파일 삭제
             default_storage.delete(file_path)
-            return Response({'message': 'File deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+
+            # 기본 로고 경로 설정
+            default_logo_path = os.path.join(settings.MEDIA_ROOT, 'logos', 'default.jpg')
+            # 기본 사진 경로 설정
+            default_photo_path = os.path.join(settings.MEDIA_ROOT, 'photos', 'default.jpg')
+
+            if club.logo == file_path:
+                club.logo = default_logo_path
+                club.save()
+                with open(default_logo_path, 'rb') as file:
+                    encoded_logo = base64.b64encode(file.read()).decode('utf-8')
+                return Response({
+                    'success': 'Image deleted successfully.',
+                    'logo': encoded_logo
+                })
+            if club.photo == file_path:
+                club.photo = default_photo_path
+                club.save()
+                with open(default_photo_path, 'rb') as file:
+                    encoded_photo = base64.b64encode(file.read()).decode('utf-8')
+                return Response({
+                    'success': 'Image deleted successfully.',
+                    'photo': encoded_photo
+                })
+
+            club.save()
+
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class PhotoUpload(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = ClubSerializer
-
-    def get_object(self):
-        club_name = self.kwargs.get('club_name')
-        return Club.objects.get(club_name=club_name)
-
-    def post(self, request, *args, **kwargs):
+    def post(self, request, club_name):
         """
-        동아리 사진 추가
+        동아리 로고, 사진 추가
         """
-        file = request.FILES.get('photo')
-        club_name = kwargs.get('club_name')
+        image = request.FILES.get('image')
 
-        if not file:
-            return Response({'message': 'No logo provided'}, status=status.HTTP_400_BAD_REQUEST)
+        image_name = image.name
 
-        directory_path = os.path.join(settings.MEDIA_ROOT, club_name, 'photo')
-        full_path = os.path.join(directory_path, file)
+        first_name = image_name.replace("_", " ")
+        image_type = image_name.split("_")[-1].split(".")[0]
 
-        if default_storage.exists(full_path):
-            return Response({'messege': 'photo exsit'}, status=status.HTTP_400_BAD_REQUEST)
+        if not image:
+            return Response({'message': 'No image provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-        default_storage.save(full_path, ContentFile(file.read()))
-        return Response({'message': 'upload photo'}, status=status.HTTP_200_OK)
+        if not (first_name.startswith(club_name)) or image_type not in ['logo', 'photo']:
+            return Response({'message': '''파일 명이 맞지 않습니다. 
+                예시) 동아리 이름: Art Club 이미지 분류: logo 파일 명: Art_Club_free_logo 또는 Art_Club_one_logo'''}, status=status.HTTP_400_BAD_REQUEST)
 
-class IntroducationCorrection(UpdateAPIView):
-    queryset = Club.objects.all()
-    permission_classes = [IsAuthenticated]
+        if image_type == 'logo':
+            directory_path = os.path.join(settings.MEDIA_ROOT, 'logos')
+        elif image_type == 'photo':
+            directory_path = os.path.join(settings.MEDIA_ROOT, 'photos')
+
+        full_path = os.path.join(directory_path, image_name)
+
+        # 이미지 파일이 존재하는지 확인
+        if os.path.exists(full_path):
+            return Response({'message': '이미지 파일이 이미 존재합니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            default_storage.save(full_path, ContentFile(image.read()))
+        except Exception as e:
+            return Response({'message': f'Error saving image: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'message': 'Image uploaded successfully', 'file_name': image_name}, status=status.HTTP_200_OK)
+
+class IntroducationCorrection(APIView):
+    permission_classes = [IsPresidentOrAdmin]
     serializer_class = ClubSerializer
     lookup_field = 'club_name'
+    http_method_names = ['patch']
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request, club_name):
         """
         동아리 소개글 수정
         """
-        return self.partial_update(request, *args, **kwargs)
+        club = Club.objects.get(club_name=club_name)
+        introduction = request.data.get('introduction')
+
+        if introduction:
+            # 동아리 소개글 업데이트 로직 구현
+            # 예를 들어, 동아리 모델에서 introduction 필드를 업데이트하고 저장하는 등의 작업을 수행할 수 있습니다.
+            club.introducation = introduction
+            club.save()
+            return Response({
+                'message': '소개글을 성공적으로 수정했습니다.',
+                'introduction': introduction
+            }, status=status.HTTP_200_OK)
+        else:
+            # 요청에 소개글이 포함되지 않은 경우에는 오류 응답을 반환합니다.
+            return Response({'error': '소개글이 포함되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,4 +1,4 @@
-from .models import Board, Post, Comment
+from .models import Board, Post, Comment, Event
 from rest_framework import serializers
 
 # class BoardSerializer(serializers.ModelSerializer):
@@ -92,3 +92,19 @@ class CommentCreateSerializer(AuthorNameMixin,serializers.ModelSerializer):
         validated_data['author'] = author
 
         return Comment.objects.create(**validated_data)
+
+
+class EventSerializer(AuthorNameMixin, serializers.ModelSerializer):
+    """
+    이벤트
+    """
+    author_name = serializers.SerializerMethodField()
+    class Meta:
+        model = Event
+        fields = ['id', 'title', 'content', 'start_time', 'end_time', 'author_name', 'photo']
+
+    def create(self, validated_data):
+        author = self.context['request'].user
+        validated_data['author'] = author
+
+        return Event.objects.create(**validated_data)

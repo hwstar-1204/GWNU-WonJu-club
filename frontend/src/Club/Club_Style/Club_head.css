@@ -1,0 +1,133 @@
+/* Club_head.css */
+
+/* .header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.button-add {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.horizontal-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.member,
+.album,
+.post,
+.event {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.member {
+  max-width: 300px;
+}
+
+.album,
+.post,
+.event {
+  max-width: 600px;
+}
+
+.album-stats,
+.post-stats,
+.event-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.album-title-link,
+.post-title-link,
+.event-title-link {
+  cursor: pointer;
+  color: black;
+}
+
+.album-title-link:hover,
+.post-title-link:hover,
+.event-title-link:hover {
+  text-decoration: underline;
+} */
+
+
+/* 관호 */
+
+.club-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f4f4f4;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin: 0 auto;
+}
+
+.club-header img {
+  margin-right: 20px;
+}
+
+.club-header h1 {
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.club-header nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.club-header nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  justify-items: center;
+  padding: 0;
+}
+
+.club-header nav ul li {
+  margin-right: 30px;
+  padding: 10px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.club-header nav ul li:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.manage {
+  margin-left: auto;
+  margin-right: 50px;
+}

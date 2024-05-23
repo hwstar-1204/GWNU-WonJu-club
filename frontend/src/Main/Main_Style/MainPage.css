@@ -1,37 +1,23 @@
 
-/* 카테고리 페이지 스타일 */
-.category-container {
-  display: flex;
-  justify-content: space-around;
-  padding: 1px;
-}
 
-.category-item {
-  width: 150px;
-  height: 40px;
-  color: #333;
+.MainPage{
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  border-radius: 5px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: color 0.3s ease;
+  justify-content: center;
 }
 
-.category-item:hover {
-  color: #007bff;
+.banner-carousel{
+  width: 80%;
+  align-items: center;
 }
-
 /* 메인베너 Carousel 스타일 */
 .carousel-container {
   margin-top: 20px;
 }
 
 .carousel-image {
-  width: 100%;
+  width: 80%;
   height: 400px;
   object-fit: cover;
 }
@@ -62,7 +48,8 @@
 
 .event-card-container {
   width: 60%; /* 이벤트 카드 컨테이너의 너비를 설정합니다. */
-  margin-right: 20px;
+  margin-right: 10px;
+  
 }
 
 .club-notice-container {
@@ -71,7 +58,8 @@
 
 .event-card-container,
 .club-notice-container {
-  margin-top: 20px; /* 이벤트 카드와 동아리 공지 간의 여백을 추가합니다. */
+  margin-top: 20px; 
+  flex-shrink: 0;/* 이벤트 카드와 동아리 공지 간의 여백을 추가합니다. */
 }
 
 /* 챗봇 이미지 스타일 */
