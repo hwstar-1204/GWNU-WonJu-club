@@ -39,7 +39,7 @@ const ClubIntroducePage = () => {
   const [clubs, setClubs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  const BASE_URL = "http://localhost:8000";
   useEffect(() => {
     const debouncedFetchClubs = debounce(async () => {
       setIsLoading(true);
@@ -73,6 +73,10 @@ const ClubIntroducePage = () => {
            (selectedType === "전체" || club.type === selectedType);
   });
 
+  const getAbsolutePath = (relativePath) => {
+    return `${BASE_URL}${relativePath}`;
+  };
+
   return (
     <div className="ClubintroducePage">
       <div className="content-wrapper">
@@ -96,12 +100,12 @@ const ClubIntroducePage = () => {
               {filteredClubs.map((club, index) => (
                 <article key={index} className="card" onClick={() => handleClubClick(club.club_name)}>
                   <figure className="card__header">
-                    <img src={club.photo} alt={club.club_name} />
+                  <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
                   </figure>
                   <div className="card__contents">
                     <p>{club.introducation}</p>
                     <div className="club-info">
-                      <img src={club.logo} alt={`${club.club_name} 로고`} className="club-logo" />
+                      <img src={getAbsolutePath(club.logo)} className="club-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>
