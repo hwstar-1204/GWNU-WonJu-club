@@ -1,11 +1,11 @@
 import React from 'react';
 import '../Club_Style/Club_head.css';
 import ClubBackground from "./Club_background";;
-import { useNavigate } from 'react-router-dom'; // useHistory를 react-router-dom에서 불러옵니다.
+import { useNavigate, NavLink } from 'react-router-dom'; // useHistory를 react-router-dom에서 불러옵니다.
 
 const ClubHeader = ({ clubData, clubName }) => {
   const navigate = useNavigate();
-  
+
   if (!clubData || !clubData.club_data) {
     return <div>클럽 정보를 로딩 중...</div>;
   }
@@ -18,7 +18,7 @@ const ClubHeader = ({ clubData, clubName }) => {
   const handleClick = (section) => {
     if (section === 'members') {
       navigate(`/club_information/club/${clubName}/members/`);
-    } 
+    }
     else if (section === 'album') {
       navigate(`/club_information/club/${clubName}/albums/`);
     }
@@ -29,7 +29,7 @@ const ClubHeader = ({ clubData, clubName }) => {
       navigate(`/club_information/club/${clubName}/events/`);
     }
   }
-  
+
   const buttonStyle = {
     background: 'none',
     border: 'none',
@@ -48,6 +48,8 @@ const ClubHeader = ({ clubData, clubName }) => {
         logo={clubData.club_data.logo}
       />
 
+      <NavLink to={`/club_management/club/${clubName}`} className= "management">동아리 관리</NavLink> {/* 추가된 부분 */}  
+
       <div className="club-members-container">
         <div style={sectionHeaderStyle}>
           <h3>회원 정보</h3>
@@ -55,10 +57,12 @@ const ClubHeader = ({ clubData, clubName }) => {
         </div>
         <div className="horizontal-list">
           {clubData.club_members.map(member => (
-            <div key={member.id} className="member">
-              <div className="member-job">{member.job}</div>
-              <div className="member-id">{member.id}</div>
-            </div>
+            member.joined_date !== null && (
+                <div key={member.id} className="member">
+                  <div className="member-student_id">{member.student_id}</div>
+                  <div className="member-job">{member.job}</div>
+                </div>
+            )
           ))}
         </div>
       </div>

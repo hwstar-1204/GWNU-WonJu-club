@@ -11,6 +11,7 @@ import CreateClubPage from './CreateClub/CreateClubPage';
 import CreateEventPage from './Event/Event_Component/CreateEventPage';
 import EventPage from './Event/Event_Component/EventPage';
 import ClubPage from './Club/ClubPage';
+import ClubManagement from './club_management/club_management';
 import ClubMember from './Club/Club_Component/Club_members';
 import ClubAlbum from './Club/Club_Component/Club_gallery';
 import ClubEvent from './Club/Club_Component/Club_event';
@@ -45,6 +46,7 @@ function App() {
         <Route path="/mypage/*" element={<MyPage />} />
         <Route path="/eventpage/*" element={<EventPage />} />
         <Route path="/clubpage/*" element={<ClubPage />} />
+        <Route path="club_management/club/:clubName" element={<ClubManagement />} />
         <Route path="/club_information/club/:club_name/home/" element={<ClubPage />} />
         <Route path="/club_information/club/:club_name/members/" element={<ClubMember />} />
         <Route path="/club_information/club/:club_name/albums/" element={<ClubAlbum />} />

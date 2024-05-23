@@ -1,111 +1,76 @@
+/* Club_head.css */
+
 .header-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
-.club-logo-container {
-  margin: 20px;
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.club-logo {
-  width: 150px;
+.section-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.button-add {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
 }
 
 .horizontal-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-  padding: 10px;
+  justify-content: center;
+}
+
+.member,
+.album,
+.post,
+.event {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
 .member {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 5px;
-  padding: 10px;
+  max-width: 300px;
 }
 
-.member-job {
-  font-weight: bold;
-  margin-bottom: 5px; /* 추가: 각 항목 사이에 공간을 추가 */
-}
-
-.member-id {
-  font-size: small;
-}
-
-.posts-table {
-  width: 100%;
-  margin-bottom: 20px;
-  border-collapse: collapse;
-}
-
-.posts-table th, .posts-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-.club-albums-container {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
-.album {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.album-title {
-  font-weight: bold;
-  margin-bottom: 1px;
-}
-
-.album-stats {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.views, .recommended {
-  padding: 3px;
-  margin: 3px;
-}
-
-.club-events-container {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
+.album,
+.post,
 .event {
-  margin: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 600px;
 }
 
-.event-title {
-  font-weight: bold;
-  margin-bottom: 1px;  /* 제목 아래에 조금의 여백을 추가 */
-}
-
+.album-stats,
+.post-stats,
 .event-stats {
   display: flex;
-  justify-content: center;  /* 중앙 정렬을 통해 더 깔끔하게 표시 */
-  width: 100%;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
-.views, .recommended {
-  padding: 3px;
-  margin: 0 10px;  /* 각각의 요소 사이의 간격을 조정 */
+.album-title-link,
+.post-title-link,
+.event-title-link {
+  cursor: pointer;
+  color: black;
+}
+
+.album-title-link:hover,
+.post-title-link:hover,
+.event-title-link:hover {
+  text-decoration: underline;
 }
