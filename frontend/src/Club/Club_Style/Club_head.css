@@ -1,6 +1,6 @@
 /* Club_head.css */
 
-.header-container {
+/* .header-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,9 +73,11 @@
 .post-title-link:hover,
 .event-title-link:hover {
   text-decoration: underline;
-}
+} */
 
-/* 
+
+/* 관호 */
+
 .club-header {
   display: flex;
   align-items: center;
@@ -128,4 +130,4 @@
 .manage {
   margin-left: auto;
   margin-right: 50px;
-} */
+}
