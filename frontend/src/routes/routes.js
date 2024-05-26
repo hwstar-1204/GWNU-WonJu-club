@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import MainPage from '../Main/Main_Component/MainPage';
-import LoginPage2 from '../TestPage/LoginPage2';
+import LoginPage from '../Login/LoginPage';
 import Myclub from '../Mypage/Myclub';
 import MyPage from '../Mypage/Mypage';
 import EventPage from '../Event/Event_Component/EventPage';
@@ -12,16 +12,20 @@ import ClubAlbum from '../Club/Club_Component/Club_gallery';
 import ClubEvent from '../Club/Club_Component/Club_event';
 import ClubPosts from '../Club/Club_Component/Club_board';
 import PostMain from '../Board/free_posts/free_posts_Component/PostMain';
-import SignUpPage from '../TestPage/SignUpPage';
-import UserDetail from '../TestPage/UserDetail';
-import NotFound from '../TestPage/NotFound';
+import SignUpPage from '../Login/SignUpPage';
+import UserDetail from '../Login/UserDetail';
+import NotFound from '../Login/NotFound';
 import ClubIntroducePage from '../Club_Introduce/ClubIntroducePage';
 import ClubManagement from '../club_management/club_management';
+import ResetPasswordPage from '../Login/ResetPasswordPage';
 
 export const AppRoutes = () => (
   <>
     <Route path="/" element={<MainPage />} />
-    <Route path="/login" element={<LoginPage2 />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/reset-password/" element={<ResetPasswordPage />} />
+    <Route path="/auth/reset-password-confirm/:uid/token/:token" element={<ResetPasswordPage />} />
+
     <Route path="/myclub" element={<Myclub />} />
     <Route path="/mypage/*" element={<MyPage />} />
     <Route path="/eventpage/*" element={<EventPage />} />
