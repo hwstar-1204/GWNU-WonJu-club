@@ -13,23 +13,10 @@
 
 📚 기술 스택 
 
-  <div style="display: flex;">
-    <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-    <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
-    <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-  </div>
-
-<div style="display: flex;">
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
-</div>
-
-<div style="display: flex;">
-  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-  <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
-</div>
+| **Front-End** | **Back-End** | **DBMS** | **Configuration Management** | **Deployment** |
+|:---:|:---:|:---:|:---:|:---:|
+| <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/django-community.svg" width="200"> | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="115"> | <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/docker.svg" width="80"> |
+| React.js | Django REST Framework | MySQL | GitHub | Docker |
 
 ## 기능
 1. 모든 동아리 정보 확인
