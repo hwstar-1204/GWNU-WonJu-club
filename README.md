@@ -13,11 +13,10 @@
 
 📚 기술 스택 
 
-| **Front-End** | **Back-End** | **DBMS** | **Configuration Management** | **Deployment** |
-|:---:|:---:|:---:|:---:|:---:|
-| <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/django-community.svg" width="200"> | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="115"> | <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/docker.svg" width="80"> |
-| React.js | Django REST Framework | MySQL | GitHub | Docker |
-
+| **Front-End** | **Back-End** | **DBMS** | **AI Model** | **Configuration Management** | **Deployment** |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/django-community.svg" width="100"> | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg" width="100"> | <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="100"> |<img src="https://cdn.worldvectorlogo.com/logos/docker.svg" width="100"> |
+| React.js | Django REST Framework | MySQL | Tensorflow | GitHub | Docker |
 
 ## 기능
 1. 모든 동아리 정보 확인
