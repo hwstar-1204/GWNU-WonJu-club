@@ -8,6 +8,14 @@ import axios from 'axios';
 
 const categoryCodes = {
   "전체": "0",
+  "정규동아리": "1", 
+  "가등록동아리": "2", 
+  "학습동아리": "3", 
+  "취업/창업동아리": "4",
+  "소모임": "5"
+};
+const typeCodes = {
+  "전체": "0",
   "운동/스포츠": "1",
   "자기계발/학습/독서": "2",
   "패션/뷰티": "3",
@@ -18,6 +26,10 @@ const categoryCodes = {
 
 function getCategoryLabelByCode(code) {
   return Object.keys(categoryCodes).find(key => categoryCodes[key] === code);
+}
+
+function getTypeLabelByCode(code) {
+  return Object.keys(typeCodes).find(key => typeCodes[key] === code);
 }
 
 function Dropdown({ value, onChange, options, label }) {
@@ -35,15 +47,16 @@ function Dropdown({ value, onChange, options, label }) {
 
 const ClubIntroducePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("0");
-  const [selectedType, setSelectedType] = useState("전체");
+  const [selectedType, setSelectedType] = useState("0");
   const [clubs, setClubs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const BASE_URL = "http://localhost:8000";
+
   useEffect(() => {
     const debouncedFetchClubs = debounce(async () => {
       setIsLoading(true);
-      const categoryPath = selectedCategory !== "0" ? `/category_club/${selectedCategory}` : '/';
+      const categoryPath = selectedCategory !== "0" || selectedType !== "0" ? `/category_club/${selectedCategory}/${selectedType}` : '/';
       const url = `http://localhost:8000/club_introduce/club_list${categoryPath}`;
       try {
         const response = await axios.get(url);
@@ -57,20 +70,42 @@ const ClubIntroducePage = () => {
     debouncedFetchClubs();
   }, [selectedCategory, selectedType]);
 
+  const handleApplyClick = async (clubName, event) => {
+    event.stopPropagation(); // 이벤트 전파를 막습니다.
+    try {
+      const token = localStorage.getItem('token');  // 예시: 토큰이 localStorage에 저장되어 있다고 가정
+      const response = await axios.post(`${BASE_URL}/club_introduce/apply_club/`, 
+        { club_name: clubName },
+        { headers: { Authorization: `Token ${token}` } }
+      );
+      if (response.status === 200) {
+        alert('가입 신청이 완료되었습니다.');
+      } else {
+        alert('가입 신청에 실패하였습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('Error applying for club:', error);
+      alert('가입 신청 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
   const handleCategoryChange = e => {
     const categoryLabel = e.target.value;
     setSelectedCategory(categoryCodes[categoryLabel]);
   };
 
-  const handleTypeChange = e => setSelectedType(e.target.value);
+  const handleTypeChange = e => {
+    const typeLabel = e.target.value 
+    setSelectedType(typeCodes[typeLabel]);
+  };
 
   const handleClubClick = (clubName) => {
     navigate(`/club_information/club/${clubName}/home`);
-};
+  };
 
   const filteredClubs = clubs.filter(club => {
     return (selectedCategory === "0" || club.category === selectedCategory) &&
-           (selectedType === "전체" || club.type === selectedType);
+           (selectedType === "0" || club.type === selectedType);
   });
 
   const getAbsolutePath = (relativePath) => {
@@ -90,9 +125,9 @@ const ClubIntroducePage = () => {
             />
             <Dropdown
               label="동아리 유형 선택"
-              value={selectedType}
+              value={getTypeLabelByCode(selectedType)}
               onChange={handleTypeChange}
-              options={["전체", "정규동아리", "가등록동아리", "학습동아리", "취업/창업동아리", "소모임"].map(type => ({ value: type, label: type }))}
+              options={Object.keys(typeCodes).map(key => ({ value: key, label: key }))}
             />
           </div>
           {isLoading ? <p>Loading...</p> : (
@@ -100,7 +135,7 @@ const ClubIntroducePage = () => {
               {filteredClubs.map((club, index) => (
                 <article key={index} className="card" onClick={() => handleClubClick(club.club_name)}>
                   <figure className="card__header">
-                  <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
+                    <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
                   </figure>
                   <div className="card__contents">
                     <p>{club.introducation}</p>
@@ -110,7 +145,7 @@ const ClubIntroducePage = () => {
                     </div>
                   </div>
                   <div className="card__footer">
-                    <button className="apply-button">가입 신청</button>
+                    <button className="apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button>
                   </div>
                 </article>
               ))}

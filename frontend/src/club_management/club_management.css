@@ -247,7 +247,7 @@
 
 .member-management-item {
   flex: 0 0 auto; /* 아이템이 확장되지 않도록 설정 */
-  width: 200px; /* 각 아이템의 너비 설정 */
+  width: 120px; /* 각 아이템의 너비 설정 */
   margin-right: 20px;
   margin-bottom: 10px;
   display: flex;
@@ -284,4 +284,21 @@
 
 .member-management-item .remove-member-btn:hover {
   background-color: #cc0000;
+}
+
+.club-delete-button {
+  padding: 8px 16px; /* 버튼 크기 조정 */
+  border-radius: 4px;
+  border: none;
+  background-color: #ff4d4d; /* 배경색 */
+  color: #fff; /* 글자색 */
+  cursor: pointer;
+  margin-top: 20px; /* 버튼과 동아리 목록 사이 간격 설정 */
+  margin-right: 20px; /* 버튼을 동아리 관리 섹션과 동아리 소개글 사이에 위치 */
+  font-size: 16px; /* 글씨 크기 */
+}
+
+/* 마우스 호버 시 색상 변경 */
+.club-delete-button:hover {
+  background-color: #cc0000; /* 호버 시 배경색 변경 */
 }

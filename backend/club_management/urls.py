@@ -18,4 +18,6 @@ urlpatterns = [
 
     # 동아리 소개 수정
     path('club/<str:club_name>/introducation/', IntroducationCorrection.as_view(), name='introduction-correction'),
+
+    path('club/<str:club_name>/delete', DeleteClub.as_view(), name='club-delete')
 ]

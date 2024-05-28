@@ -370,3 +370,15 @@ class IntroducationCorrection(APIView):
         else:
             # 요청에 소개글이 포함되지 않은 경우에는 오류 응답을 반환합니다.
             return Response({'error': '소개글이 포함되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteClub(APIView):
+    permission_classes = [IsPresidentOrAdmin]
+
+    def delete(self, request, club_name):
+        try:
+            club = Club.objects.get(club_name=club_name)
+        except Club.DoesNotExist:
+            return Response({"message": "해당 동아리가 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        club.delete()
+        return Response({"message": f"동아리 '{club_name}' 삭제 완료."}, status=status.HTTP_204_NO_CONTENT)

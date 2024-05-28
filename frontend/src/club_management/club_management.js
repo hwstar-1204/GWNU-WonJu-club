@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import Modal from 'react-modal';
 import './club_management.css';
 import defaultImage from "../profile.jpg";
 
 const ClubManagementPage = () => {
-  const {clubName} = useParams();
+  const { clubName } = useParams();
   const [clubNameInput, setClubNameInput] = useState('');
   const [clubData, setClubData] = useState(null);
   const [clubList, setClubList] = useState([]);
@@ -22,6 +22,7 @@ const ClubManagementPage = () => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageType, setImageType] = useState('');
   const [btnMode, setBtnMode] = useState('');
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   useEffect(() => {
@@ -109,10 +110,10 @@ const ClubManagementPage = () => {
     if (!clubName || !newLogo) {
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('image', newLogo);
-  
+
     try {
       const response = await axios.post(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
         headers: {
@@ -120,7 +121,7 @@ const ClubManagementPage = () => {
           'Authorization': `Token ${token}`
         }
       });
-  
+
       setNewLogo(''); // 추가 후 상태 초기화
     } catch (error) {
       console.error('Error adding logo:', error);
@@ -210,10 +211,10 @@ const ClubManagementPage = () => {
     if (!clubName || !newPhoto) {
       return;
     }
-  
+
     const formData = new FormData();
     formData.append('image', newPhoto);
-  
+
     try {
       const response = await axios.post(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
         headers: {
@@ -221,7 +222,7 @@ const ClubManagementPage = () => {
           'Authorization': `Token ${token}`
         }
       });
-  
+
       setNewPhoto(''); // 추가 후 상태 초기화
     } catch (error) {
       console.error('Error adding photo:', error);
@@ -363,11 +364,13 @@ const ClubManagementPage = () => {
   const handleIntroductionUpdate = async () => {
     if (newIntroduction) {
       try {
-        const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/introducation/`,  
-          {introduction: newIntroduction},
-          {headers: {
-            'Authorization': `Token ${token}`
-          }}
+        const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/introducation/`,
+          { introduction: newIntroduction },
+          {
+            headers: {
+              'Authorization': `Token ${token}`
+            }
+          }
         );
         if (response.data && response.data.introduction) {
           setClubData((prev) => ({
@@ -424,7 +427,7 @@ const ClubManagementPage = () => {
     if (!clubName) {
       return;
     }
-  
+
     try {
       await axios.patch(
         `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
@@ -436,26 +439,26 @@ const ClubManagementPage = () => {
           }
         }
       );
-  
+
       setClubData(prev => ({
         ...prev,
         existing_members: prev.existing_members.map(member => {
           if (member.id === memberId) {
-              member.job = newRole;
-            }
-            return member;
-          })
-        }));
+            member.job = newRole;
+          }
+          return member;
+        })
+      }));
     } catch (error) {
       console.error('구성원 역할 변경 중 오류 발생:', error);
     }
   };
-  
+
   const handleRemoveMember = async (memberId) => {
     if (!clubName) {
       return;
     }
-  
+
     try {
       await axios.delete(
         `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
@@ -465,13 +468,33 @@ const ClubManagementPage = () => {
           }
         }
       );
-  
+
       setClubData((prev) => ({
         ...prev,
         existing_members: prev.existing_members.filter((member) => member.id !== memberId)
       }));
     } catch (error) {
       console.error('구성원 제거 중 오류 발생:', error);
+    }
+  };
+
+  const handleClubDelete = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:8000/club_management/club/${clubName}/delete`, {
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      });
+      if (response.status === 204) {
+        // 동아리 삭제 성공
+        Navigate('/') // 삭제 후 메인 페이지로 이동
+      } else {
+        setErrorMessage('동아리 삭제에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('Error deleting club:', error);
+      setErrorMessage('동아리 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
     }
   };
 
@@ -495,7 +518,7 @@ const ClubManagementPage = () => {
                   <ul className="member-list">
                     {clubData.existing_members.map(member => (
                       <li key={member.id} className="member-item">
-                        <img src={defaultImage} alt="프로필 사진" className="profile-image"/>
+                        <img src={defaultImage} alt="프로필 사진" className="profile-image" />
                         <span>{member.user}</span>
                         <span>{member.job}</span>
                       </li>
@@ -507,41 +530,41 @@ const ClubManagementPage = () => {
               </div>
 
               {/* 회원 관리 섹션 */}
-            <div className="member-management-section">
-              <h3>회원 관리</h3>
-              {clubData.existing_members && clubData.existing_members.length > 0 ? (
-                <div className="member-management-list">
-                  {clubData.existing_members.map((member) => (
-                    <div key={member.id} className="member-management-item">
-                      <img
-                        src={member.profile_photo ? `data:image/jpeg;base64,${member.profile_photo}` : defaultImage}
-                        alt={member.user}
-                        className="member-photo"
-                      />
-                      <span className="member-name">{member.user}</span>
-                      <select
-                        value={member.role}
-                        onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                        className="member-role-select"
-                      >
-                        <option value="original">{member.job}</option> 
-                        <option value="회장">회장</option>
-                        <option value="부회장">부회장</option>
-                        <option value="일반회원">일반회원</option>
-                      </select>
-                      <button
-                        className="remove-member-btn"
-                        onClick={() => handleRemoveMember(member.id)}
-                      >
-                        퇴출
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p>관리할 회원이 없습니다.</p>
-              )}
-            </div>
+              <div className="member-management-section">
+                <h3>회원 관리</h3>
+                {clubData.existing_members && clubData.existing_members.length > 0 ? (
+                  <div className="member-management-list">
+                    {clubData.existing_members.map((member) => (
+                      <div key={member.id} className="member-management-item">
+                        <img
+                          src={member.profile_photo ? `data:image/jpeg;base64,${member.profile_photo}` : defaultImage}
+                          alt={member.user}
+                          className="member-photo"
+                        />
+                        <span className="member-name">{member.user}</span>
+                        <select
+                          value={member.role}
+                          onChange={(e) => handleRoleChange(member.id, e.target.value)}
+                          className="member-role-select"
+                        >
+                          <option value="original">{member.job}</option>
+                          <option value="회장">회장</option>
+                          <option value="부회장">부회장</option>
+                          <option value="일반회원">일반회원</option>
+                        </select>
+                        <button
+                          className="remove-member-btn"
+                          onClick={() => handleRemoveMember(member.id)}
+                        >
+                          퇴출
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>관리할 회원이 없습니다.</p>
+                )}
+              </div>
 
               <h3>신규 회원 대기</h3>
               <div className="applying-members">
@@ -622,11 +645,11 @@ const ClubManagementPage = () => {
               {errorMessage && <p className="error-message">{errorMessage}</p>}
             </div>
           ) : (
-              <p>Loading...</p>
+            <p>Loading...</p>
           )}
         </section>
       </div>
-
+      <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
       {/* Image Selection Modal */}
       <Modal
         isOpen={isImageModalOpen}

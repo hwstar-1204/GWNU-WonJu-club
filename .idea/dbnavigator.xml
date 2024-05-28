@@ -17,7 +17,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="30c0f511-2adc-4dfc-b91e-4bfd07237603">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select * from club_introduce_clubmember]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[update club_introduce_clubmember set student_id_id=20191479 where student_id_id=78]]></console>
     </connection>
     <connection id="1ee542ad-fb9b-43c4-9ded-bb02d76cac26">
       <console name="Connection 1" type="STANDARD" schema="" session="Main"><![CDATA[select * from club_account_customuser]]></console>
