@@ -40,7 +40,7 @@ class ClubMember(models.Model):
         verbose_name_plural = '동아리 회원들'
     club_name = models.ForeignKey('Club', on_delete=models.CASCADE, to_field='club_name', null=True)  # 변경
     # club_name = models.CharField(max_length=20)
-    student_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, to_field='student_id') # 변경
+    student_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, to_field='student_id')  # 변경
     # student_id = models.IntegerField()
 
     joined_date = models.DateTimeField(null=False)

@@ -4,7 +4,8 @@ import "./CreateClub.css";
 
 const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
-  const [clubType, setClubType] = useState("");
+  const [category, setCategory] = useState("선택");  // 정규, 가등록, 학습, 취업, 소모임
+  const [type, setType] = useState("선택");          // 운동, 음악, 종교 등등
   const [introduction, setIntroduction] = useState("");
   const [logo, setLogo] = useState("");
   const [background, setBackground] = useState("");
@@ -12,7 +13,8 @@ const CreateClubPage = () => {
 
 
   const handleNameChange = (e) => setClubName(e.target.value);
-  const handleTypeChange = (e) => setClubType(e.target.value);
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleTypeChange = (e) => setType(e.target.value);
   const handleIntroductionChange = (e) => setIntroduction(e.target.value);
   const handleLogoChange = (e) =>
     setLogo(URL.createObjectURL(e.target.files[0]));
@@ -22,7 +24,8 @@ const CreateClubPage = () => {
   const handleSubmit = () => {
     const newClub = {
       club_name: clubName,
-      category: clubType,
+      category: category,
+      type: type,
       introducation: introduction,
       // logo: logo,
       // photo: background,
@@ -38,12 +41,11 @@ const CreateClubPage = () => {
       },
       body: JSON.stringify(newClub),
     })
-    // .then(response => response.json())
     .then(res => {
-      // addClub(data);
       console.log("생성된 동아리: ",res.status);
       alert("동아리가 등록되었습니다!");
-      // TODO 해당 동아리 페이지로 이동 
+      window.location.reload();
+
     })
     .catch(error => {
       console.error('Error adding club:', error);
@@ -71,20 +73,35 @@ const CreateClubPage = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="clubType" style={{ marginBottom: "5%" }}>
+      
+
+        <Form.Group controlId="category" style={{ marginBottom: "5%" }}>
           <Form.Label>동아리 유형</Form.Label>
           <Form.Control
             as="select"
-            value={clubType}
-            onChange={handleTypeChange}
+            value={category}
+            onChange={handleCategoryChange}
             style={{ width: "30%" }}
           >
-            <option>선택</option>
-            <option value="정규">정규 동아리</option>
-            <option value="가등록">가등록 동아리</option>
-            <option value="학습">학습 동아리</option>
-            <option value="취업">취업/창업 동아리</option>
-            <option value="소모임">소모임</option>
+            <option value="선택">선택</option>
+            {["정규", "가등록", "학습", "취업", "소모임"].map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="type" style={{ marginBottom: "5%" }}>
+          <Form.Label>동아리 분야</Form.Label>
+          <Form.Control
+            as="select"
+            value={type}
+            onChange={handleTypeChange}
+            style={{ width: "30%" }}
+          >            
+            <option value="선택">선택</option>
+            {["문화", "공연", "운동", "음악", "종교", "봉사", "학술", "예술", "기타"].map((option) => (
+              <option value={option}>{option}</option>
+            ))}
           </Form.Control>
         </Form.Group>
 
