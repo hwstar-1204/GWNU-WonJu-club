@@ -1,6 +1,6 @@
 import React from "react";
 import '../Club_Style/Club_background.css';
-import { BannerImage, LogoImage } from './StyledComponents';
+import { BannerImage, LogoImage } from '../../styles';
 
 
 const ClubBackground = ({ introduction, Background }) => {

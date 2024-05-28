@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
+import { LogoImage,BannerImage } from "../styles";
 
 const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
@@ -123,7 +124,7 @@ const CreateClubPage = () => {
             onChange={handleLogoChange}
             style={{ width: "30%" }}
           />
-          {logo && <Image src={logo} thumbnail />}
+          {logo && <LogoImage src={logo} thumbnail />}
         </Form.Group>
 
         <Form.Group controlId="background" style={{ marginBottom: "5%" }}>
@@ -133,7 +134,7 @@ const CreateClubPage = () => {
             onChange={handleBackgroundChange}
             style={{ width: "30%" }}
           />
-          {background && <Image src={background} thumbnail />}
+          {background && <BannerImage src={background} thumbnail />}
         </Form.Group>
 
         <Button variant="primary" onClick={handleSubmit}>

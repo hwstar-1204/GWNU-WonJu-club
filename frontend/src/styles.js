@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 
-const BannerImage = styled.img`
-  width: 200px;
-  height: 800px;
+export const BannerImage = styled.img`
+  width: 1300px;
+  height: 300px;
 `;
 
-const ProfileImage = styled.img`
+export const ProfileImage = styled.img`
   width: 60px;
   height: 60px;
 `;
 
-const LogoImage = styled.img`
+export const LogoImage = styled.img`
   width: 80px;
   height: 80px;
 `;

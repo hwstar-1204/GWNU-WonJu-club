@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import './ClubIntroducePage.css';
-import Kakao from '../Club_Introduce/Assets/kakao.png';
-import InstagramIcon from '../Club_Introduce/Assets/instagram.jpg';
 import axios from 'axios';
+import { LogoImage } from '../styles';
+
 
 const categoryCodes = {
   "전체": "0",
@@ -105,7 +105,7 @@ const ClubIntroducePage = () => {
                   <div className="card__contents">
                     <p>{club.introducation}</p>
                     <div className="club-info">
-                      <img src={getAbsolutePath(club.logo)} className="club-logo" />
+                      <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>
