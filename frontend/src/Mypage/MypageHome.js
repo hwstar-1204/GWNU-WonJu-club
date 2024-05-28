@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col } from "react-bootstrap";
+import { LogoImage } from './StyledComponents'; 
 
 import "./Mypage_Style/MypageHome.css";
 import defaultImage from "./profile.jpg";
@@ -34,7 +35,7 @@ const MypageHome = ({ userData }) => {
         <Col md={4}>
           <div className="myclub-panel">
             <h2 className="myclub-head">나의 동아리</h2>
-            <img src={logo} alt="동아리 로고" className="club-logo"/>
+            <LogoImage src={logo} alt="동아리 로고" className="club-logo"/>
             <div className="club-info">
               <p><strong>가입 동아리 이름</strong></p>
               <p><strong>등급</strong></p>
