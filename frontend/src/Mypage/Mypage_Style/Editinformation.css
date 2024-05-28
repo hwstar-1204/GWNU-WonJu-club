@@ -32,13 +32,8 @@
     margin-bottom: 20px;
 }
 
-.form-group {
-    margin-bottom: 15px;
-    margin-left:20%;
-    /* 각 폼 그룹 간의 간격 */
-}
 
-.form-control {
+.edit-form-control {
     width: 100%;
     /* 입력 필드의 너비를 폼 그룹에 맞춤 */
     padding: 10px;

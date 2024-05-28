@@ -1,18 +1,14 @@
-/* club_management.css */
-
 .ClubManagementPage {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
     padding: 20px;
+    width: 80%;
+    margin-left: 10%;
   }
-  
-  .content-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  .club-info{
+    font-weight: bold;
   }
-  
+
   .section {
     background-color: #f9f9f9;
     padding: 20px;

@@ -11,7 +11,7 @@ const ClubBackground = ({ introduction, Background }) => {
     <div className="club-info-container">
       {/* 동아리 로고를 표시합니다. */}
       <div className="club-logo-container">
-        <BannerImage src={background} alt="Club bannel" className="club-logo" />
+        <BannerImage src={Background} alt="Club bannel" className="club-logo" />
       </div>
       <div className="introduction">{safeIntroduction}</div>
     </div>

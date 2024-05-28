@@ -53,7 +53,7 @@ const PasswordChangeForm = () => {
 
   return (
    <Form className="form-horizontal" onSubmit={handleSubmit}>
-  <Form.Group className="form-group" controlId="new_password1">
+  <Form.Group className="change-password-form-group" controlId="new_password1">
     <Form.Label column sm={4}>현재 비밀번호</Form.Label>
     <Col sm={6}>
       <Form.Control
@@ -67,7 +67,7 @@ const PasswordChangeForm = () => {
     </Col>
   </Form.Group>
 
-  <Form.Group className="form-group" controlId="new_password2">
+  <Form.Group className="change-password-form-group" controlId="new_password2">
     <Form.Label column sm={4}>현재 비밀번호 확인</Form.Label>
     <Col sm={6}>
       <Form.Control

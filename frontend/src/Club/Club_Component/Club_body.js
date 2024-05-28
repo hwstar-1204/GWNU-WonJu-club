@@ -45,7 +45,7 @@ const ClubBody = ({ clubData, clubName }) => {
     <div className="header-container">
       <ClubBackground
         introduction={clubData.club_introduction}
-        logo={clubData.club_data.background}
+        Background={clubData.club_data.background}
       />
 
       <div className="club-members-container">

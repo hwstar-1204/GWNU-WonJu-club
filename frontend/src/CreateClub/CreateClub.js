@@ -62,7 +62,7 @@ const CreateClubPage = () => {
   return (
     <Container>
       <h1 className="create-head">동아리 만들기</h1>
-      <Form>
+      <Form className="create-club-form">
         {/* 동아리 이름 입력 */}
         <Form.Group controlId="clubName" style={{ marginBottom: "5%" }}>
           <Form.Label>동아리 이름</Form.Label>

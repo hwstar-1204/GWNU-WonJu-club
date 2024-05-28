@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import ClubHeader from './Club_head';
 
 const ClubPosts = () => {
+
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,11 +38,13 @@ const ClubPosts = () => {
   }, [category, order]);
 
   if (loading) return <Typography>로딩 중...</Typography>;
-  if (error) return <Typography>오류 발생: {error.message}</Typography>;
+  // if (error) return <Typography>오류 발생: {error.message}</Typography>;
 
   return (
-    <div>
-      <Typography variant="h4">동아리 게시물</Typography>
+    <div className='board-container'>
+      <ClubHeader clubName={clubName} />
+      <h3 className='club-head-text'>헬스맨 게시판</h3>
+      <Typography variant="h4"></Typography>
       {/* 카테고리 선택 */}
       <Button onClick={() => setCategory('all')} variant={category === 'all' ? 'contained' : 'outlined'}>전체</Button>
       <Button onClick={() => setCategory('notice')} variant={category === 'notice' ? 'contained' : 'outlined'}>공지</Button>

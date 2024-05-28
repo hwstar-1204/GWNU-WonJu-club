@@ -1,5 +1,9 @@
 .bulletin-board-container {
     margin-top: 20px;
+
+}
+.board-container {
+    width: 80%;
 }
 
 .posts {

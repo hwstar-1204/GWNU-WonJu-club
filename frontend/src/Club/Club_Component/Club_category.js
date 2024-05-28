@@ -28,6 +28,7 @@ const clubCategory = ({ clubname, isPresident }) => {
   };
 
 return (
+  
     <div className="header-container">
       {clubInfo && (
         <NavLink to={`/clubpage/${clubInfo.clubname}`} className="club-head">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import "../Club_Style/Club_gallery.css";
+import ClubHeader from "./Club_head.js"
 
 const ClubGallery = () => {
   const { club_name } = useParams();
@@ -54,7 +55,8 @@ const ClubGallery = () => {
 
   return (
     <div className="gallery-container">
-      <h2>갤러리</h2>
+      <ClubHeader clubName={club_name} />
+      <h2 className='club-head-text'>갤러리</h2>
       <div className="search-container">
         <select value={searchOption} onChange={handleSearchOptionChange}>
           <option value="all">전체</option>

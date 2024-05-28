@@ -35,6 +35,9 @@ const ClubHeader = ({ clubName }) => {
     else if (section === 'manage') {
       navigate(`/club_management/club/${clubName}`);
     }
+    else if (section === 'home') {
+      navigate(`/club_information/club/${clubName}/home/`);
+    }
   }
 
   const buttonStyle = {
@@ -49,8 +52,8 @@ const ClubHeader = ({ clubName }) => {
   return (
     // 관호
     <div className="club-header">
-      <LogoImage src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} />
-      <h1>{clubName}</h1>
+      <LogoImage src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} onClick={() => handleClick('home')} />
+      <h1 onClick={() => handleClick('home')}>{clubName}</h1>
       <nav className='club-header-nav'>
         <ul>
           <li onClick={() => handleClick('members')}>회원정보</li>
