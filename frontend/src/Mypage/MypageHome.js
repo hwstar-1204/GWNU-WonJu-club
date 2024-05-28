@@ -47,6 +47,7 @@ const MypageHome = ({ userData, myClubList }) => {
                 </div>
                 
               ))}
+
             </div>
 
           </div>

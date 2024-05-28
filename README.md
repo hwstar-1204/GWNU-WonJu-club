@@ -13,23 +13,10 @@
 
 📚 기술 스택 
 
-  <div style="display: flex;">
-    <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
-    <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
-    <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-  </div>
-
-<div style="display: flex;">
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-  <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
-</div>
-
-<div style="display: flex;">
-  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-  <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
-</div>
+| **Front-End** | **Back-End** | **DBMS** | **AI Model** | **Configuration Management** | **Deployment** |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| <img src="https://cdn.worldvectorlogo.com/logos/react-2.svg" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/django-community.svg" width="100"> | <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="100"> | <img src="https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg" width="100"> | <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="100"> |<img src="https://cdn.worldvectorlogo.com/logos/docker.svg" width="100"> |
+| React.js | Django REST Framework | MySQL | Tensorflow | GitHub | Docker |
 
 ## 기능
 1. 모든 동아리 정보 확인
@@ -40,42 +27,21 @@
 6. 동아리별 게시판
 7. 동아리 추천 및 질의를 해주는 chatbot
 
+
 ## Chatbot Process
-![image](https://github.com/hwstar-1204/GWNU-WonJu-club/assets/105586186/0610ee10-e47d-43b9-9b98-808331d5983b)
+<!--  ![image](https://github.com/hwstar-1204/GWNU-WonJu-club/assets/105586186/0610ee10-e47d-43b9-9b98-808331d5983b) -->
+![AI 챗봇 구현내용](https://github.com/hwstar-1204/GWNU-WonJu-club/assets/115150798/dd29803c-b66b-4c1a-9162-9028fde77db4)
 
-## Chatbot
-데이터 label  
-0 인사  
-1 욕설  
-2 종류  
-3 소개  
-4 기타  
-5 가입방법  
-6 위치  
-7 활동  
-8 생성  
 
-## 프로젝트 멤버  
-**이형원**
-  - PM, BackEnd
-  - [@hwstar-1204](https://github.com/hwstar-1204) 
+## 프로젝트 멤버
 
-**송승주**
-  - BackEnd
-  - [@songjju](https://github.com/songjju)
+| 이름 | 프로필 사진 | 역할 | GitHub 링크 |
+|:----:|:-----------:|:----:|:------------:|
+| 이형원 | <img src="https://avatars.githubusercontent.com/u/115150798?v=4" width="80"> | PM, BackEnd | [@hwstar-1204](https://github.com/hwstar-1204) |
+| 송승주 | <img src="https://avatars.githubusercontent.com/u/154545808?v=4" width="80"> | BackEnd | [@songjju](https://github.com/songjju) |
+| 김철기 | <img src="https://avatars.githubusercontent.com/u/164767367?v=4" width="80"> | FrontEnd | [@ksina123](https://github.com/ksina123) |
+| 김관호 | <img src="https://avatars.githubusercontent.com/u/149922109?v=4" width="80"> | FrontEnd | [@khkim0428](https://github.com/khkim0428) |
+| 모인지 | <img src="https://avatars.githubusercontent.com/u/32082574?v=4" width="80"> | AI ChatBot | [@moinji](https://github.com/moinji) |
+| 김유민 | <img src="https://avatars.githubusercontent.com/u/105586186?v=4" width="80"> | AI ChatBot | [@yuminK](https://github.com/kimyuuuuuu) |
 
-**김철기**
-  - FrontEnd
-  - [@ksina123](https://github.com/ksina123)
 
-**김관호**
-  - FrontEnd
-  - [@khkim0428](https://github.com/khkim0428)
-
-**모인지**
-  - AI ChatBot
-  - [@moinji](https://github.com/moinji)
-
-**김유민**
-  - AI ChatBot
-  - [@yuminK](https://github.com/kimyuuuuuu)
