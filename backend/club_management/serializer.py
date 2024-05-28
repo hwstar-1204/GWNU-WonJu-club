@@ -7,16 +7,11 @@ class ClubListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubMember
         fields = ['club_name']
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['name']
-
 class ClubMemberSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(read_only=True)
+    user = serializers.CharField(source='student_id.name', read_only=True)
     class Meta:
         model = ClubMember
-        fields = ['id', 'joined_date', 'job', 'student_id']
+        fields = ['id', 'joined_date', 'job', 'user']
 
 class ClubSerializer(serializers.ModelSerializer):
     class Meta:

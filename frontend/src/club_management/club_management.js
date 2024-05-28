@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import './club_management.css';
+import defaultImage from "../profile.jpg";
 
 const ClubManagementPage = () => {
   const {clubName} = useParams();
@@ -362,12 +363,12 @@ const ClubManagementPage = () => {
   const handleIntroductionUpdate = async () => {
     if (newIntroduction) {
       try {
-        const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/introducation/`, { 
-          introduction: newIntroduction,
-          headers: {
+        const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/introducation/`,  
+          {introduction: newIntroduction},
+          {headers: {
             'Authorization': `Token ${token}`
-          }
-        });
+          }}
+        );
         if (response.data && response.data.introduction) {
           setClubData((prev) => ({
             ...prev,
@@ -388,7 +389,7 @@ const ClubManagementPage = () => {
 
   const approveMember = async (id) => {
     try {
-      await axios.patch(`http://localhost:8000/club_management/club/${clubName}/member/${id}/`, {
+      await axios.patch(`http://localhost:8000/club_management/club/${clubName}/member/${id}/`, null, {
         headers: {
           'Authorization': `Token ${token}`
         }
@@ -419,6 +420,61 @@ const ClubManagementPage = () => {
     }
   };
 
+  const handleRoleChange = async (memberId, newRole) => {
+    if (!clubName) {
+      return;
+    }
+  
+    try {
+      await axios.patch(
+        `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
+        { role: newRole },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+          }
+        }
+      );
+  
+      setClubData(prev => ({
+        ...prev,
+        existing_members: prev.existing_members.map(member => {
+          if (member.id === memberId) {
+              member.job = newRole;
+            }
+            return member;
+          })
+        }));
+    } catch (error) {
+      console.error('구성원 역할 변경 중 오류 발생:', error);
+    }
+  };
+  
+  const handleRemoveMember = async (memberId) => {
+    if (!clubName) {
+      return;
+    }
+  
+    try {
+      await axios.delete(
+        `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
+        {
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+        }
+      );
+  
+      setClubData((prev) => ({
+        ...prev,
+        existing_members: prev.existing_members.filter((member) => member.id !== memberId)
+      }));
+    } catch (error) {
+      console.error('구성원 제거 중 오류 발생:', error);
+    }
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -439,7 +495,8 @@ const ClubManagementPage = () => {
                   <ul className="member-list">
                     {clubData.existing_members.map(member => (
                       <li key={member.id} className="member-item">
-                        <span>{member.student_id}</span>
+                        <img src={defaultImage} alt="프로필 사진" className="profile-image"/>
+                        <span>{member.user}</span>
                         <span>{member.job}</span>
                       </li>
                     ))}
@@ -448,6 +505,44 @@ const ClubManagementPage = () => {
                   <p>회원 정보가 없습니다.</p>
                 )}
               </div>
+
+              {/* 회원 관리 섹션 */}
+            <div className="member-management-section">
+              <h3>회원 관리</h3>
+              {clubData.existing_members && clubData.existing_members.length > 0 ? (
+                <div className="member-management-list">
+                  {clubData.existing_members.map((member) => (
+                    <div key={member.id} className="member-management-item">
+                      <img
+                        src={member.profile_photo ? `data:image/jpeg;base64,${member.profile_photo}` : defaultImage}
+                        alt={member.user}
+                        className="member-photo"
+                      />
+                      <span className="member-name">{member.user}</span>
+                      <select
+                        value={member.role}
+                        onChange={(e) => handleRoleChange(member.id, e.target.value)}
+                        className="member-role-select"
+                      >
+                        <option value="original">{member.job}</option> 
+                        <option value="회장">회장</option>
+                        <option value="부회장">부회장</option>
+                        <option value="일반회원">일반회원</option>
+                      </select>
+                      <button
+                        className="remove-member-btn"
+                        onClick={() => handleRemoveMember(member.id)}
+                      >
+                        퇴출
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>관리할 회원이 없습니다.</p>
+              )}
+            </div>
+
               <h3>신규 회원 대기</h3>
               <div className="applying-members">
                 {clubData.applying_members && clubData.applying_members.length > 0 ? (
