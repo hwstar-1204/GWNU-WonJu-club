@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Button, Row, Col } from "react-bootstrap";
-
 import "./Mypage_Style/MypageHome.css";
 import defaultImage from "./profile.jpg";
 import logo from "./logo.png";
 
-const MypageHome = ({ userData }) => {
-  console.log(userData);
 
-
+const MypageHome = ({ userData, myClubList }) => {
 
   return (
     <Container>
@@ -34,11 +31,24 @@ const MypageHome = ({ userData }) => {
         <Col md={4}>
           <div className="myclub-panel">
             <h2 className="myclub-head">나의 동아리</h2>
-            <img src={logo} alt="동아리 로고" className="club-logo"/>
-            <div className="club-info">
-              <p><strong>가입 동아리 이름</strong></p>
-              <p><strong>등급</strong></p>
+            <div className="myclub-list">
+              {myClubList.map((club, index) => (
+                <div key={club.member_id} className="myclub-item">
+                  <p><strong>동아리 이름:</strong> {club.club_name}</p>
+                  {/* <div className="club-logo-container">
+                    {club.logo ? (
+                      <img src={club.logo} alt="동아리 로고" className="club-logo" />
+                    ) : (
+                      <img src={logo} alt="기본 이미지" className="club-logo" />
+                    )}
+                  </div> */}
+                  <p><strong>직책:</strong> {club.job}</p>
+                  <br/>
+                </div>
+                
+              ))}
             </div>
+
           </div>
         </Col>
       </Row>
