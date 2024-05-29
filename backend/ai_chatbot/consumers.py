@@ -8,7 +8,7 @@ from .model.intent.IntentModel import IntentModel
 from .model.sim.SimModel import SimModel
 from .utils.FindAnswer import FindAnswer
 # from ai_chatbot.utils.save_conversation import save_conversation
-from model.ner.NerModel import NerModel
+from .model.ner.NerModel import NerModel
 
 
 class YourConsumer(AsyncWebsocketConsumer):
@@ -38,7 +38,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         # 유사도 분석 모델
         self.sim = SimModel(preprocess=self.p)
         # 개체명 인식 모델
-        self.ner = NerModel(model_name='./chatbot3_last/models/ner/ner_model_testNER3.h5', proprocess=p)
+        self.ner = NerModel(model_name='ai_chatbot/model/ner/ner_model_testNER3.h5', proprocess=self.p)
 
     async def connect(self):
         await self.accept()
