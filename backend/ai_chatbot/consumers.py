@@ -72,15 +72,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
             # f.search_1(intent_name)이나 f.search_2(intent_name, embedding_data)이 완료되었을때 응답을 보내기
 
-            print(answer_text)
-
             await self.send_json({
                     "Query": query,
                     "Answer": answer_text,
                     "AnswerImageUrl": answer_image,
                     "Intent": intent_name
             })
-
+            print(""" "Answer": answer_text """, answer_text)
 
         except Exception as e:
             await self.send_json({'error': str(e)})
