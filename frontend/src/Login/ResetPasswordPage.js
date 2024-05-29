@@ -1,31 +1,37 @@
 // ResetPasswordPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useParams, useNavigate} from 'react-router-dom';
 import './ResetPasswordPage.css'; // CSS 파일 import
 
 const ResetPasswordPage = () => {
-    const [studentId, setStudentId] = useState('');
     const [email, setEmail] = useState('');
-    const [verificationCode, setVerificationCode] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [step, setStep] = useState(1); // 단계를 추적하는 상태 변수 추가
+    const { uid, token } = useParams();
+    const navigate = useNavigate();
+
+
+
+    useEffect(() => {
+        if (uid && token) {
+          setStep(2);
+          
+        } else {
+          setStep(1);
+        }
+      }, [uid, token]);
+    
+
 
     // 비밀번호 규칙을 위한 정규 표현식
     const regexSpecialChar = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
     const regexNumber = /\d/; // 최소 하나의 숫자가 있는지 확인
     const regexAlphabet = /[a-zA-Z]/; // 최소 하나의 알파벳이 있는지 확인
 
-    const handleStudentIdChange = (e) => {
-        setStudentId(e.target.value);
-    };
-
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-    };
-
-    const handleVerificationCodeChange = (e) => {
-        setVerificationCode(e.target.value);
     };
 
     const handleNewPasswordChange = (e) => {
@@ -56,32 +62,28 @@ const ResetPasswordPage = () => {
     };
 
     const handleSendVerificationEmail = () => {
-        // Add logic to send verification email
-        // 인증 이메일 전송 로직 추가
-        setStep(2); // 인증 단계로 이동
-    };
+        const url = 'http://localhost:8000/club_account/password/reset/';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({ email }),
+        };
+        fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                alert('인증 이메일이 전송되었습니다. \n 이메일을 확인해주세요.');
+            })            
 
-    const handleVerifyCode = () => {
-        // Add code verification logic here
-        // 여기에 코드 확인 로직 추가
-        // 인증 코드가 맞으면 인증 완료 단계로 이동, 틀리면 에러 메시지 표시
-        if (verificationCode === '1234') {
-            setErrorMessage('');
-            setStep(3); // 인증 완료 단계로 이동
-        } else {
-            setErrorMessage('인증코드가 다릅니다.');
-        }
-    };
-
-    const handleResetPassword = () => {
-        // Add logic to reset password
-        // 비밀번호 재설정 로직 추가
-        setStep(4); // 비밀번호 재설정 단계로 이동
+        // setStep(2); // 비밀번호 입력으로 이동
     };
 
     const handleChangePassword = () => {
         // Check if any field is empty
-        if (!studentId || !email || !verificationCode || !newPassword || !confirmPassword) {
+        if (!newPassword || !confirmPassword) {
             setErrorMessage('모든 필드를 입력해주세요.');
             return;
         }
@@ -101,14 +103,30 @@ const ResetPasswordPage = () => {
             return;
         }
         // If all checks pass, proceed with password change
-        alert('비밀번호가 변경되었습니다.');
-        // 변경 완료 후 초기화
-        setStep(1);
-        setStudentId('');
-        setEmail('');
-        setVerificationCode('');
-        setNewPassword('');
-        setConfirmPassword('');
+       
+       try {
+            const response = fetch('http://localhost:8000/club_account/password/reset/confirm/', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: JSON.stringify({
+                    uid,
+                    token,
+                    new_password1: newPassword,
+                    new_password2: confirmPassword,
+                })
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                alert('비밀번호가 변경되었습니다.');
+                navigate('/login');
+            })
+        } catch (error) {
+        setErrorMessage('비밀번호 변경에 실패했습니다.');
+        }
     };
 
     return (
@@ -118,28 +136,12 @@ const ResetPasswordPage = () => {
                 <>
                     <p>본인확인</p>
                     <p>※개인정보보호를 위해 본인확인을 진행합니다.</p>
-                    <label htmlFor="studentId">아이디(학번)을 입력해주세요</label>
-                    <input type="text" id="studentId" className="input-field" value={studentId} onChange={handleStudentIdChange} />
                     <label htmlFor="email">이메일을 입력해주세요</label>
                     <input type="email" id="email" className="input-field" value={email} onChange={handleEmailChange} />
                     <button className="button primary-button" onClick={handleSendVerificationEmail}>이메일 인증하기</button>
                 </>
             )}
             {step === 2 && (
-                <>
-                    <label htmlFor="verificationCode">인증코드</label>
-                    <input type="text" id="verificationCode" className="input-field" value={verificationCode} onChange={handleVerificationCodeChange} />
-                    <button className="button primary-button" onClick={handleVerifyCode}>확인</button>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
-                </>
-            )}
-            {step === 3 && (
-                <>
-                    <p>인증되었습니다.</p>
-                    <button className="button primary-button" onClick={handleResetPassword}>재설정하기</button>
-                </>
-            )}
-            {step === 4 && (
                 <>
                     <p>비밀번호 재설정하기</p>
                     <label htmlFor="newPassword">새로운 비밀번호를 입력해주세요</label>

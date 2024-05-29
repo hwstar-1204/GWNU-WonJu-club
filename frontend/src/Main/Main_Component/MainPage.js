@@ -13,10 +13,11 @@ function MainPage() {
     <div className="MainPage">
       <BannerCarousel className="banner-carousel"/>
 
+      
       <div className="content-wrapper">
         <EventCard />
         <EventCard />
-        <div className="club-notice-container">
+        <div className='notice'>
           <ClubNotice />
         </div>
       </div>

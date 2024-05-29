@@ -39,3 +39,8 @@ class ConfirmEmailView(APIView):
         qs = EmailConfirmation.objects.all_valid()
         qs = qs.select_related("email_address__user")
         return qs
+
+def passwordResetRedirect(request, uid, token):
+    FRONT_BASE_URL = "http://localhost:3000"
+    return redirect(f"{FRONT_BASE_URL}/auth/reset-password-confirm/{uid}/token/{token}")
+    # return redirect(f"{FRONT_BASE_URL}/auth/reset-password-confirm/{uid}/token/{token}")
