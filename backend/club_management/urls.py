@@ -11,9 +11,13 @@ urlpatterns = [
     # 회원 승인 및 삭제
     path('club/<str:club_name>/member/<int:id>/', MemberApproveAPIView.as_view(), name='member-approve'),
 
+    path('club/<str:club_name>/member/<int:id>/manage/', MemberManagement.as_view(), name='member-management'),
+
     # 로고 수정 및 삭제
     path('club/<str:club_name>/image/', ImageCorrectionDelete.as_view(), name='logo-correction-delete'),
 
     # 동아리 소개 수정
     path('club/<str:club_name>/introducation/', IntroducationCorrection.as_view(), name='introduction-correction'),
+
+    path('club/<str:club_name>/delete', DeleteClub.as_view(), name='club-delete')
 ]

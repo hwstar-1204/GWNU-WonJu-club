@@ -18,20 +18,25 @@ class IsPresidentOrAdmin(permissions.BasePermission):
         club_name = view.kwargs.get('club_name')
         token_key = request.headers.get('Authorization')
 
+        print(token_key)
         if not token_key:
-            return False;
+            return False
         try:
             token = token_key.split(' ')[1]
         except IndexError:
             return False
+        print('2')
 
         try:
             # 토큰이 유효한지 확인하는 부분
             token_obj = Token.objects.get(key=token)
         except Token.DoesNotExist:
             return False
-
+        print('3')
         user_id = token_obj.user.id
         user = CustomUser.objects.get(id=user_id)
+
+        print(user.is_staff == 1)
+        print(self.is_club_president(user, club_name))
 
         return user.is_staff == 1 and self.is_club_president(user, club_name)

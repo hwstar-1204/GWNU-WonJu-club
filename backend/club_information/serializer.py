@@ -9,10 +9,10 @@ class ClubUserName(serializers.ModelSerializer):
         model = CustomUser
         fields = ['name']
 class ClubMemberSerializer(serializers.ModelSerializer):
-    # user = ClubUserName(read_only=True)
+    user = serializers.CharField(source='student_id.name', read_only=True)
     class Meta:
         model = ClubMember
-        fields = ['id', 'joined_date', 'job', 'student_id']
+        fields = ['id', 'joined_date', 'job', 'user']
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:

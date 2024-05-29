@@ -4,8 +4,7 @@ from rest_framework.generics import *
 from rest_framework.response import Response
 from rest_framework.permissions import *
 from rest_framework.authtoken.models import Token
-from rest_framework.exceptions import AuthenticationFailed
-from club_management.permissions import *
+from club_management.permissions import IsPresidentOrAdmin
 from club_management.serializer import *
 from club_management.models import *
 from club_introduce.models import *
@@ -14,13 +13,10 @@ import os
 import base64
 from urllib.parse import unquote
 from backend import settings
-from django.http import HttpResponse, FileResponse
-from django.db import transaction, IntegrityError
 from django.utils import timezone
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.core.signing import Signer
-from django.core.files import File
 from django.conf import settings
 
 
@@ -129,6 +125,48 @@ class MemberApproveAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
         return Response({'message': '승인이 완료되었습니다.'}, status=status.HTTP_200_OK)
+
+class MemberManagement(APIView):
+    serializer_class = ClubMemberSerializer
+    permission_classes = [IsPresidentOrAdmin]
+
+    def get_object(self, club_name, id):
+
+        # 객체를 안전하게 가져오기
+        try:
+            # 객체를 안전하게 가져오기
+            return ClubMember.objects.get(id=id, club_name=club_name)
+        except ClubMember.DoesNotExist:
+            # 객체가 없는 경우 적절한 HTTP 상태 코드와 메시지를 반환
+            return Response({'error': 'No ClubMember found matching the given query.'},
+                            status=status.HTTP_404_NOT_FOUND)
+        except ClubMember.MultipleObjectsReturned:
+            # 객체가 여러 개 있는 경우 적절한 HTTP 상태 코드와 메시지를 반환
+            return Response({'error': 'Multiple ClubMembers found. Please specify unique identifier.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, club_name, id):
+        try:
+            member = ClubMember.objects.get(club_name=club_name, id=id)
+        except ClubMember.DoesNotExist:
+            return Response({'error': '해당 동아리 멤버를 찾을 수 없습니다.'}, status=status.HTTP_404_NOT_FOUND)
+        member.job = request.data.get('role')
+        member.save()
+
+        serializer = ClubMemberSerializer(member, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+
+        return Response({'message': '직책 수정이 완료되었습니다.'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, club_name, id):
+        presidents_count = ClubMember.objects.filter(club_name=club_name, job='회장').count()
+
+        # 만약 회장 수가 2개 미만이면 Bad Request 반환
+        if presidents_count < 2:
+            return Response({'error': '회장이 2명 미만입니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        member = self.get_object(club_name, id)
+        member.delete()
+        return Response({"message": "퇴출에 성공했습니다."}, status=status.HTTP_204_NO_CONTENT)
 
 class ImageCorrectionDelete(APIView):
     permission_classes = [IsPresidentOrAdmin]
@@ -309,10 +347,9 @@ class ImageCorrectionDelete(APIView):
         return Response({'message': 'Image uploaded successfully', 'file_name': image_name}, status=status.HTTP_200_OK)
 
 class IntroducationCorrection(APIView):
-    permission_classes = [IsPresidentOrAdmin]
     serializer_class = ClubSerializer
     lookup_field = 'club_name'
-    http_method_names = ['patch']
+    permission_classes = [IsPresidentOrAdmin]
 
     def patch(self, request, club_name):
         """
@@ -333,3 +370,15 @@ class IntroducationCorrection(APIView):
         else:
             # 요청에 소개글이 포함되지 않은 경우에는 오류 응답을 반환합니다.
             return Response({'error': '소개글이 포함되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteClub(APIView):
+    permission_classes = [IsPresidentOrAdmin]
+
+    def delete(self, request, club_name):
+        try:
+            club = Club.objects.get(club_name=club_name)
+        except Club.DoesNotExist:
+            return Response({"message": "해당 동아리가 존재하지 않습니다."}, status=status.HTTP_404_NOT_FOUND)
+
+        club.delete()
+        return Response({"message": f"동아리 '{club_name}' 삭제 완료."}, status=status.HTTP_204_NO_CONTENT)

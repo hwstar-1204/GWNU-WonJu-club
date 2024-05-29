@@ -29,12 +29,14 @@ class ClubListAPIView(APIView):
 class CategoryClubAPIView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request, category_id):
-        # 분류할 카테고리 데이터가 없으면 오류
-        if not category_id:
-            return Response({'error': '카테고리가 제공되지 않았습니다.'}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, category_id, type_id):
 
-        category_clubs = Club.objects.filter(category=category_id)
+        if category_id and not type_id:
+            category_clubs = Club.objects.filter(category=category_id)
+        elif not category_id and type_id:
+            category_clubs = Club.objects.filter(type=type_id)
+        else:
+            category_clubs = Club.objects.filter(category=category_id, type=type_id)
 
         # 카테고리에 해당하는 동아리가 없을 때
         if not category_clubs.exists():
@@ -46,36 +48,27 @@ class CategoryClubAPIView(APIView):
 
 class ApplyClubAPIView(APIView):
     permission_classes = [IsAuthenticated]
-
     def post(self, request):
         club_name = request.data.get('club_name')
 
         user = request.user
         student_id = user.student_id
 
-        # Club 인스턴스를 가져옵니다. 이를 위해 club_name이 실제로 Club 모델의 이름이나 ID 등을 기반으로 해야 합니다.
+        # 새로운 동아리 가입신청
         try:
-            club = Club.objects.get(name=club_name)  # 예를 들어 Club 모델에 'name' 필드가 있다고 가정
+            club = Club.objects.get(club_name=club_name)
         except Club.DoesNotExist:
             return Response({'error': 'Club not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-        # 동아리 가입 신청이 이미 되어 있는지 확인
         if ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=True).exists():
             return Response({'message': '가입신청이 되어 있습니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 이미 동아리 회원인지 확인
-        elif ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=False).exists():
+        if ClubMember.objects.filter(club_name=club, student_id=user, joined_date__isnull=False).exists():
             return Response({'message': '동아리 회원입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 새로운 동아리 가입신청
-        apply_user = ClubMember()
-        apply_user.club_name = club
-        apply_user.student_id = user
-        apply_user.joined_date = None  # 처음 가입 신청시 joined_date는 None
-        apply_user.save()
+        ClubMember.objects.create(club_name=club, student_id=user, joined_date=None)
 
         return Response({'message': '가입신청이 완료되었습니다.'}, status=status.HTTP_200_OK)
-
 
 class CreateClub(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
