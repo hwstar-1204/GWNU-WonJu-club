@@ -6,8 +6,8 @@ import './club_management.css';
 import defaultImage from "../profile.jpg";
 
 const ClubManagementPage = () => {
-  const { clubName } = useParams();
-  const [clubNameInput, setClubNameInput] = useState('');
+  const { club_name } = useParams();
+  const [club_nameInput, setclub_nameInput] = useState('');
   const [clubData, setClubData] = useState(null);
   const [clubList, setClubList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,14 +26,14 @@ const ClubManagementPage = () => {
 
   const token = localStorage.getItem('token');
   useEffect(() => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
     const fetchClubData = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:8000/club_management/club/${clubName}/`, {
+        const response = await axios.get(`http://localhost:8000/club_management/club/${club_name}/`, {
           headers: {
             'Authorization': `Token ${token}`
           }
@@ -54,10 +54,10 @@ const ClubManagementPage = () => {
     };
 
     fetchClubData();
-  }, [clubName]);
+  }, [club_name]);
 
   const fetchImageData = async (type, mode, btn) => {
-    if (!clubName) {
+    if (!club_name) {
       console.error('Club name is missing.');
       return;
     }
@@ -65,7 +65,7 @@ const ClubManagementPage = () => {
     setBtnMode(btn);
 
     try {
-      const response = await axios.get(`http://localhost:8000/club_management/club/${clubName}/image/`, {
+      const response = await axios.get(`http://localhost:8000/club_management/club/${club_name}/image/`, {
         params: {
           image: type
         },
@@ -107,7 +107,7 @@ const ClubManagementPage = () => {
   };
 
   const handleLogoAdd = async () => {
-    if (!clubName || !newLogo) {
+    if (!club_name || !newLogo) {
       return;
     }
 
@@ -115,7 +115,7 @@ const ClubManagementPage = () => {
     formData.append('image', newLogo);
 
     try {
-      const response = await axios.post(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
+      const response = await axios.post(`http://localhost:8000/club_management/club/${club_name}/image/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${token}`
@@ -129,7 +129,7 @@ const ClubManagementPage = () => {
   };
 
   const handleLogoUpdate = async (image) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
@@ -139,7 +139,7 @@ const ClubManagementPage = () => {
     formData.append('image', blob, image);
 
     try {
-      const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
+      const response = await axios.patch(`http://localhost:8000/club_management/club/${club_name}/image/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${token}`
@@ -168,7 +168,7 @@ const ClubManagementPage = () => {
   };
 
   const handleLogoDelete = async (image) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
@@ -178,7 +178,7 @@ const ClubManagementPage = () => {
     // formData.append('image', blob, image);
 
     try {
-      const response = await axios.delete(`http://localhost:8000/club_management/club/${clubName}/image/`, {
+      const response = await axios.delete(`http://localhost:8000/club_management/club/${club_name}/image/`, {
         data: { image: image },
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -208,7 +208,7 @@ const ClubManagementPage = () => {
   };
 
   const handlePhotoAdd = async () => {
-    if (!clubName || !newPhoto) {
+    if (!club_name || !newPhoto) {
       return;
     }
 
@@ -216,7 +216,7 @@ const ClubManagementPage = () => {
     formData.append('image', newPhoto);
 
     try {
-      const response = await axios.post(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
+      const response = await axios.post(`http://localhost:8000/club_management/club/${club_name}/image/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${token}`
@@ -230,7 +230,7 @@ const ClubManagementPage = () => {
   };
 
   const handlePhotoUpdate = async (image) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
@@ -240,7 +240,7 @@ const ClubManagementPage = () => {
     formData.append('image', blob, image);
 
     try {
-      const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/image/`, formData, {
+      const response = await axios.patch(`http://localhost:8000/club_management/club/${club_name}/image/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Token ${token}`
@@ -269,7 +269,7 @@ const ClubManagementPage = () => {
   };
 
   const handlePhotoDelete = async (image) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
@@ -279,7 +279,7 @@ const ClubManagementPage = () => {
     // formData.append('image', blob, image);
 
     try {
-      const response = await axios.delete(`http://localhost:8000/club_management/club/${clubName}/image/`, {
+      const response = await axios.delete(`http://localhost:8000/club_management/club/${club_name}/image/`, {
         data: { image: image },
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -364,7 +364,7 @@ const ClubManagementPage = () => {
   const handleIntroductionUpdate = async () => {
     if (newIntroduction) {
       try {
-        const response = await axios.patch(`http://localhost:8000/club_management/club/${clubName}/introducation/`,
+        const response = await axios.patch(`http://localhost:8000/club_management/club/${club_name}/introducation/`,
           { introduction: newIntroduction },
           {
             headers: {
@@ -392,7 +392,7 @@ const ClubManagementPage = () => {
 
   const approveMember = async (id) => {
     try {
-      await axios.patch(`http://localhost:8000/club_management/club/${clubName}/member/${id}/`, null, {
+      await axios.patch(`http://localhost:8000/club_management/club/${club_name}/member/${id}/`, null, {
         headers: {
           'Authorization': `Token ${token}`
         }
@@ -409,7 +409,7 @@ const ClubManagementPage = () => {
 
   const rejectMember = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/club_management/club/${clubName}/member/${id}/`, {
+      await axios.delete(`http://localhost:8000/club_management/club/${club_name}/member/${id}/`, {
         headers: {
           'Authorization': `Token ${token}`
         }
@@ -424,13 +424,13 @@ const ClubManagementPage = () => {
   };
 
   const handleRoleChange = async (memberId, newRole) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
     try {
       await axios.patch(
-        `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
+        `http://localhost:8000/club_management/club/${club_name}/member/${memberId}/manage/`,
         { role: newRole },
         {
           headers: {
@@ -455,13 +455,13 @@ const ClubManagementPage = () => {
   };
 
   const handleRemoveMember = async (memberId) => {
-    if (!clubName) {
+    if (!club_name) {
       return;
     }
 
     try {
       await axios.delete(
-        `http://localhost:8000/club_management/club/${clubName}/member/${memberId}/manage/`,
+        `http://localhost:8000/club_management/club/${club_name}/member/${memberId}/manage/`,
         {
           headers: {
             'Authorization': `Token ${token}`
@@ -480,7 +480,7 @@ const ClubManagementPage = () => {
 
   const handleClubDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8000/club_management/club/${clubName}/delete`, {
+      const response = await axios.delete(`http://localhost:8000/club_management/club/${club_name}/delete`, {
         headers: {
           'Authorization': `Token ${token}`
         }
@@ -508,7 +508,7 @@ const ClubManagementPage = () => {
         <section id="clubManagementPage" className="section">
           {clubData ? (
             <div className="club-info">
-              <h2>{clubName}/동아리 관리</h2>
+              <h2>{club_name}/동아리 관리</h2>
               <div className="logo-container">
                 <img src={clubData.club_info.logo} alt="Club Logo" />
               </div>
