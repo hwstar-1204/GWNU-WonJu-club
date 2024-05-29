@@ -8,6 +8,7 @@ from .model.intent.IntentModel import IntentModel
 from .model.sim.SimModel import SimModel
 from .utils.FindAnswer import FindAnswer
 # from ai_chatbot.utils.save_conversation import save_conversation
+from model.ner.NerModel import NerModel
 
 
 class YourConsumer(AsyncWebsocketConsumer):
@@ -36,6 +37,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.intent = IntentModel(model_name='ai_chatbot/model/intent/intent_model.h5', preprocess=self.p)
         # 유사도 분석 모델
         self.sim = SimModel(preprocess=self.p)
+        # 개체명 인식 모델
+        self.ner = NerModel(model_name='./chatbot3_last/models/ner/ner_model_testNER3.h5', proprocess=p)
 
     async def connect(self):
         await self.accept()
@@ -54,38 +57,35 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             # 질문 임베딩
             embedding_data = self.sim.create_pt(query)
 
+            # 개체명 파악
+            ner_predicts = self.ner.predict(query)
+
             # 답변 검색
             f = FindAnswer()
             answer_text = ""
             answer_image = ""
-            sim_result = None
 
             if f is not None:
                 if intent_name == '인사' or intent_name == '욕설' or intent_name == '기타':
-                    answer_text, answer_image, sim_result = await f.search_1(intent_name)
+                    answer_text, answer_image = await f.search_1(intent_name)
 
                 elif intent_name == '생성':
-                    answer_text, answer_image, sim_result = await f.search_2(intent_name, embedding_data)
+                    answer_text, answer_image = await f.search_2(intent_name, embedding_data)
 
-                # else:
-                #     answer_text, answer_image, sim_result = f.search_3(intent_name)
+                else:
+                    tagged_text = f.tag_to_word(ner_predicts)
+                    print(tagged_text, type(tagged_text))
+                    answer_text, answer_image = f.search_3(intent_name, tagged_text)
 
-            # f.search_1(intent_name)이나 f.search_2(intent_name, embedding_data)이 완료되었을때 응답을 보내기
 
             await self.send_json({
                     "Query": query,
                     "Answer": answer_text,
                     "AnswerImageUrl": answer_image,
-                    "Intent": intent_name
+                    "Intent": intent_name,
+                    "NER": str(ner_predicts)
             })
             print(""" "Answer": answer_text """, answer_text)
 
         except Exception as e:
             await self.send_json({'error': str(e)})
-
-
-    # async def receive(self, text_data):
-    #     text_data_json = json.loads(text_data)
-    #     message = text_data_json['message'].strip()
-    #
-    #     print(message)

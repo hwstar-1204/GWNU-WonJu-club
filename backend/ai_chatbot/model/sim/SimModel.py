@@ -1,7 +1,7 @@
 
 import torch
 import numpy as np
-# import pandas as pd
+import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 
 # 임베딩 모델 모듈
@@ -12,7 +12,7 @@ class SimModel:
     self.p = preprocess
 
   # 질문 임베딩
-  def create_pt(self, query):
+  def create_pt(self, query) :
     # 질문 전처리
     pos = self.p.pos(query)
     keywords = self.p.get_keywords(pos, without_tag=True)
