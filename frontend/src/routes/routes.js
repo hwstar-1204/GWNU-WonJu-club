@@ -26,7 +26,7 @@ export const AppRoutes = () => (
     <Route path="/mypage/*" element={<MyPage />} />
     <Route path="/eventpage/*" element={<EventPage />} />
     <Route path="/clubpage/*" element={<ClubPage />} />
-    <Route path="club_management/club/:clubName" element={<ClubManagement />} />
+    <Route path="club_management/club/:club_name" element={<ClubManagement />} />
     <Route path="/club_information/club/:club_name/home/" element={<ClubPage />} />
     <Route path="/club_information/club/:club_name/members/" element={<ClubMember />} />
     <Route path="/club_information/club/:club_name/albums/" element={<ClubAlbum />} />
