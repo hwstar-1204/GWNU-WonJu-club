@@ -1,4 +1,10 @@
-.club-notice {
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .club-notice {
   margin-bottom: 20px;
 }
 
@@ -43,4 +49,4 @@
 
 .notice-content p {
   margin-bottom: 10px;
-}
+} */

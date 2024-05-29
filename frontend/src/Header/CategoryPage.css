@@ -2,12 +2,24 @@
 .navbar {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  padding-left: 0;
+      /* 왼쪽 패딩을 줄입니다 */
 }
 
 /* 네비게이션 바 링크 스타일 */
 .navbar .nav-link {
   color: #333;
   font-weight: bold;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  /* 로고를 더 왼쪽 가장자리로 가져오기 위해 왼쪽 마진을 조정합니다 */
 }
 /* 카테고리 아이템 스타일 */
 .category-item {
@@ -16,6 +28,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center; /* 글자를 가운데 정렬합니다. */
+  justify-content: center;
   cursor: pointer;
   transition: transform 0.3s ease; /* 변화에 부드러운 효과 추가 */
   margin: 0 115px; /* 좌우 여백 설정합니다. */
@@ -44,3 +57,10 @@
 .category-item {
   text-decoration: none; /* 링크의 밑줄을 제거합니다 */
 }
+.category-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

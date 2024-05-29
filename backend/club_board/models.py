@@ -36,3 +36,26 @@ class Comment(models.Model):  # 게시글 댓글
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 댓글 저자
     created_date = models.DateTimeField(auto_now_add=True)
 
+class Event(models.Model):
+    class Meta:
+        verbose_name = '이벤트'
+        verbose_name_plural = '이벤트들'
+
+    title = models.CharField(max_length=50) # 이벤트 제목
+    content = models.TextField()  # 이벤트 글
+    start_time = models.DateField()  # 이벤트 시작 날짜
+    end_time = models.DateField()  # 이벤트 종료 날짜
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # 작성자
+    photo = models.ImageField(upload_to='media/%Y', null=True)  # 사진
+    created_date = models.DateTimeField(auto_now_add=True)  # 작성 일자
+
+class Notice(models.Model):
+    class Meta:
+        verbose_name = '공지사항'
+        verbose_name_plural = '공지사항들'
+
+    specific_id = models.CharField(primary_key=True, max_length=50)  # 공지사항 고유번호
+    title = models.CharField(max_length=70)  # 제목
+    author = models.CharField(max_length=20)  # 작성자
+    created_date = models.DateField()  # 작성 일자
+    link = models.URLField()  # 링크

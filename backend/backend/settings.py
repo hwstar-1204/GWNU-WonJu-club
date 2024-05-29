@@ -142,7 +142,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'  # 한국 표준시(KST)
 
 USE_I18N = True
 
@@ -173,6 +173,7 @@ CORS_ORIGIN_ALLOW_ALL = True  # False
 #     'http://127.0.0.1:8000',
 # )
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

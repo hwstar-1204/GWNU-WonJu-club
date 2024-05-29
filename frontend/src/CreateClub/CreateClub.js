@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
 
-const CreateClubPage = ({ addClub }) => {
+const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
-  const [clubType, setClubType] = useState("");
+  const [category, setCategory] = useState("선택");  // 정규, 가등록, 학습, 취업, 소모임
+  const [type, setType] = useState("선택");          // 운동, 음악, 종교 등등
   const [introduction, setIntroduction] = useState("");
   const [logo, setLogo] = useState("");
   const [background, setBackground] = useState("");
+  const token = localStorage.getItem('token');
+
 
   const handleNameChange = (e) => setClubName(e.target.value);
-  const handleTypeChange = (e) => setClubType(e.target.value);
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handleTypeChange = (e) => setType(e.target.value);
   const handleIntroductionChange = (e) => setIntroduction(e.target.value);
   const handleLogoChange = (e) =>
     setLogo(URL.createObjectURL(e.target.files[0]));
@@ -19,26 +23,29 @@ const CreateClubPage = ({ addClub }) => {
 
   const handleSubmit = () => {
     const newClub = {
-      name: clubName,
-      type: clubType,
-      introduction: introduction,
-      logo: logo,
-      background: background,
+      club_name: clubName,
+      category: category,
+      type: type,
+      introducation: introduction,
+      // logo: logo,
+      // photo: background,
     };
 
     // API 호출 부분 추가
-    fetch('/club_introduce/apply_club/', {
+    fetch('http://127.0.0.1:8000/club_introduce/create_club/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Token ${token}`,
       },
       body: JSON.stringify(newClub),
     })
-    .then(response => response.json())
-    .then(data => {
-      // 서버에서 새로운 동아리를 추가한 후 클라이언트에서도 동기화해야 할 경우
-      addClub(data);
+    .then(res => {
+      console.log("생성된 동아리: ",res.status);
       alert("동아리가 등록되었습니다!");
+      window.location.reload();
+
     })
     .catch(error => {
       console.error('Error adding club:', error);
@@ -52,7 +59,7 @@ const CreateClubPage = ({ addClub }) => {
   };
 
   return (
-    <Container style={{ padding: "5%" }}>
+    <Container>
       <h1 className="create-head">동아리 만들기</h1>
       <Form>
         {/* 동아리 이름 입력 */}
@@ -66,20 +73,35 @@ const CreateClubPage = ({ addClub }) => {
           />
         </Form.Group>
 
-        <Form.Group controlId="clubType" style={{ marginBottom: "5%" }}>
+      
+
+        <Form.Group controlId="category" style={{ marginBottom: "5%" }}>
           <Form.Label>동아리 유형</Form.Label>
           <Form.Control
             as="select"
-            value={clubType}
-            onChange={handleTypeChange}
+            value={category}
+            onChange={handleCategoryChange}
             style={{ width: "30%" }}
           >
-            <option>선택</option>
-            <option value="regular">정규 동아리</option>
-            <option value="membership">가등록 동아리</option>
-            <option value="learning">학습 동아리</option>
-            <option value="employment">취업/창업 동아리</option>
-            <option value="community">소모임</option>
+            <option value="선택">선택</option>
+            {["정규", "가등록", "학습", "취업", "소모임"].map((option) => (
+              <option value={option}>{option}</option>
+            ))}
+          </Form.Control>
+        </Form.Group>
+
+        <Form.Group controlId="type" style={{ marginBottom: "5%" }}>
+          <Form.Label>동아리 분야</Form.Label>
+          <Form.Control
+            as="select"
+            value={type}
+            onChange={handleTypeChange}
+            style={{ width: "30%" }}
+          >            
+            <option value="선택">선택</option>
+            {["문화", "공연", "운동", "음악", "종교", "봉사", "학술", "예술", "기타"].map((option) => (
+              <option value={option}>{option}</option>
+            ))}
           </Form.Control>
         </Form.Group>
 

@@ -1,56 +1,64 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
 import { Button, Col, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import {useNavigate} from "react-router-dom";
 import EventCard from "../Event_Component/EventCard";
 import "../Event_Style/EventList.css";
 
 const EventList = () => {
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "이벤트 1",
-      thumbnail: "url_to_thumbnail_1",
-      author: "김황",
-      likes: 10,
-      startDate: "4/12",
-      endDate: "4/14",
-    },
-    {
-      id: 2,
-      title: "이벤트 2",
-      thumbnail: "url_to_thumbnail_2",
-      author: "박철",
-      likes: 5,
-      startDate: "4/16",
-      endDate: "4/19",
-    },
-    {
-      id: 3,
-      title: "이벤트 3",
-      thumbnail: "url_to_thumbnail_2",
-      author: "박철",
-      likes: 5,
-      startDate: "4/16",
-      endDate: "4/19",
-    },
-    // 필요에 따라 더 많은 이벤트 추가
-  ]);
-
+  const navigate = useNavigate();
+  const [events, setEvents] = useState([]);
   const eventsPerPage = 3; // 한 페이지당 카드 수 변경
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
   const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const token = localStorage.getItem('token')
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/club_board/event/', {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': `Token ${token}`
+        }
+      });
+      const { data } = response
+      // const count = data.count;
+      const results = data.results;
+      console.log(results);
+      setEvents(results);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
+  const handleCreateClubClick = () => {
+    if (!isLoggedIn) {
+      alert("회원만 사용할 수 있습니다. 로그인하시겠습니까?");
+      navigate('/login'); // 로그인 페이지 경로가 '/login'이라고 가정
+      return;
+    }
+    // 로그인이 되어 있다면 동아리 만들기 페이지로 이동
+    navigate('/create_event');
+  };
   return (
     <div className="event-list-container">
       <Row className="align-items-center">
         <Col className="create-event">
           <NavLink to="create_event">
-            <Button variant="primary">+ 이벤트</Button>
+            <Button onClick = {handleCreateClubClick} variant="primary">+ 이벤트 </Button >
           </NavLink>
         </Col>
       </Row>

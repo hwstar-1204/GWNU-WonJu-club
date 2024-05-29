@@ -1,24 +1,40 @@
 from rest_framework import serializers
-from club_introduce.models import *
+from .models import *
 
-
-class DynamicFieldModelSerializer(serializers.ModelSerializer):
-    def __init__(self, *arg, **kwargs):
-        fields = kwargs.pop('fields', None)
-        super(DynamicFieldModelSerializer, self).__init__(*arg, **kwargs)
-
-        if fields is not None:
-            allowed = set(fields)
-            existing = set(self.fields)
-            for fields_name in existing - allowed:
-                self.fields.pop(fields_name)
-
-class ClubSerializer(DynamicFieldModelSerializer):
+class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
         fields = '__all__'
 
-class ApplyClubSerializer(DynamicFieldModelSerializer):
+class ApplyClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubMember
         fields = '__all__'
+
+class ClubCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = '__all__'
+
+    def create(self, validated_data):
+        validated_data['new_club'] = True
+        return super().create(validated_data)
+
+
+class MyClubListSerializer(serializers.ModelSerializer):
+    logo = serializers.SerializerMethodField('get_logo')
+    member_id = serializers.SerializerMethodField('get_id')
+    job = serializers.SerializerMethodField('get_job')
+
+    def get_logo(self, obj):
+        return obj.logo.url if obj.logo else None
+
+    def get_id(self, obj):  # club_member 의 id를 가져오기 위한 함수
+        return obj.clubmember_set.get(student_id=self.context['request'].user).id
+
+    def get_job(self, obj):
+        return obj.clubmember_set.get(student_id=self.context['request'].user).job
+
+    class Meta:
+        model = ClubMember
+        fields = ['member_id', 'club_name', 'job', 'logo']
