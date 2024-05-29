@@ -1,4 +1,4 @@
-from .models import Board, Post, Comment, Event
+from .models import Board, Post, Comment, Event, Notice
 from rest_framework import serializers
 
 # class BoardSerializer(serializers.ModelSerializer):
@@ -111,3 +111,11 @@ class EventSerializer(AuthorNameMixin, serializers.ModelSerializer):
         validated_data['author'] = author
 
         return Event.objects.create(**validated_data)
+
+class NoticeSerializer(serializers.ModelSerializer):
+    """
+    공지사항
+    """
+    class Meta:
+        model = Notice
+        fields = '__all__'

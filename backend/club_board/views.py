@@ -5,19 +5,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from club_introduce.models import ClubMember
+from .models import Notice
 from .serializers import *
 from .permissions import IsAuthorOrReadOnly, IsSystemAdminOrReadOnly
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import TokenAuthentication
-
-# viewsets : provides default create(), retireve(), update(), destroy(), list(), partial_update()
-# Create your views here.
-
-# class BoardPostListView(ListAPIView):
-#     queryset = Post.objects.all()
-#     serializer_class = PostListSerializer
-#     pagination_class = PageNumberPagination
 
 
 def order_list(queryset, order):
@@ -146,3 +139,9 @@ class EventListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, IsSystemAdminOrReadOnly]  # 관리자 권한
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
+
+class NoticeListView(generics.ListAPIView):
+    queryset = Notice.objects.all()
+    serializer_class = NoticeSerializer
+    pagination_class = PageNumberPagination

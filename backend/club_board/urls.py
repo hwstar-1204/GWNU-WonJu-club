@@ -15,6 +15,7 @@ urlpatterns = [
     path('comment_list/<int:post_id>', PostCommentDetail.as_view(), name='post_id'),  # 특정 게시글에 해당하는 해당 댓글들
 
     path('event/', EventListCreateView.as_view(), name='event_create'),  # 동아리 이벤트 리스트, 생성
+    path('notice/', NoticeListView.as_view(), name='notice_list'),  # 메인 페이지 동아리 공지사항 리스트
 
 ]
 
