@@ -1,6 +1,6 @@
 import React from "react";
 import '../Club_Style/Club_background.css';
-import { BannerImage, LogoImage } from './StyledComponents';
+// import { BannerImage, LogoImage } from './StyledComponents';
 
 
 const ClubBackground = ({ introduction, Background }) => {
@@ -11,7 +11,7 @@ const ClubBackground = ({ introduction, Background }) => {
     <div className="club-info-container">
       {/* 동아리 로고를 표시합니다. */}
       <div className="club-logo-container">
-        <BannerImage src={background} alt="Club bannel" className="club-logo" />
+        {/* <BannerImage src={background} alt="Club bannel" className="club-logo" /> */}
       </div>
       <div className="introduction">{safeIntroduction}</div>
     </div>
