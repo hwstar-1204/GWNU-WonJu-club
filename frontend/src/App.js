@@ -16,18 +16,22 @@ import SignUpPage from './TestPage/SignUpPage';
 import LoginPage2 from './TestPage/LoginPage2';
 import UserDetail from './TestPage/UserDetail';
 import NotFound from './TestPage/NotFound';
-import ChatbotPage from './TestPage/ChatbotPage';
+import ChatbotPage from './ChatBot/ChatbotPage';
 import './App.css';
 // import LoginPage from './Login/LoginPage';
 // import PrivacyPolicyPage from './Signup/PrivacyPolicyPage';
 // import SignupDetailPage from './Signup/SignupDetailPage';
 // import ResetPasswordPage from './Login/ResetPasswordPage';
+
+import ChatbotLayout from './ChatBot/ChatbotLayout';
+
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <div className='content'>
+    <ChatbotLayout>
     <TopScreen/>
     <CategoryPage/>
     <div className='content-main'>
@@ -60,6 +64,7 @@ function App() {
       </Routes>
     </UserProvider>
     </div>
+    </ChatbotLayout>
     </div>
   );
 }

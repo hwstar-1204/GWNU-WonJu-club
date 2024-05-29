@@ -56,6 +56,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
             # 답변 검색
             f = FindAnswer()
+            answer_text = ""
+            answer_image = ""
+            sim_result = None
+
             if f is not None:
                 if intent_name == '인사' or intent_name == '욕설' or intent_name == '기타':
                     answer_text, answer_image, sim_result = await f.search_1(intent_name)
@@ -66,18 +70,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 # else:
                 #     answer_text, answer_image, sim_result = f.search_3(intent_name)
 
-            print("Query:: ", query)
-            print("answer_text:", answer_text)
-            print("Intent:", intent_name)
+            # f.search_1(intent_name)이나 f.search_2(intent_name, embedding_data)이 완료되었을때 응답을 보내기
 
-            # await self.send_json({
-            #         "Query": query,
-            #         "Answer": answer_text,
-            #         "AnswerImageUrl": answer_image,
-            #         "Intent": intent_name
-            # })
+            print(answer_text)
+
             await self.send_json({
+                    "Query": query,
                     "Answer": answer_text,
+                    "AnswerImageUrl": answer_image,
+                    "Intent": intent_name
             })
 
 

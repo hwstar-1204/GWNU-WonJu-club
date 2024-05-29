@@ -41,6 +41,8 @@ urlpatterns = [
     path('club_account/', include('club_account.urls')),
     path('club_board/', include('club_board.urls')),
     path('club_management/', include('club_management.urls')),
+
+    # path('ask/', include('ai_chatbot.urls')),
 ]
 
 if settings.DEBUG:
