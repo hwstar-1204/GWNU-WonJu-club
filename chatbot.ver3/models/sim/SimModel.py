@@ -1,8 +1,6 @@
 
 import torch
-import numpy as np
-import pandas as pd
-from sentence_transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer
 
 # 임베딩 모델 모듈
 class SimModel:

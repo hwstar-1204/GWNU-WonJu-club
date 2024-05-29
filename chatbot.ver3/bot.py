@@ -1,27 +1,27 @@
 import threading
 import json
 
-from chatbot3_last.config.DatabaseConfig import *
-from chatbot3_last.utils_list.Database import Database
-from chatbot3_last.utils_list.BotServer import BotServer
-from chatbot3_last.utils_list.Preprocess import Preprocess
-from chatbot3_last.models.intent.IntentModel import IntentModel
-from chatbot3_last.models.sim.SimModel import SimModel
-from chatbot3_last.utils_list.FindAnswer import FindAnswer
-from chatbot3_last.models.ner.NerModel import NerModel
+from config.DatabaseConfig import *
+from utils_list.Database import Database
+from utils_list.BotServer import BotServer
+from utils_list.Preprocess import Preprocess
+from models.intent.IntentModel import IntentModel
+from models.sim.SimModel import SimModel
+from utils_list.FindAnswer import FindAnswer
+from models.ner.NerModel import NerModel
 
 # 전처리 객체 생성
-p = Preprocess(word2index_dic='./chatbot3_last/train_tools/dict/chatbot_dict.bin',
-               userdic='./chatbot3_last/utils_list/user_dic.tsv')
+p = Preprocess(word2index_dic='./train_tools/dict/chatbot_dict.bin',
+               userdic='./utils_list/user_dic.tsv')
 
 # 의도 파악 모델
-intent = IntentModel(model_name='./chatbot3_last/models/intent/intent_model.h5', preprocess=p)
+intent = IntentModel(model_name='./models/intent/intent_model.h5', preprocess=p)
 
 # 유사도 분석 모델
 sim = SimModel(preprocess=p)
 
 # 개체명 인식 모델
-ner = NerModel(model_name='./chatbot3_last/models/ner/ner_model_testNER3.h5', proprocess=p)
+ner = NerModel(model_name='./models/ner/ner_model_testNER3.h5', proprocess=p)
 
 def to_client(conn, addr, params):
   db = params['db']
@@ -74,7 +74,7 @@ def to_client(conn, addr, params):
 
       #log = f"{query},{intent_name},{answer_text},{sim_result}"
 
-      #with open('./chatbot3_last/log.txt', 'a',encoding='utf-8') as log_file:
+      #with open('./log.txt', 'a',encoding='utf-8') as log_file:
       #    log_file.write(log + '\n')
 
       send_json_data_str = {
