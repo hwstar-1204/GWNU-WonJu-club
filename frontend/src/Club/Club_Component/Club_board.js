@@ -17,7 +17,7 @@ const ClubPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/club_board/club_posts/`, {
+        const response = await axios.get(`http://localhost:8000/club_board/board_posts/${clubName}/${category}/${order}/`, {
           params: {
             club_name: clubName,
             category: category === 'all' ? 'all' : category,
