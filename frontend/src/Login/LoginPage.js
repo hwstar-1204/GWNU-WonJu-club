@@ -1,95 +1,101 @@
-// LoginPage.js
+// components/user/LoginPage.js
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess, logout } from '../redux/actions/authActions';
+import { useNavigate, Link } from 'react-router-dom'; // Added
 
-import React, { useState } from "react";
-import { Container, Form, Button, Alert, Row, Col, FormGroup } from "react-bootstrap";
-import { Link, Navigate } from "react-router-dom";
-import "./LoginPage.css";
+const LoginPage = () => { 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // Added
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
-const LoginPage = ({ setIsLoggedIn }) => {
-  const [studentID, setStudentID] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoggedIn, setIsLoggedInState] = useState(false); 
-
-  const validateUser = (studentID, password) => {
-    const registeredStudentID = "123456";
-    const registeredPassword = "password";
-
-    return studentID === registeredStudentID && password === registeredPassword;
+  const goToResetPassword = () => {
+    navigate('/reset-password');
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
 
-    if (!studentID.trim() || !password.trim()) {
-      setErrorMessage("아이디(학번)와 비밀번호를 입력하세요.");
-      return;
-    }
-
-    if (validateUser(studentID, password)) {
-      console.log("로그인 성공");
-      setIsLoggedInState(true);
-      setIsLoggedIn(true);
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log('이미 로그인 되어 있음, 메인 페이지로 리다이렉트');
+      navigate('/');
     } else {
-      setErrorMessage("아이디(학번)와 비밀번호가 일치하지 않습니다.");
+      setLoading(false);
+    }
+  }, [isLoggedIn, navigate]);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log('로그인 시도:', { email, password });
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/club_account/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (data.key) {
+        console.log('로그인 성공:', data);
+        localStorage.setItem('token', data.key);
+        dispatch(loginSuccess({ email: email, token: data.key }));
+        navigate('/'); // Changed
+      } else {
+        throw new Error('로그인 실패');
+      }
+    } catch (error) {
+      console.error(error);
+      setEmail('');
+      setPassword('');
+      localStorage.clear();
+      setErrors(true);
+      dispatch(logout());
     }
   };
-
-  return (
-    <div className="login-background">
-      <Container>
-        <Row className="justify-content-center align-items-center min-vh-100">
-          <Col md={6}>
-            <div className="login-container">
-              <h2 className="login-header">로그인</h2>
-              {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-              <Form onSubmit={handleLogin}>
-                <Form.Control
-                  type="text"
-                  placeholder="아이디(학번)을 입력하세요"
-                  value={studentID}
-                  onChange={(e) => setStudentID(e.target.value)}
-                  className="input-field"
+   return (
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          {loading === false && <h1 className="mb-4">로그인</h1>}
+          {errors === true && <h2 className="text-danger">Cannot log in with provided credentials</h2>}
+          {loading === false && (
+            <form onSubmit={onSubmit}>
+              <div className="form-group mt-5">
+                <label htmlFor='email'>이메일</label>
+                <input
+                  name='email'
+                  type='email'
+                  className="form-control"
+                  value={email}
+                  required
+                  onChange={e => setEmail(e.target.value)}
                 />
-                <Form.Control
-                  type="password"
-                  placeholder="비밀번호를 입력하세요"
+              </div>
+              <div className="form-group mt-2">
+                <label htmlFor='password'>패스워드</label>
+                <input
+                  name='password'
+                  type='password'
+                  className="form-control"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
+                  required
+                  onChange={e => setPassword(e.target.value)}
                 />
-                <FormGroup className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <Form.Check
-                      type="checkbox"
-                      label="아이디 저장"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                  </div>
-                  <div>
-                    <Link to="/login/reset-password" className="reset-password-link">비밀번호를 잊으셨나요?</Link>
-                  </div>
-                </FormGroup>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="login-button"
-                >
-                  로그인
-                </Button>
-                <div className="signup-link-container">
-                  <Link to="/signup" className="signup-button">
-                    회원가입
-                  </Link>
-                </div>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-      {isLoggedIn && <Navigate to="/" />}
+              </div>
+              <div class="mt-5">
+                <button type="submit" className="btn btn-primary">Login</button>
+                <button className="btn btn-primary ms-3" onClick={goToResetPassword}>password reset</button>
+              </div>
+              
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

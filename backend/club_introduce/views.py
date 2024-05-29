@@ -5,7 +5,7 @@ from rest_framework.permissions import *
 from club_introduce.serializer import *
 from club_introduce.models import *
 from rest_framework import generics
-
+from django.utils import timezone
 
 
 # Create your views here.
@@ -77,13 +77,48 @@ class CreateClub(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         print("확인: ", request.data)
+        user = self.request.user
+
         serializer = self.get_serializer(data=request.data)
-
-        if not serializer.is_valid():
-            print(serializer.errors)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+
+        # 동아리 만든사람을 동아리 회장으로 만듬
+        club_name = Club.objects.get(club_name=serializer.data['club_name'])
+        club_member = ClubMember(club_name=club_name, student_id=user, joined_date=timezone.now(), job='회장')
+        print('회장: ', club_member)
+        club_member.save()
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class MyClubListView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = MyClubListSerializer
+    queryset = Club.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        return Club.objects.filter(clubmember__student_id=user)
+
+class DropClubView(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = ClubMember.objects.all()
+
+    def destroy(self, request, *args, **kwargs):
+        job = request.data.get('job')
+        member_id = kwargs.get('member_id')
+
+        try:
+            instance = ClubMember.objects.get(pk=member_id)
+        except ClubMember.DoesNotExist:
+            return Response({"error": "Club member not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        # 동아리 회장이 아닌경우와 동아리 회장인데 동아리 회원 수가 1명인 경우 삭제
+        if job != '회장' or (job == '회장' and ClubMember.objects.filter(club_name=instance.club_name).count() == 1):
+            instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response({"error": "동아리 회장은 탈퇴못함"}, status=status.HTTP_400_BAD_REQUEST)
+

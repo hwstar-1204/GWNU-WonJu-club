@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'; // Axios를 import합니다.
+// import {ProfileImage} from './StyledComponents';
 import '../Club_Style/Club_members.css'; // CSS 파일을 import합니다.
 
 const ClubMembers = () => {
@@ -32,7 +33,7 @@ const ClubMembers = () => {
           {members.map((member) => (
             <div key={member.id} className="member-card">
               {/* 프로필 이미지가 있다면 이미지를 표시합니다. */}
-              {member.profileImage && <img src={member.profileImage} alt="Profile" />}
+              {member.profileImage && <ProfileImage src={member.profileImage} alt="Profile" />}
               <div className="member-details">
                 <div className="member-job">{member.job}</div>
                 <div className="member-name">{member.name}</div> {/* 이름을 직책 아래에 표시합니다. */}

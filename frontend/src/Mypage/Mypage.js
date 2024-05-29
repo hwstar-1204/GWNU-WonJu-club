@@ -11,6 +11,8 @@ import MyClubPage from './MyClubPage.js';
 const MyPage = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [userData, setUserData] = useState(null);
+  const [myClubList, setMyClubList] = useState([]);
+
   const [loading, setLoading] = useState(true); // 데이터 로딩 
   // const [selectedPage, setSelectedPage] = useState('Home'); // 기본값으로 ComponentA 선택
 
@@ -19,6 +21,7 @@ const MyPage = () => {
     if (storedToken) {
       setToken(storedToken);
       getUserDetails();
+      fetchMyClubList();
     }
     
   }, [token]);
@@ -40,9 +43,22 @@ const MyPage = () => {
     }
   };
 
-  // const handleNavigation = (page) => {
-  //     setSelectedPage(page);
-  // };
+  const fetchMyClubList = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/club_introduce/myclub_list/', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+      console.log(data.results);
+      setMyClubList(data.results);
+
+    } catch (error) {
+      console.error('Error fetching my club list:', error);
+    }
+  };
 
 
   return (
@@ -57,13 +73,13 @@ const MyPage = () => {
       </div>
     </div>  
 
-    <MypageHome userData={userData} />
+    <MypageHome userData={userData} myClubList={myClubList} />
 
     <div>
       <Routes>
         <Route path="edit-information" element={<Editinformation />} />
         <Route path="password-change" element={<PasswordChangeForm />} />
-        {/* <Route path="my-club" element={<MyClubPage />} /> */}
+        <Route path="my-club" element={<MyClubPage myClubList={myClubList} />} />
       </Routes>
     </div>
 
@@ -73,17 +89,3 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
-      
-{/* <div className="my-category-container">
-<div className='category_btn'>
-  <button onClick={() => handleNavigation('Home')}>홈</button>
-  <button onClick={() => handleNavigation('Editinformation')}>회원정보 수정</button>
-  <button onClick={() => handleNavigation('PasswordChangeForm')}>패스워드 변경</button>  
-</div>
-<NavLink to="/myclub" className="my-category-item" activeclassname="active-link">내 동아리 관리</NavLink>
-</div>
-<MypageHome userData={userData} />
-
-{selectedPage === 'Editinformation' && <Editinformation />}
-{selectedPage === 'PasswordChangeForm' && <PasswordChangeForm />} */}
