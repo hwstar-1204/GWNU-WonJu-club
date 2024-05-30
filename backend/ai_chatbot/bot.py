@@ -2,7 +2,7 @@ import threading
 import json
 
 from config.DatabaseConfig import *
-from utils.Database import Database
+#from utils.Database import Database
 from utils.BotServer import BotServer
 from utils.Preprocess import Preprocess
 from model.intent.IntentModel import IntentModel
