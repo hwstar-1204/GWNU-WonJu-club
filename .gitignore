@@ -1,9 +1,24 @@
-##MacOS##
-.DS_Store
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
 
+# Virtual environment
+.venv/
+*.pyc
+
+# IDEs and Editors
+.vscode/
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.env
+
+#node
 node_modules/
 package-lock.json
 package.json
 
-.venv/
