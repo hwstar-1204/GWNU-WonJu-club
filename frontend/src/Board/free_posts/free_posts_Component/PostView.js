@@ -39,9 +39,9 @@ const PostView = () => {
 
   // 추천하기 함수  TODO
   const handleRecommend = () => {
-    increaseRecommendCount(postId);
-    const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
-    setData(updatedData);
+    // increaseRecommendCount(postId);
+    // const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
+    // setData(updatedData);
   };
 
 
