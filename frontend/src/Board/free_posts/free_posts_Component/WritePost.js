@@ -60,36 +60,58 @@ const WritePost = () => {
   };
 
   return (
-    <div className="write-post-container">
-      <form className="write-post-form" onSubmit={handleSubmit} >
-        
-        <div className="form-group">
-          <label htmlFor="notice-option">글 유형:</label>
-          <select id="notice-option" value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option value={"일반"}>일반</option>
-            <option value={"공지사항"}>공지사항</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="title">제목:</label>
-          <input type="text" id="title" value={title} onChange= {(e) => setTitle(e.target.value)} required />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="content">내용:</label>
-          <textarea id="content" value={content} onChange={(e) => setContent(e.target.value)} required />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="image" className="image-upload-button">
-            사진 업로드
-            <input type="file" id="image" onChange={handleImageChange} accept="image/*" />
-          </label>
-          {imagePreview && <img src={imagePreview} alt="이미지 미리보기" className="image-preview" />}
-        </div>
-
-        <button type="submit">작성 완료</button>
+        <div className="write-post-container">
+        <form className="write-post-form" onSubmit={handleSubmit} >
+          <div className="form-group">
+            <select
+              id="notice-option"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="form-group select"
+            >
+              <option value={"일반"}>일반</option>
+              <option value={"공지사항"}>공지사항</option>
+            </select>
+          </div>
+  
+          <div className="form-group">
+            <label htmlFor="title">제목:</label>
+            <input
+              type="text"
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="form-group input"
+            />
+          </div>
+  
+          <div className="form-group">
+            <label htmlFor="content">내용:</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              required
+              className="form-group textarea"
+            />
+          </div>
+  
+          <div className="form-group">
+            <label htmlFor="image" className="image-upload-button">
+              사진 업로드
+              <input
+                type="file"
+                id="image"
+                onChange={handleImageChange}
+                accept="image/*"
+                className="form-group input"
+              />
+            </label>
+            {imagePreview && <img src={imagePreview} alt="이미지 미리보기" className="image-preview" />}
+          </div>
+  
+          <button type="submit" className="submit-button">작성 완료</button>
 
 
         {/* {postId && (

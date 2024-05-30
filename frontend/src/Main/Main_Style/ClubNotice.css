@@ -1,10 +1,6 @@
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/* ClubNotice.css */
 
-/* .club-notice {
+.club-notice {
   margin-bottom: 20px;
 }
 
@@ -12,6 +8,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: #333; /* 변경된 색상 */
 }
 
 .notice-board {
@@ -19,6 +16,7 @@
   border-radius: 5px;
   overflow: hidden;
   margin-right: 20px; 
+  background-color: #E3F2FD; /* 변경된 배경색 */
 }
 
 .notice-item {
@@ -26,7 +24,7 @@
 }
 
 .notice-header {
-  background-color: #f0f0f0;
+  background-color: #90CAF9; /* 변경된 배경색 */
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -45,8 +43,10 @@
 
 .notice-content {
   padding: 10px;
+  background-color: #E3F2FD; /* 변경된 배경색 */
 }
 
 .notice-content p {
   margin-bottom: 10px;
-} */
+  color: #333; /* 텍스트 색상 추가 */
+}

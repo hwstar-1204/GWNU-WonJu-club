@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SignUp.css'; // CSS 파일 임포트
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -71,13 +72,13 @@ const SignUp = () => {
   };
 
   return (
-    <div className="container py-5">
-      <h1>회원가입</h1>
+    <div className="signup-container py-5">
+      <h1 className="signup-title">회원가입</h1>
       <form onSubmit={onSubmit}>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='email'>이메일</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='email'
             name='email'
             value={email}
@@ -85,10 +86,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='password1'>패스워드</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='password'
             name='password1'
             value={password1}
@@ -96,10 +97,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='password2'>패스워드 재확인</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='password'
             name='password2'
             value={password2}
@@ -107,11 +108,11 @@ const SignUp = () => {
             required
           />
         </div>
-        {passwordError && <p className="text-danger">{passwordError}</p>}
-        <div className="form-group">
+        {passwordError && <p className="signup-text-danger">{passwordError}</p>}
+        <div className="signup-form-group">
           <label htmlFor='name'>이름</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='text'
             name='name'
             value={name}
@@ -119,10 +120,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='student_id'>학번</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='number'
             name='student_id'
             value={student_id}
@@ -130,10 +131,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='grade'>학년</label>
           <select
-            className="form-control"
+            className="signup-form-control"
             name='grade'
             value={grade}
             onChange={onChange}
@@ -145,10 +146,10 @@ const SignUp = () => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='study'>학과</label>
           <select
-            className="form-control"
+            className="signup-form-control"
             name='study'
             value={study}
             onChange={onChange}
@@ -160,10 +161,10 @@ const SignUp = () => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='gender'>성별</label>
           <select
-            className="form-control"
+            className="signup-form-control"
             name='gender'
             value={gender}
             onChange={onChange}
@@ -175,10 +176,10 @@ const SignUp = () => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="signup-form-group">
           <label htmlFor='phone'>휴대전화</label>
           <input
-            className="form-control"
+            className="signup-form-control"
             type='text'
             name='phone'
             value={phone}
@@ -187,11 +188,11 @@ const SignUp = () => {
           />
         </div>
         <br/>
-        <button type='submit' className='btn btn-primary'>Signup</button>
+        <button type='submit' className='signup-btn'>Signup</button>
         <br/>
         <div>
           {isLoading && (
-            <div className="spinner-border" role="status">
+            <div className="signup-spinner spinner-border" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
           )}

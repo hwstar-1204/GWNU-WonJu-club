@@ -17,7 +17,7 @@ const BannerCarousel = () => {
     <Carousel.Item>
       <img
         className="carousel-image"
-        src="/photo/img2.jpg"
+        src="/photo/bannerimg2.jpg"
         alt="Second slide"
         
       />
