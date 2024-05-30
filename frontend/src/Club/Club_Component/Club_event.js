@@ -54,7 +54,7 @@ const ClubEvent = () => {
 
   return (
     <div className="event-container">
-      <h2>이벤트</h2>
+      <h2>일정</h2>
       <div className="search-container">
         <select value={searchOption} onChange={handleSearchOptionChange}>
           <option value="all">전체</option>

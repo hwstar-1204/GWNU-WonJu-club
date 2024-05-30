@@ -723,8 +723,10 @@ const ClubManagementPage = () => {
           )}
         </section>
       </div>
-      <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
-      <button onClick={clickSaveButton} className='club-club-delete-button'>저장</button>
+      <div>
+        <button onClick={clickSaveButton} className='club-club-delete-button'>저장</button>
+        <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
+      </div>
       {/* Image Selection Modal */}
       <Modal
         isOpen={isImageModalOpen}
