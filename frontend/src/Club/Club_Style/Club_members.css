@@ -1,7 +1,13 @@
 .member-card {
   display: flex;
   align-items: center; /* 세로 중앙 정렬 */
-  margin-bottom: 20px; /* 회원 정보 사이의 간격 설정 */
+  margin-bottom: 20px; /* 회원 정보 사이의 간
+격 설정 */
+}
+
+.member-box {
+  margin-left:10%;
+  margin-top:20px;
 }
 
 .member-card img {

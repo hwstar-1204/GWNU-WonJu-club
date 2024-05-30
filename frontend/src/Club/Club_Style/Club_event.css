@@ -1,8 +1,16 @@
-.event-container {
-   
-    margin: 0 auto;
+.club-event-box {
+margin-left: 10%;
+width: 80%;
+margin-top: 20px;
   }
+.create-event-container{
+  display: flex;
   
+}
+.create-event-button{
+  right: 15%;
+  position: absolute;
+}
   .event-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

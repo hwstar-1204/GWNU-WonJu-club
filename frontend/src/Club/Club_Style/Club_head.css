@@ -92,6 +92,17 @@
   margin: 0 auto;
 }
 
+.club-header-nav li:hover {
+  background-color: #ffc107;
+  font-weight: bold;
+  transition: background-color 0.3s, font-weight 0.3s, border-radius 0.3s;
+    /* 호버 효과에 대한 전환 효과 추가 */
+  border-radius: 30px;
+}
+.club-header-nav.active{
+background-color: #ffc107;
+border-radius: 30px;
+}
 .club-header img {
   margin-right: 20px;
 }
@@ -125,10 +136,6 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.club-header nav ul li:hover {
-  background-color: #e0e0e0;
-  color: #333;
-}
 
 .manage {
   margin-left: auto;

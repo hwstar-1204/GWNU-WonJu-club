@@ -1,8 +1,8 @@
-.gallery-container {
- 
-    margin: 0 auto;
+ .gallery-box{
+    margin-top: 20px;
+    margin-left: 10%;
+    width:80%
   }
-  
   .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -53,6 +53,9 @@
     display: flex;
     align-items: center;
   }
+  .create-photo-button{
+    margin-right: 30px;
+  }
   
   .search-container select,
   .search-container input[type="text"] {
@@ -70,4 +73,9 @@
     flex: 1;
     max-width: 300px;
   }
-  
+  .album-head-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }

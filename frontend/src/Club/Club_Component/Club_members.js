@@ -26,6 +26,7 @@ const ClubMembers = () => {
   return (
     <div className="member-info-container">
       <ClubHeader clubName={club_name} />
+      <div className='member-box'>
       <h2 className='club-head-text'>회원정보</h2>
       {members.length === 0 ? (
         <p>회원 정보가 없습니다.</p>
@@ -43,6 +44,7 @@ const ClubMembers = () => {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }
