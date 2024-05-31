@@ -113,49 +113,48 @@ const ClubIntroducePage = () => {
   };
 
   return (
-    <div className="ClubintroducePage">
-    <div className="content-wrapper">
-      <section id="clubIntroducePage" className="section">
-        <div className="filters">
-          <Dropdown
-            label="카테고리 선택"
-            value={getCategoryLabelByCode(selectedCategory)}
-            onChange={handleCategoryChange}
-            options={Object.keys(categoryCodes).map(key => ({ value: key, label: key }))}
-          />
-          <Dropdown
-            label="동아리 유형 선택"
-            value={getTypeLabelByCode(selectedType)}
-            onChange={handleTypeChange}
-            options={Object.keys(typeCodes).map(key => ({ value: key, label: key }))}
-          />
-        </div>
-        {isLoading ? <p>Loading...</p> : (
-          <div className="card__inner container">
-            {filteredClubs.map((club, index) => (
-              <article key={index} className="card" onClick={() => handleClubClick(club.club_name)}>
-                <figure className="card__header">
-                  <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
-                </figure>
-                <div className="card__contents">
-                  <p>{club.introducation}</p>
-                  <div className="club-info">
-                    <img src={getAbsolutePath(club.logo)} className="club-logo" />
-                    <h3>{club.club_name}</h3>
-                  </div>
-                </div>
-                <div className="card__footer">
-                  <button className="apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button>
-                </div>
-              </article>
-            ))}
+    <div className="club-introduce-page">
+      <div className="club-content-wrapper">
+        <section id="clubIntroducePage" className="club-section">
+          <div className="club-filters">
+            <Dropdown
+              label="카테고리 선택"
+              value={getCategoryLabelByCode(selectedCategory)}
+              onChange={handleCategoryChange}
+              options={Object.keys(categoryCodes).map(key => ({ value: key, label: key }))}
+            />
+            <Dropdown
+              label="동아리 유형 선택"
+              value={getTypeLabelByCode(selectedType)}
+              onChange={handleTypeChange}
+              options={Object.keys(typeCodes).map(key => ({ value: key, label: key }))}
+            />
           </div>
-        )}
-      </section>
+          {isLoading ? <p>Loading...</p> : (
+            <div className="club-introduce-card-container">
+              {filteredClubs.map((club, index) => (
+                <article key={index} className="club-introduce-card" onClick={() => handleClubClick(club.club_name)}>
+                  <figure className="club-introduce-card-header">
+                    <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
+                  </figure>
+                  <div className="club-introduce-card-contents">
+                    <p>{club.introducation}</p>
+                    <div className="club-info">
+                      <img src={getAbsolutePath(club.logo)} className="club-logo" />
+                      <h3>{club.club_name}</h3>
+                    </div>
+                  </div>
+                  <div className="club-introduce-card-footer">
+                    <button className="club-apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default ClubIntroducePage;
-
