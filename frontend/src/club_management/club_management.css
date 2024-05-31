@@ -239,11 +239,11 @@
   margin-bottom: 10px;
 }
 
-/*.card {
+.card {
   width: 120px;
   height: 50px;
   flex: 0 0 auto;
-}*/
+}
 
 .member-management-item {
   flex: 0 0 auto; /* 아이템이 확장되지 않도록 설정 */
