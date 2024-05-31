@@ -89,6 +89,7 @@ const PostList = () => {
   
   return (
   <div className='post-list-container'>
+    <h1 className='post-list-title'>자유 게시판</h1>
   <select className='post-list-sort-select'
     value={sortBy}
     onChange={(e) => handleSortByChange(e.target.value)}

@@ -1,8 +1,13 @@
+/* App.css */
 .content {
     height: 100%;
-
-}
-
-.content-main {
-    padding: 30px;
-}
+  }
+  
+  .content-main {
+    padding: 0px;
+  }
+  
+  .content-padding .content-main {
+    padding-top: 80px; /* 원하는 padding-top 값 */
+  }
+  

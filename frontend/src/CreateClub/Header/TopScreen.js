@@ -27,6 +27,7 @@ const TopScreen = () => {
     setIsMainPage(location.pathname === '/'); // 현재 경로가 메인 페이지인지 확인
     
 
+
     const handleScroll = () => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
