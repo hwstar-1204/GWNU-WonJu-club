@@ -1,8 +1,11 @@
+// ClubNotice.js
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Main_Style/ClubNotice.css';
 import { Table, Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const handlePageChange = (page) => {
@@ -46,12 +49,14 @@ const ClubNotice = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
   const [tags, setTags] = useState([]);
   const [selectedTag, setSelectedTag] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+  const [searchPerformed, setSearchPerformed] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -132,19 +137,39 @@ const ClubNotice = () => {
     fetchNotices(currentPage, searchTerm, order, selectedTag);
   };
 
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setSearchTerm(searchInput);
+    setSearchPerformed(true); 
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="club-notice-container">
       <h3 className="title">공지</h3>
       <div className="title-underline"></div>
-      <div className="top">
-        <div className="search-bar">
+      <div className="top d-flex justify-content-end align-items-center">
+        <div className="search-bar d-flex align-items-center">
           <Input
             type="text"
             placeholder="search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            onKeyPress={handleKeyPress}
+            className="search-input"
           />
-          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+          <Button color="secondary" className="search-button" onClick={handleSearch}>
+            <FontAwesomeIcon icon={faSearch} />
+          </Button>
+          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown} className="sort-dropdown">
             <DropdownToggle caret className="dropdown">
               정렬
             </DropdownToggle>
@@ -161,11 +186,10 @@ const ClubNotice = () => {
             </DropdownMenu>
           </Dropdown>
         </div>
-        <Button color="primary" onClick={handleWriteButtonClick} className="btn write-btn">글쓰기</Button>
       </div>
 
       {isLoading ? (
-        <div className="d-flex justify-content-center">Loding...</div>
+        <div className="d-flex justify-content-center">Loading...</div>
       ) : (
         <div className="table-container">
           <Table className="table table-hover">
@@ -173,20 +197,26 @@ const ClubNotice = () => {
               <tr>
                 <th>No</th>
                 <th>제목</th>
-                <th>글쓴이</th>
-                <th>작성시간</th>
+                <th>작성자</th>
+                <th>작성일</th>
                 <th>조회수</th>
               </tr>
             </thead>
             <tbody>
-              {notices.length === 0
-                ? Array.from({ length: 5 }).map((_, index) => (
+              {notices.length === 0 && searchPerformed ? (
+                <tr>
+                  <td colSpan="5" className="text-center">검색 결과가 없습니다.</td>
+                </tr>
+              ) : (
+                notices.length === 0 ? (
+                  Array.from({ length: 5 }).map((_, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td colSpan="4" className="no-notice">공지사항이 없습니다.</td>
                     </tr>
                   ))
-                : notices.map((notice, index) => (
+                ) : (
+                  notices.map((notice, index) => (
                     <tr key={notice.specific_id}>
                       <td>{index + 1}</td>
                       <td>
@@ -198,9 +228,12 @@ const ClubNotice = () => {
                       <td>{notice.created_date}</td>
                       <td>{notice.views}</td>
                     </tr>
-                  ))}
+                  ))
+                )
+              )}
             </tbody>
           </Table>
+          <Button color="primary" onClick={handleWriteButtonClick} className="btn write-btn">글쓰기</Button>
         </div>
       )}
 

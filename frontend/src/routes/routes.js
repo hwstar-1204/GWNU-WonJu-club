@@ -1,3 +1,4 @@
+// Import necessary dependencies
 import React from 'react';
 import { Route } from 'react-router-dom';
 import MainPage from '../Main/Main_Component/MainPage';
@@ -18,6 +19,8 @@ import NotFound from '../Login/NotFound';
 import ClubIntroducePage from '../Club_Introduce/ClubIntroducePage';
 import ClubManagement from '../club_management/club_management';
 import ResetPasswordPage from '../Login/ResetPasswordPage';
+import ClubNotice from '../Main/Main_Component/ClubNotice';
+import CreateNotice from '../Main/Main_Component/CreateNotice';
 
 export const AppRoutes = () => (
   <>
@@ -25,7 +28,6 @@ export const AppRoutes = () => (
     <Route path="/login" element={<LoginPage />} />
     <Route path="/reset-password/" element={<ResetPasswordPage />} />
     <Route path="/auth/reset-password-confirm/:uid/token/:token" element={<ResetPasswordPage />} />
-
     <Route path="/myclub" element={<Myclub />} />
     <Route path="/mypage/*" element={<MyPage />} />
     <Route path="/eventpage/*" element={<EventPage />} />
@@ -35,12 +37,14 @@ export const AppRoutes = () => (
     <Route path="/club_information/club/:club_name/members/" element={<ClubMember />} />
     <Route path="/club_information/club/:club_name/albums/" element={<ClubAlbum />} />
     <Route path="/club_information/club/:club_name/events/" element={<ClubEvent />} />
-    <Route path="/create_club" element={<CreateClubPage/>} />
+    <Route path="/create_club" element={<CreateClubPage />} />
     <Route path="/club_board/club_posts/" element={<ClubPosts />} />
     <Route path='/club_board/*' element={<PostMain/>} />
     <Route path="signup/*" element={<SignUpPage />} />
     <Route path="/user" element={<UserDetail />} />
     <Route path='*' element={<NotFound />} />
     <Route path="/club-introduce" element={<ClubIntroducePage />} />
+    <Route path="/club-notice" element={<ClubNotice />} />
+    <Route path="/create-notice" element={<CreateNotice />} />
   </>
 );

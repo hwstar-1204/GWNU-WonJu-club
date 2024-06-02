@@ -157,6 +157,14 @@ const ClubNotice = () => {
     }
   };
 
+  const handleSearch = () => {
+    if (searchTerm.trim() === '') {
+      fetchNotices(1, '', sortOrder, selectedTag); // 검색어가 없으면 기본 공지사항을 가져옴
+    } else {
+      fetchNotices(1, searchTerm, sortOrder, selectedTag);
+    }
+  };
+
   return (
     <div>
       <div className='top'>
@@ -167,7 +175,9 @@ const ClubNotice = () => {
             placeholder="검색어를 입력하세요..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
+          <Button onClick={handleSearch}>돋보기</Button>
         </div>
         <div className="sort-buttons">
           <Button onClick={() => setSortOrder('desc')} active={sortOrder === 'desc'}>최신순</Button>

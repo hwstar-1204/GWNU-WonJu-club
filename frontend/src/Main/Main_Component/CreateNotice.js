@@ -10,7 +10,7 @@ const CreateNotice = () => {
   const navigate = useNavigate();
 
   const handleCancel = () => {
-    navigate('/'); // Adjust this to your main notice board route
+    navigate('/');
   };
 
   const handleCreate = () => {
@@ -38,7 +38,8 @@ const CreateNotice = () => {
 
   return (
     <div className="create-notice-container">
-      <h3 className="title">게시판</h3>
+      <h3 className="title">공지 등록</h3>
+      <div className="title-underline"></div>
       <Form>
         <FormGroup>
           <Label for="title">제목</Label>
