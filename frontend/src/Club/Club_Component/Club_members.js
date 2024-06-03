@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'; // Axios를 import합니다.
 // import {ProfileImage} from './StyledComponents';
+import { ProfileImage } from '../../styles';
 import '../Club_Style/Club_members.css'; // CSS 파일을 import합니다.
+import ClubHeader from './Club_head'; // ClubHeader 컴포넌트를 import합니다.
 
 const ClubMembers = () => {
   const { club_name } = useParams();
@@ -25,7 +27,9 @@ const ClubMembers = () => {
 
   return (
     <div className="member-info-container">
-      <h2>회원정보</h2>
+      <ClubHeader clubName={club_name} />
+      <div className='member-box'>
+      <h2 className='club-head-text'>회원정보</h2>
       {members.length === 0 ? (
         <p>회원 정보가 없습니다.</p>
       ) : (
@@ -36,12 +40,13 @@ const ClubMembers = () => {
               {member.profileImage && <ProfileImage src={member.profileImage} alt="Profile" />}
               <div className="member-details">
                 <div className="member-job">{member.job}</div>
-                <div className="member-name">{member.name}</div> {/* 이름을 직책 아래에 표시합니다. */}
+                <div className="member-name">{member.user}</div> {/* 이름을 직책 아래에 표시합니다. */}
               </div>
             </div>
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

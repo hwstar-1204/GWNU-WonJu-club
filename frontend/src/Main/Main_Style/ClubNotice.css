@@ -1,52 +1,113 @@
+/* ClubNotice.css */
+.club-notice-container {
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 2.5em !important;
+  margin-bottom: 20px;
+}
+
+.title-underline {
+  width: 100%;
+  height: 0.1px !important;
+  background-color: #e4e4e4;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  opacity: 0.3;
+}
+
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-/* .club-notice {
   margin-bottom: 20px;
 }
 
-.notice-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.notice-board {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-right: 20px; 
-}
-
-.notice-item {
-  border-bottom: 1px solid #ccc;
-}
-
-.notice-header {
-  background-color: #f0f0f0;
-  padding: 10px;
+.search-bar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-.notice-date {
-  font-size: 14px;
-  color: #333;
+.search-bar input {
+  width: 200px;
+  height: 38px;
+  padding-right: 30px;
+  opacity: 0.7;
+  margin-right: 10px;
 }
 
-.notice-author {
-  font-size: 14px;
-  color: #333;
+.search-icon {
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.notice-content {
-  padding: 10px;
+.search-button {
+  background: none;
+  color: #ccc;
+  cursor: pointer;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
 }
 
-.notice-content p {
-  margin-bottom: 10px;
-} */
+.dropdown {
+  margin-left: 10px;
+  opacity: 0.9;
+}
+
+.dropdown .dropdown-toggle {
+  font-size: small;
+  height: 38px;
+  padding: 0 10px;
+}
+
+.btn {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+
+.write-btn {
+  float: right;
+  margin-left: 10px;
+  padding: 5px 10px;
+}
+
+.btn:hover {
+  background-color: #90CAF9;
+  border-color: #90CAF9;
+}
+
+.table thead th {
+  font-weight: normal;
+}
+
+.table tbody tr:first-of-type {
+  border-top: 2px solid #979797; /* 첫 번째 데이터 행 아래에 선 추가 */
+}
+
+.no-notice {
+  color: #ccc;
+}
+
+.custom-page-link {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: 1px solid #ccc !important;
+}
+
+.custom-page-link:hover {
+  border-color: #90CAF9 !important;
+}

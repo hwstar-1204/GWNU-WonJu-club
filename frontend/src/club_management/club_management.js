@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './club_management.css';
 import defaultImage from "../profile.jpg";
+import ClubHeader from '../Club/Club_Component/Club_head.js'
 
 const ClubManagementPage = () => {
   const { club_name } = useParams();
@@ -22,9 +23,31 @@ const ClubManagementPage = () => {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [imageType, setImageType] = useState('');
   const [btnMode, setBtnMode] = useState('');
+
+  const [roleChange, setRoleChange] = useState('');
+  const [roleId, setRoleId] = useState('');
+  const [clickRole, setClickRole] = useState(false);
+  const [removeId, setRemoveId] = useState('');
+  const [removeClick, setRemoveClick] = useState(false);
+  const [approveId, setApproveId] = useState('');
+  const [approveClick, setApproveClick] = useState(false);
+  const [rejectId, setRejectId] = useState('');
+  const [rejectClick, setRejectClick] = useState(false);
+  const [changeLogoResult, setChangeLogoResult] = useState('');
+  const [changeLogoClick, setChangeLogoClick] = useState(false);
+  const [changePhotoResult, setChangePhotoResult] = useState('');
+  const [changePhotoClick, setChangePhotoClick] = useState(false);
+  const [deleteLogoResult, setDeleteLogoResult] = useState('');
+  const [deleteLogoClick, setDeleteLogoClick] = useState(false);
+  const [deletePhotoResult, setDeletePhotoResult] = useState('');
+  const [deletePhotoClick, setDeletePhotoClick] = useState(false);
+  const [logoAddClick, setLogoAddClick] = useState(false);
+  const [photoAddClick, setPhotoAddClick] = useState(false);
+  const [introduceUpdate, setIntroductionUpdate] = useState(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
+
   useEffect(() => {
     if (!club_name) {
       return;
@@ -47,7 +70,8 @@ const ClubManagementPage = () => {
           setErrorMessage('동아리 데이터가 존재하지 않습니다.');
         }
       } catch (error) {
-        console.error('Error fetching club data:', error);
+        alert("접근권한이 없습니다.")
+        navigate(`/club_information/club/${encodeURIComponent(club_name)}/home`);
         setIsLoading(false);
         setErrorMessage('동아리 데이터를 불러오는 데 실패했습니다. 다시 시도해주세요.');
       }
@@ -88,17 +112,20 @@ const ClubManagementPage = () => {
     }
   };
 
-
   const handleImageSelect = async (image) => {
     try {
       if (imageType === 'logo' && btnMode === 'update') {
-        handleLogoUpdate(image.name);
+        setChangeLogoClick(true);
+        setChangeLogoResult(image.name);
       } else if (imageType === 'logo' && btnMode === 'delete') {
-        handleLogoDelete(image.name); // 여전히 URL로 처리
+        setDeleteLogoClick(true);
+        setDeleteLogoResult(image.name);
       } else if (imageType === 'photo' && btnMode === 'update') {
-        handlePhotoUpdate(image.name);
+        setChangePhotoClick(true);
+        setChangePhotoResult(image.name);
       } else if (imageType === 'photo' && btnMode === 'delete') {
-        handlePhotoDelete(image.name); // 여전히 URL로 처리
+        setDeletePhotoClick(true);
+        setDeletePhotoResult(image.name);
       }
       setIsImageModalOpen(false);
     } catch (error) {
@@ -487,7 +514,7 @@ const ClubManagementPage = () => {
       });
       if (response.status === 204) {
         // 동아리 삭제 성공
-        Navigate('/') // 삭제 후 메인 페이지로 이동
+        navigate('/') // 삭제 후 메인 페이지로 이동
       } else {
         setErrorMessage('동아리 삭제에 실패했습니다. 다시 시도해주세요.');
       }
@@ -498,13 +525,62 @@ const ClubManagementPage = () => {
     }
   };
 
+  const clickSaveButton = async () => {
+    if (clickRole) {
+      handleRoleChange(roleId, roleChange);
+      setClickRole(false);
+    }
+    if (removeClick) {
+      handleRemoveMember(removeId);
+      setRemoveClick(false);
+    }
+    if (approveClick) {
+      approveMember(approveId);
+      setApproveClick(false);
+    }
+    if (rejectClick) {
+      rejectMember(rejectId);
+      setRejectClick(false);
+    }
+    if (changeLogoClick) {
+      handleLogoUpdate(changeLogoResult);
+      setChangeLogoClick(false);
+    }
+    if (deleteLogoClick) {
+      handleLogoDelete(deleteLogoResult);
+      setDeleteLogoClick(false);
+    }
+    if (changePhotoClick) {
+      handlePhotoUpdate(changePhotoResult);
+      setChangePhotoClick(false);
+    }
+    if (deletePhotoClick) {
+      handlePhotoDelete(deletePhotoResult);
+      setDeletePhotoClick(false)
+    }
+    if (logoAddClick) {
+      handleLogoAddClick();
+      setLogoAddClick(false);
+    }
+    if (photoAddClick) {
+      handlePhotoAddClick();
+      setPhotoAddClick(false);
+    }
+    if (introduceUpdate) {
+      handleIntroductionUpdate();
+      setIntroductionUpdate(false);
+    }
+  }
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   return (
+    <div className='club-mangement'>
+      <ClubHeader clubName={club_name}/>
     <div className="ClubManagementPage">
-      <div className="content-wrapper">
+      <div className="manage-content-wrapper">
+        
         <section id="clubManagementPage" className="section">
           {clubData ? (
             <div className="club-info">
@@ -536,25 +612,27 @@ const ClubManagementPage = () => {
                   <div className="member-management-list">
                     {clubData.existing_members.map((member) => (
                       <div key={member.id} className="member-management-item">
-                        <img
-                          src={member.profile_photo ? `data:image/jpeg;base64,${member.profile_photo}` : defaultImage}
-                          alt={member.user}
-                          className="member-photo"
-                        />
-                        <span className="member-name">{member.user}</span>
-                        <select
-                          value={member.role}
-                          onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                          className="member-role-select"
-                        >
-                          <option value="original">{member.job}</option>
-                          <option value="회장">회장</option>
-                          <option value="부회장">부회장</option>
-                          <option value="일반회원">일반회원</option>
-                        </select>
+                        <div className="member-info">
+                          <img
+                            src={member.profile_photo ? `data:image/jpeg;base64,${member.profile_photo}` : defaultImage}
+                            alt={member.user}
+                            className="member-photo"
+                          />
+                          <span className="member-name">{member.user}</span>
+                          <select
+                            value={member.role}
+                            onChange={(e) => { setRoleId(member.id), setRoleChange(e.target.value), setClickRole(true) }}
+                            className="member-role-select"
+                          >
+                            <option value="original">{member.job}</option>
+                            <option value="회장">회장</option>
+                            <option value="부회장">부회장</option>
+                            <option value="일반회원">일반회원</option>
+                          </select>
+                        </div>
                         <button
                           className="remove-member-btn"
-                          onClick={() => handleRemoveMember(member.id)}
+                          onClick={() => { setRemoveId(member.id), setRemoveClick(true) }}
                         >
                           퇴출
                         </button>
@@ -575,8 +653,8 @@ const ClubManagementPage = () => {
                         {/* <p></p>  받아온 데이터 존재하는 학생 이름 넣기 */}
                         <p>{member.job}</p>
                         <div className="action-buttons">
-                          <button onClick={() => approveMember(member.id)}>승인</button>
-                          <button onClick={() => rejectMember(member.id)}>거부</button>
+                          <button onClick={() => { setApproveId(member.id), setApproveClick(true) }}>승인</button>
+                          <button onClick={() => { setRejectId(member.id), setRejectClick(true) }}>거부</button>
                         </div>
                       </div>
                     ))}
@@ -597,10 +675,10 @@ const ClubManagementPage = () => {
                         style={{ display: 'none' }}
                         onChange={handleLogoFileSelect}
                       />
-                      <button onClick={() => fetchImageData('logo', 'select', 'update')}>수정</button>
-                      <button onClick={() => fetchImageData('logo', 'select', 'delete')}>삭제</button>
+                      <button onClick={() => { fetchImageData('logo', 'select', 'update') }}>수정</button>
+                      <button onClick={() => { fetchImageData('logo', 'select', 'delete') }}>삭제</button>
                       <button onClick={() => document.getElementById('logo-file-input').click()}>파일 선택</button>
-                      <button onClick={handleLogoAddClick}>추가</button> {/* 추가 버튼 */}
+                      <button onClick={() => setLogoAddClick(true)}>추가</button> {/* 추가 버튼 */}
                     </div>
                   </div>
                 </div>
@@ -614,10 +692,10 @@ const ClubManagementPage = () => {
                         style={{ display: 'none' }}
                         onChange={handlePhotoFileSelect}
                       />
-                      <button onClick={() => fetchImageData('photo', 'select', 'update')}>수정</button>
-                      <button onClick={() => fetchImageData('photo', 'select', 'delete')}>삭제</button>
+                      <button onClick={() => { fetchImageData('photo', 'select', 'update') }}>수정</button>
+                      <button onClick={() => { fetchImageData('photo', 'select', 'delete') }}>삭제</button>
                       <button onClick={() => document.getElementById('photo-file-input').click()}>파일 선택</button>
-                      <button onClick={handlePhotoAddClick}>추가</button> {/* 추가 버튼 */}
+                      <button onClick={() => setPhotoAddClick(true)}>추가</button> {/* 추가 버튼 */}
                     </div>
                   </div>
                 </div>
@@ -632,7 +710,7 @@ const ClubManagementPage = () => {
                       value={newIntroduction}
                       onChange={(e) => setNewIntroduction(e.target.value)}
                     ></textarea>
-                    <button onClick={handleIntroductionUpdate}>저장</button>
+                    <button onClick={() => setIntroductionUpdate(true)}>저장</button>
                     <button onClick={() => setIsEditingIntroduction(false)}>취소</button>
                   </>
                 ) : (
@@ -649,7 +727,10 @@ const ClubManagementPage = () => {
           )}
         </section>
       </div>
-      <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
+      <div>
+        <button onClick={() => { clickSaveButton(); alert('저장되었습니다.');}} className='club-club-delete-button'>저장</button>
+        <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
+      </div>
       {/* Image Selection Modal */}
       <Modal
         isOpen={isImageModalOpen}
@@ -671,6 +752,7 @@ const ClubManagementPage = () => {
         </div>
         <button onClick={() => setIsImageModalOpen(false)}>취소</button>
       </Modal>
+    </div>
     </div>
   );
 };

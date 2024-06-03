@@ -6,6 +6,7 @@ from club_introduce.serializer import *
 from club_introduce.models import *
 from rest_framework import generics
 from django.utils import timezone
+from django.db.models import Count
 
 
 # Create your views here.
@@ -14,7 +15,8 @@ class ClubListAPIView(APIView):
 
 
     def get(self, request):
-        clubs = Club.objects.all()
+        clubs = Club.objects.exclude(club_name="FreeBoard")  # 동아리 이름이 "FreeBoard"인 동아리는 제외
+
         clubs_data = ClubSerializer(clubs, many=True).data
         return Response(clubs_data)
 
@@ -32,11 +34,11 @@ class CategoryClubAPIView(APIView):
     def get(self, request, category_id, type_id):
 
         if category_id and not type_id:
-            category_clubs = Club.objects.filter(category=category_id)
+            category_clubs = Club.objects.filter(category=category_id).exclude(club_name="FreeBoard")
         elif not category_id and type_id:
-            category_clubs = Club.objects.filter(type=type_id)
+            category_clubs = Club.objects.filter(type=type_id).exclude(club_name="FreeBoard")
         else:
-            category_clubs = Club.objects.filter(category=category_id, type=type_id)
+            category_clubs = Club.objects.filter(category=category_id, type=type_id).exclude(club_name="FreeBoard")
 
         # 카테고리에 해당하는 동아리가 없을 때
         if not category_clubs.exists():
@@ -100,7 +102,9 @@ class MyClubListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Club.objects.filter(clubmember__student_id=user)
+        # 학번과 가입 날짜가 있는 동아리
+
+        return Club.objects.filter(clubmember__student_id=user, clubmember__joined_date__isnull=False)
 
 class DropClubView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
@@ -116,9 +120,24 @@ class DropClubView(generics.DestroyAPIView):
             return Response({"error": "Club member not found"}, status=status.HTTP_404_NOT_FOUND)
 
         # 동아리 회장이 아닌경우와 동아리 회장인데 동아리 회원 수가 1명인 경우 삭제
-        if job != '회장' or (job == '회장' and ClubMember.objects.filter(club_name=instance.club_name).count() == 1):
+        if job == '회장' or ClubMember.objects.filter(club_name=instance.club_name).count() == 1:
+            return Response({"error": "동아리 회장은 탈퇴못함"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
             instance.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        else:
-            return Response({"error": "동아리 회장은 탈퇴못함"}, status=status.HTTP_400_BAD_REQUEST)
 
+class CountClubCategoryView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = CountClubCategorySerializer
+
+    def get_queryset(self):
+        # 동아리 카테고리별 동아리 수
+        return Club.objects.values('category').annotate(count=Count('category'))
+
+class CountClubTypeView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = CountClubTypeSerializer
+
+    def get_queryset(self):
+        # 동아리 타입별 동아리 수
+        return Club.objects.values('type').annotate(count=Count('type'))

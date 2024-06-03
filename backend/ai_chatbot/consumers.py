@@ -41,7 +41,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.sim = SimModel(preprocess=self.p)
 
         # 개체명 인식 모델
-        # self.ner = NerModel(model_name='ai_chatbot/model/ner/ner_model.keras', proprocess=self.p)
         self.ner = NerModel(model_name='ai_chatbot/model/ner_model_new.h5', proprocess=self.p)
 
     async def connect(self):

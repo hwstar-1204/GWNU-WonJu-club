@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 const MyClubPage = ({ myClubList }) => {
+    const [ClubList, setMyClubList] = useState(myClubList);
     const navigate = useNavigate();
 
     const handleDropClub = async (id,job) => {
@@ -15,8 +16,10 @@ const MyClubPage = ({ myClubList }) => {
                 
             }).then((response) => {
                 if (response.ok) {
+                    console.log("response.오케이")
+
                     // 삭제된 동아리를 제외한 나의 동아리 목록을 다시 불러옴
-                    const updatedClubList = myClubList.filter((club) => club.id !== id);
+                    const updatedClubList = ClubList.filter((club) => club.id !== id);
                     setMyClubList(updatedClubList);
                     return alert('동아리 탈퇴가 완료되었습니다.');
                     // return response.json();
@@ -25,6 +28,7 @@ const MyClubPage = ({ myClubList }) => {
             });
             // Remove the club from the clubData state
         } catch (error) {
+            console.log("catch 에러")
             alert(error.message);
         }
     };

@@ -1,82 +1,85 @@
+/* styles.css */
+
 .post-list-container {
-    display: flex;
-    flex-direction: column; /* 요소들을 수직으로 정렬 */
-    width: 80%; /* 전체 화면의 80%만큼 넓이를 사용 */
-    margin: 20px auto; /* 상하 20px, 좌우 자동으로 중앙 정렬 */
-    padding: 20px; /* 내부 여백을 20px로 설정 */
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
 }
+
 .post-list-title {
-    text-align: left;
-    font-weight: bold
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.post-table {
-    width: 100%; 
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-
-.post-table th, .post-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+.post-list-sort {
+  margin-bottom: 20px;
 }
 
 .post-list-sort-select {
-    width: 180px;
-    margin-left: 210px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.post-table th,
+.post-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
 }
 
 .post-table th {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
 
-.post-table tbody tr:hover {
-    background-color: #f5f5f5;
+.post-table tr:hover {
+  background-color: #f2f2f2;
 }
 
-.post-table tbody tr td a {
-    color: inherit;
-    text-decoration: none;
+.pagination {
+  margin-top: 20px;
+  text-align: center;
 }
 
-.post-table tbody tr td a:hover {
-    background-color: #e6e6e6;
+.pagination-button {
+  border: none;
+  background-color: #f2f2f2;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin: 0 4px;
 }
 
-.post-table th:nth-child(1),
-.post-table th:nth-child(3),
-.post-table th:nth-child(4) {
-  width: 130px;
-}
-  
-.post-table td:nth-child(5),
-.post-table th:nth-child(6) {
-  width: 70px;
+.pagination-button.active {
+  background-color: #007bff;
+  color: #fff;
 }
 
-
-
-
-.postList {
-    margin-top: 20px;
-}
 .write {
-    margin-top: 20px;
+  margin-top: 20px;
+  text-align: right;
 }
-.write button {
-    width: 60px;
-    margin-bottom: 12px;
-}
-
 
 .search {
-    margin-bottom: "10px";
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end; /* 검색 상자를 오른쪽으로 정렬합니다. */
 }
+
+.search input[type="text"] {
+  padding: 8px;
+}
+
 .search button {
-    width: 60px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
 }
-.search input {
-    width: 180px;
-    margin-right: 10px;
-}
+
