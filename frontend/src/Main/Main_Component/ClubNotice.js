@@ -164,7 +164,7 @@ const ClubNotice = () => {
           {notices.map((notice) => (
             <tr key={notice.specific_id}>
               <td>
-                <a href={notice.link} target="_blank" rel="noreferrer" data-toggle="tooltip" title={notice.link}>
+                <a href={notice.link} target="_blank" rel="noreferrer" data-toggle="tooltip" title={notice.link}   style={{ textDecoration: 'none', color: 'inherit' }}>
                   {notice.title.length > 50 ? notice.title.substring(0, 50) + '...' : notice.title}
                   </a>
               </td>
