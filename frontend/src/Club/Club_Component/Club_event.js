@@ -62,8 +62,6 @@ const ClubEvent = () => {
     <div className="club-event-box">
       <h2 className='club-head-text'>일정</h2>
       <div className='create-event-container'>
-    <div className="event-container">
-      <h2>일정</h2>
       <div className="search-container">
         <select value={searchOption} onChange={handleSearchOptionChange}>
           <option value="all">전체</option>

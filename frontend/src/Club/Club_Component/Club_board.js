@@ -58,7 +58,7 @@ const ClubPosts = () => {
   const handleClick = () => {
       navigate(`/club_board/club_posts/create-club-post?clubName=${clubName}`);
     }
-  }
+  
   return (
     <div className='board-container'>
       <ClubHeader clubName={clubName} />
@@ -113,6 +113,7 @@ const ClubPosts = () => {
           </button>
         ))}
       </div>
+    </div>
     </div>
   );
 };
