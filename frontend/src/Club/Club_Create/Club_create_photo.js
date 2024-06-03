@@ -9,7 +9,6 @@ const ClubCreatePhoto = () => {
   const [club, setClub] = useState(club_name);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 // useParams를 사용하여 club_name을 가져옴
   // club_name을 초기 club 값으로 설정

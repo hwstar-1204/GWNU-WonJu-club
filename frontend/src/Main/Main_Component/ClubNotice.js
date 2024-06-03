@@ -80,6 +80,7 @@ const ClubNotice = () => {
         } else {
           setNotices([]);
         }
+        
       })
       .catch((error) => {
         console.log(error);
