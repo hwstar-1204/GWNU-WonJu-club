@@ -7,6 +7,7 @@ import defaultImage from "../profile.jpg";
 import ClubHeader from '../Club/Club_Component/Club_head.js'
 
 const ClubManagementPage = () => {
+  const [isManageMode, setIsManageMode] = useState(false);
   const { club_name } = useParams();
   const [club_nameInput, setclub_nameInput] = useState('');
   const [clubData, setClubData] = useState(null);
@@ -46,8 +47,11 @@ const ClubManagementPage = () => {
   const [introduceUpdate, setIntroductionUpdate] = useState(false);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
-
+ useEffect(() => {
+    // 현재 URL에서 "club_management"이 포함되어 있는지 확인하여 "동아리 관리" 페이지인지 판단
+    const isManagementPage = window.location.pathname.includes('club_management');
+    setIsManageMode(isManagementPage); // "동아리 관리" 페이지이면 isManageMode 상태를 true로 설정
+  }, []);
   useEffect(() => {
     if (!club_name) {
       return;
@@ -577,7 +581,7 @@ const ClubManagementPage = () => {
 
   return (
     <div className='club-mangement'>
-      <ClubHeader clubName={club_name}/>
+      <ClubHeader clubName={club_name} isManageMode={isManageMode} setIsManageMode={setIsManageMode} />
     <div className="ClubManagementPage">
       <div className="manage-content-wrapper">
           {clubData ? (

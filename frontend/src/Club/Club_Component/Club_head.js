@@ -10,7 +10,8 @@ import logo from '../../Assets/club_logo.png'; // 동아리 로고 이미지
 
 const ClubHeader = ({ clubName }) => {
   const navigate = useNavigate();
-  const [isManageMode, setIsManageMode] = useState(false);
+
+
   // if (!clubData || !clubData.club_data) {
   //   return <div>클럽 정보를 로딩 중...</div>;
   // }
@@ -23,27 +24,25 @@ const ClubHeader = ({ clubName }) => {
   const handleClick = (section) => {
     if (section === 'members') {
       navigate(`/club_information/club/${clubName}/members/`);
-       setIsManageMode(false);
     }
     else if (section === 'album') {
       navigate(`/club_information/club/${clubName}/albums/`);
-       setIsManageMode(false);
     }
     else if (section === 'posts') {
       navigate(`/club_board/club_posts/?clubName=${clubName}`);
-       setIsManageMode(false);
+  
     }
     else if (section === 'event') {
       navigate(`/club_information/club/${clubName}/events/`);
-       setIsManageMode(false);
+       
     }
     else if (section === 'manage') {
       navigate(`/club_management/club/${clubName}`);
-       setIsManageMode(true);
+      
     }
     else if (section === 'home') {
       navigate(`/club_information/club/${clubName}/home/`);
-      setIsManageMode(false);
+    
     }
   }
 
@@ -60,7 +59,7 @@ const ClubHeader = ({ clubName }) => {
     // 관호
     <div className="club-header">
       <LogoImage src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} onClick={() => handleClick('home')} />
-        <h1 onClick={() => handleClick('home')}>{isManageMode ? `${clubName}/동아리 관리` : clubName}</h1>
+        <h1>{clubName}</h1>
       <nav className='club-header-nav'>
         <ul>
           <li onClick={() => handleClick('members')}>회원정보</li>

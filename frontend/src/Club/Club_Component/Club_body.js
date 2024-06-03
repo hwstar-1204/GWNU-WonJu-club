@@ -2,9 +2,12 @@ import React from "react";
 import ClubBackground from "./Club_background";
 import { useNavigate } from "react-router-dom"; // useHistory를 react-router-dom에서 불러옵니다.
 import "../Club_Style/Club_body.css";
-import ProfileCard from "../Club_Card/club_profile_card";
+import ProfileCard from "../Club_Card/club_profile_card"
 
 const ClubBody = ({ clubData, clubName }) => {
+ 
+  
+  
   const navigate = useNavigate();
 
   if (!clubData || !clubData.club_data) {
@@ -96,6 +99,8 @@ const ClubBody = ({ clubData, clubName }) => {
             </div>
           ))}
         </div>
+
+   
       </div>
 
       <div className="club-posts-container">
