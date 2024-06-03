@@ -21,11 +21,11 @@
 
 .club-filters {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: center; /* 왼쪽 정렬 */
   align-items: center; /* 중앙 정렬 */
   margin-bottom: 20px;
   padding: 10px;
-  background-color: #b3dafa; /* 배경색 추가 */
+  background-color: #ffffff; /* 배경색 추가 */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
