@@ -1,0 +1,85 @@
+/* styles.css */
+
+.post-list-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.post-list-title {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.post-list-sort {
+  margin-bottom: 20px;
+}
+
+.post-list-sort-select {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.post-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.post-table th,
+.post-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.post-table th {
+  background-color: #f2f2f2;
+}
+
+.post-table tr:hover {
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-button {
+  border: none;
+  background-color: #f2f2f2;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin: 0 4px;
+}
+
+.pagination-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.write {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.search {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end; /* 검색 상자를 오른쪽으로 정렬합니다. */
+}
+
+.search input[type="text"] {
+  padding: 8px;
+}
+
+.search button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
