@@ -1,30 +1,28 @@
 .ClubManagementPage {
 
   display: flex;
+  width: 1800px;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  align-items: flex-start;
+  padding: 10px;
+  margin-top: 50px;
+  margin-left: 12%;
 }
 
 .content-wrapper {
   width: 100%;
-  max-width: 1200px;
+  width: 1800px;
   margin: 0 auto;
 }
 
 .section {
   background-color: #f9f9f9;
-  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .club-info {
   text-align: center;
-}
-
-.club-info h2 {
-  margin-bottom: 20px;
 }
 
 .logo-container {
@@ -56,14 +54,15 @@
   overflow-x: auto; /* 수평 스크롤 활성화 */
   -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤링 활성화 */
 }
-
+.text-a-1 {
+  width: 140px;
+}
 .member-item,
 .member-management-item {
-  padding: 10px;
+
   border-bottom: 1px solid #eee;
   flex-grow: 1;
   max-width: 200px;
-  margin-right: 20px;
   margin-bottom: 10px;
 }
 
@@ -235,6 +234,13 @@
 .member-management-section {
   margin-bottom: 20px;
 }
+.manage-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+} 
 
 .member-management-section h3 {
   margin-bottom: 10px;

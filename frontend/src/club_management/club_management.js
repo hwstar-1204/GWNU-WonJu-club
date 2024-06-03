@@ -580,13 +580,10 @@ const ClubManagementPage = () => {
       <ClubHeader clubName={club_name}/>
     <div className="ClubManagementPage">
       <div className="manage-content-wrapper">
-        
-        <section id="clubManagementPage" className="section">
           {clubData ? (
             <div className="club-info">
-              <h2>{club_name}/동아리 관리</h2>
               <div className="logo-container">
-                <img src={clubData.club_info.logo} alt="Club Logo" />
+                {/* <img src={clubData.club_info.logo} alt="Club Logo" /> */}
               </div>
               <div className="member-container">
                 <h3>회원 목록</h3>
@@ -607,7 +604,7 @@ const ClubManagementPage = () => {
 
               {/* 회원 관리 섹션 */}
               <div className="member-management-section">
-                <h3>회원 관리</h3>
+                <h3 className='text-a-1'>회원 관리</h3>
                 {clubData.existing_members && clubData.existing_members.length > 0 ? (
                   <div className="member-management-list">
                     {clubData.existing_members.map((member) => (
@@ -725,7 +722,6 @@ const ClubManagementPage = () => {
           ) : (
             <p>Loading...</p>
           )}
-        </section>
       </div>
       <div>
         <button onClick={() => { clickSaveButton(); alert('저장되었습니다.');}} className='club-club-delete-button'>저장</button>

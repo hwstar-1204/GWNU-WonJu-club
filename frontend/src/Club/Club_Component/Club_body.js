@@ -1,7 +1,8 @@
-import React from 'react';
-import ClubBackground from "./Club_background";;
-import { useNavigate } from 'react-router-dom'; // useHistory를 react-router-dom에서 불러옵니다.
-import '../Club_Style/Club_body.css';
+import React from "react";
+import ClubBackground from "./Club_background";
+import { useNavigate } from "react-router-dom"; // useHistory를 react-router-dom에서 불러옵니다.
+import "../Club_Style/Club_body.css";
+import ProfileCard from "../Club_Card/club_profile_card";
 
 const ClubBody = ({ clubData, clubName }) => {
   const navigate = useNavigate();
@@ -11,35 +12,36 @@ const ClubBody = ({ clubData, clubName }) => {
   }
 
   const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
-  }
-
-  const handleClick = (section) => {
-    if (section === 'members') {
-      navigate(`/club_information/club/${clubName}/members/`);
-    } 
-    else if (section === 'album') {
-      navigate(`/club_information/club/${clubName}/albums/`);
-    }
-    else if (section === 'posts') {
-      navigate(`/club_board/club_posts/?clubName=${clubName}`);
-    }
-    else if (section === 'event') {
-      navigate(`/club_information/club/${clubName}/events/`);
-    }
-  }
-  
-  const buttonStyle = {
-    background: 'none',
-    border: 'none',
-    fontSize: '24px',
-    cursor: 'pointer',
-    padding: '0',
-    margin: '0'
   };
 
-  const sectionHeaderStyle = { display: 'flex', justifyContent: 'space-between', alignItems: 'center' };
+  const handleClick = (section) => {
+    if (section === "members") {
+      navigate(`/club_information/club/${clubName}/members/`);
+    } else if (section === "album") {
+      navigate(`/club_information/club/${clubName}/albums/`);
+    } else if (section === "posts") {
+      navigate(`/club_board/club_posts/?clubName=${clubName}`);
+    } else if (section === "event") {
+      navigate(`/club_information/club/${clubName}/events/`);
+    }
+  };
+
+  const buttonStyle = {
+    background: "none",
+    border: "none",
+    fontSize: "24px",
+    cursor: "pointer",
+    padding: "0",
+    margin: "0",
+  };
+
+  const sectionHeaderStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  };
 
   return (
     <div className="header-container">
@@ -50,32 +52,39 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-members-container">
         <div style={sectionHeaderStyle}>
-          <h3 className='list1'>회원</h3>
-          <button onClick={() => handleClick('members')} style={buttonStyle}>+</button>
+          <h3 className="list1">회원</h3>
+          <button onClick={() => handleClick("members")} style={buttonStyle}>
+            +
+          </button>
         </div>
-        <div className="horizontal-list">
-          {clubData.club_members.map(member => (
-            <div key={member.id} className="member">
-              <div className="member-id">{member.user}</div>
-              <div className="member-job">{member.job}</div>
-            </div>
+        <div className="club-profile-list">
+          {clubData.club_members.map((member) => (
+            <ProfileCard
+              key={member.id}
+              name={member.user}
+              memberLevel={member.job}
+            />
           ))}
         </div>
       </div>
 
       <div className="club-albums-container">
         <div style={sectionHeaderStyle}>
-          <h3 className='list2'>사진첩</h3>
-          <button onClick={() => handleClick('album')} style={buttonStyle}>+</button>
+          <h3 className="list2">사진첩</h3>
+          <button onClick={() => handleClick("album")} style={buttonStyle}>
+            +
+          </button>
         </div>
         <div className="horizontal-list">
-          {clubData.club_album.map(album => (
+          {clubData.club_album.map((album) => (
             <div key={album.id} className="album">
               <div className="album-title">
                 <span
                   className="album-title-link"
-                  onClick={() => navigate(`/club_board/post_detail/${album.id}/`)}
-                  style={{ cursor: 'pointer', color: 'black' }}
+                  onClick={() =>
+                    navigate(`/club_board/post_detail/${album.id}/`)
+                  }
+                  style={{ cursor: "pointer", color: "black" }}
                 >
                   {album.title}
                 </span>
@@ -91,8 +100,10 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-posts-container">
         <div style={sectionHeaderStyle}>
-          <h3 className='list3'>{clubName} 게시판 </h3>
-          <button onClick={() => handleClick('posts')} style={buttonStyle}>+</button>
+          <h3 className="list3">{clubName} 게시판 </h3>
+          <button onClick={() => handleClick("posts")} style={buttonStyle}>
+            +
+          </button>
         </div>
         <table className="posts-table">
           <thead>
@@ -106,15 +117,17 @@ const ClubBody = ({ clubData, clubName }) => {
             </tr>
           </thead>
           <tbody>
-            {clubData.club_posts.map(post => (
+            {clubData.club_posts.map((post) => (
               <tr key={post.id}>
                 <td>{post.id}</td>
                 <td>{formatDate(post.created_date)}</td>
                 <td>
                   <span
                     className="post-title-link"
-                    onClick={() => navigate(`/club_board/post_detail/${post.id}/`)}
-                    style={{ cursor: 'pointer', color: 'black' }}
+                    onClick={() =>
+                      navigate(`/club_board/post_detail/${post.id}/`)
+                    }
+                    style={{ cursor: "pointer", color: "black" }}
                   >
                     {post.title}
                   </span>
@@ -130,17 +143,21 @@ const ClubBody = ({ clubData, clubName }) => {
 
       <div className="club-events-container">
         <div style={sectionHeaderStyle}>
-          <h3 className='list4'>일정</h3>
-          <button onClick={() => handleClick('event')} style={buttonStyle}>+</button>
+          <h3 className="list4">일정</h3>
+          <button onClick={() => handleClick("event")} style={buttonStyle}>
+            +
+          </button>
         </div>
         <div className="horizontal-list">
-          {clubData.club_event.map(event => (
+          {clubData.club_event.map((event) => (
             <div key={event.id} className="event">
               <div className="event-title">
                 <span
                   className="album-title-link"
-                  onClick={() => navigate(`/club_board/post_detail/${event.id}/`)}
-                  style={{ cursor: 'pointer', color: 'black' }}
+                  onClick={() =>
+                    navigate(`/club_board/post_detail/${event.id}/`)
+                  }
+                  style={{ cursor: "pointer", color: "black" }}
                 >
                   {event.title}
                 </span>

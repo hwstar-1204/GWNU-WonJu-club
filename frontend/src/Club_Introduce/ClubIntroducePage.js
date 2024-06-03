@@ -4,7 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import './ClubIntroducePage.css';
 import axios from 'axios';
 import { LogoImage } from '../styles';
+<<<<<<< Updated upstream
 
+=======
+import {Button} from 'react-bootstrap'
+import club_logo from '../Assets/club_logo.png'
+import club_background from '../Assets/images.jpg';
+import club_profile from '../Assets/profile.jpg';
+>>>>>>> Stashed changes
 
 function Dropdown({ value, onChange, options, label }) {
   return (
@@ -124,12 +131,14 @@ const ClubIntroducePage = () => {
               {filteredClubs.map((club, index) => (
                 <article key={index} className="club-introduce-card" onClick={() => handleClubClick(club.club_name)}>
                   <figure className="club-introduce-card-header">
-                    <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
+                    {/* <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" /> */}
+                    <img src={club_background}  className="club-introduce-backgrund" />
                   </figure>
                   <div className="club-introduce-card-contents">
                     <p>{club.introducation}</p>
                     <div className="club-info">
-                      <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" />
+                      {/* <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" /> */}
+                       <LogoImage src={club_profile} className="club-introduce-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>
