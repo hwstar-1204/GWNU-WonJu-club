@@ -19,6 +19,12 @@ const ClubNotice = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data.results);
+           if (data.results == null) {
+          setNotices([]);
+        }else{
+          setNotices(data.results);
+          setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
+        }
         setNotices(data.results);
         setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
       })
