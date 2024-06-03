@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import ClubHeader from './Club_head';
+import '../Club_Style/Club_board.css'
 
 const ClubPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -48,10 +50,22 @@ const ClubPosts = () => {
       });
   }, [clubName, category, order, currentPage]);  //pageSize
 
+    fetchPosts();
+  }, [category, order]);
+
+  if (loading) return <Typography>로딩 중...</Typography>;
+  // if (error) return <Typography>오류 발생: {error.message}</Typography>;
+  const handleClick = () => {
+      navigate(`/club_board/club_posts/create-club-post?clubName=${clubName}`);
+    }
   return (
-    <div>
-      <Typography variant="h4">동아리 게시물</Typography>
+    <div className='board-container'>
+      <ClubHeader clubName={clubName} />
+      <div className='board-box'>
+      <h3 className='club-head-text'>{clubName} 게시판</h3>
+      <Typography variant="h4"></Typography>
       {/* 카테고리 선택 */}
+      <div className='clubpost-button-container'>
       <Button onClick={() => setCategory('all')} variant={category === 'all' ? 'contained' : 'outlined'}>전체</Button>
       <Button onClick={() => setCategory('notice')} variant={category === 'notice' ? 'contained' : 'outlined'}>공지</Button>
       <Button onClick={() => setCategory('board')} variant={category === 'board' ? 'contained' : 'outlined'}>게시판</Button>
@@ -59,6 +73,10 @@ const ClubPosts = () => {
       <Button onClick={() => setOrder('latest')} variant={order === 'latest' ? 'contained' : 'outlined'}>작성순</Button>
       <Button onClick={() => setOrder('views')} variant={order === 'views' ? 'contained' : 'outlined'}>조회순</Button>
       <Button onClick={() => setOrder('comments')} variant={order === 'comments' ? 'contained' : 'outlined'}>댓글순</Button>
+      <div className="create-post-button">
+      <Button  onClick={() => handleClick()}>글쓰기</Button>
+      </div>
+      </div>
       <Table>
         <TableHead>
           <TableRow>

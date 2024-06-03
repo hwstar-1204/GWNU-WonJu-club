@@ -62,7 +62,7 @@ class ClubManageListView(APIView):
 # Create your views here.
 class ClubManagementHomeView(RetrieveAPIView):
     serializer_class = ClubSerializer
-    permission_classes = [IsPresidentOrAdmin]
+    # permission_classes = [IsPresidentOrAdmin]
 
     def get(self, *args, **kwargs):
         """

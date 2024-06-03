@@ -20,8 +20,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 /* common */
 .container {
-  width: 1160px;
-  padding: 0 20px;
+  width: 1400px;
+  padding: 0 10px;
   margin: 0 auto;
   min-width: 1160px;
 }
@@ -165,9 +165,8 @@ h1, h2, h3, h4, h5, h6 {
 .filters {
   display: flex;
   justify-content: flex-end; /* 오른쪽 정렬 */
-  margin-bottom: 40px; /* 필터링과 카드 사이의 간격 조정 */
-  margin-top: -100px;
-  margin-right: -200px; 
+  margin-top: 20px; /* 필터링과 카드 사이의 간격 조정 */
+  
 }
 
 /* 선택 상자 */

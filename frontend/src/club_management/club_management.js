@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './club_management.css';
+import ClubHeader from '../Club/Club_Component/Club_head.js'
 import defaultImage from "../profile.jpg";
 
 const ClubManagementPage = () => {
@@ -575,8 +576,11 @@ const ClubManagementPage = () => {
   }
 
   return (
+    <div className='club-mangement'>
+      <ClubHeader clubName={clubName}/>
     <div className="ClubManagementPage">
-      <div className="content-wrapper">
+      <div className="manage-content-wrapper">
+        
         <section id="clubManagementPage" className="section">
           {clubData ? (
             <div className="club-info">
@@ -748,6 +752,7 @@ const ClubManagementPage = () => {
         </div>
         <button onClick={() => setIsImageModalOpen(false)}>취소</button>
       </Modal>
+    </div>
     </div>
   );
 };

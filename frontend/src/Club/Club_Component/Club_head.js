@@ -2,9 +2,8 @@ import React from 'react';
 import '../Club_Style/Club_head.css';
 import ClubBackground from "./Club_background";;
 import { useNavigate, NavLink } from 'react-router-dom'; // useHistory를 react-router-dom에서 불러옵니다.
-// import {LogoImage } from './StyledComponents';
-
-// 관호
+import {LogoImage } from '../../styles.js';
+import '../Club_Style/Club_head.css'; // 스타일을 위한 CSS 파일
 import logo from '../../Assets/club_logo.png'; // 동아리 로고 이미지
 
 
@@ -36,6 +35,9 @@ const ClubHeader = ({ clubName }) => {
     else if (section === 'manage') {
       navigate(`/club_management/club/${clubName}`);
     }
+    else if (section === 'home') {
+      navigate(`/club_information/club/${clubName}/home/`);
+    }
   }
 
   const buttonStyle = {
@@ -50,8 +52,8 @@ const ClubHeader = ({ clubName }) => {
   return (
     // 관호
     <div className="club-header">
-      <img src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} />
-      <h1>{clubName}</h1>
+      <LogoImage src={logo} alt="Logo" style={{ width: '70px', height: '70px' }} onClick={() => handleClick('home')} />
+      <h1 onClick={() => handleClick('home')}>{clubName}</h1>
       <nav className='club-header-nav'>
         <ul>
           <li onClick={() => handleClick('members')}>회원정보</li>
