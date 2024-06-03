@@ -112,6 +112,7 @@ const ClubPosts = () => {
         ))}
       </div>
     </div>
+  </div>
   );
 };
 
