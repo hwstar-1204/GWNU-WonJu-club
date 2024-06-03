@@ -5,9 +5,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from club_introduce.models import ClubMember
-from .models import Notice
 from .serializers import *
 from .permissions import IsAuthorOrReadOnly, IsSystemAdminOrReadOnly
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.authentication import TokenAuthentication
@@ -18,14 +18,17 @@ def order_list(queryset, order):
         queryset = queryset.order_by('-view_cnt')
     elif order == 'most_commented':  # 댓글순
         queryset = queryset.annotate(num_comments=Count('comments')).order_by('-num_comments')
+    elif order == 'most_recommended':  # 추천순
+        queryset = queryset.order_by('-recommended_cnt')
     else:  # 기본값 최신순
         queryset = queryset.order_by('-created_date')
     return queryset
 
-class BoardPostListView(generics.ListAPIView):
+class BoardPostListView(ReadOnlyModelViewSet):
+
     """ 동아리 게시판 글 불러오기 (정렬포함)"""
     serializer_class = PostListSerializer
-    # pagination_class = PageNumberPagination
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         club_name = self.kwargs.get('club_name')
@@ -36,10 +39,6 @@ class BoardPostListView(generics.ListAPIView):
         queryset = order_list(queryset, order)
         return queryset
 
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
 
 # 자유 게시판을 시스템 관리자가 생성,수정 삭제
 # 특정 동아리 게시판을 동아리 관리자가 생성,수정,삭제
@@ -82,7 +81,14 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         post_id = self.kwargs.get('post_id')
-        return Post.objects.get(id=post_id)
+        post = Post.objects.get(id=post_id)
+
+        # 조회수 1 증가
+        post.view_cnt += 1
+        post.save(update_fields=['view_cnt'])
+
+        return post
+        # return Post.objects.get(id=post_id)
 
 
 class CommentCreateView(APIView):
@@ -133,6 +139,23 @@ class PostCommentDetail(generics.ListAPIView):
         post_id = self.kwargs.get('post_id')
         queryset = Comment.objects.filter(post_id=post_id)
         return queryset
+
+class PostRecommendView(APIView):
+    """
+    게시글 추천
+    """
+    def post(self, request, post_id, format=None):
+        try:
+            post = Post.objects.get(id=post_id)
+            post.recommended_cnt += 1
+            post.save(update_fields=['recommended_cnt'])
+            print(post.recommended_cnt)
+            return Response(status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
 
 # ----
 class EventListCreateView(generics.ListCreateAPIView):

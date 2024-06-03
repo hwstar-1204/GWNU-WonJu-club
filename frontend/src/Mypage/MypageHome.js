@@ -10,7 +10,7 @@ const MypageHome = ({ userData, myClubList }) => {
   return (
     <Container>
       <Row className="justify-content-center align-items-center">
-        <Col md={4}>
+        <Col md={5}>
           {/* 프로필 정보 패널 */}
           <div className="profile-panel">
             <h2 className="details-head">사용자 정보</h2>
@@ -20,7 +20,7 @@ const MypageHome = ({ userData, myClubList }) => {
               <p><strong>이름: </strong> {userData?.name}</p>
               <p><strong>이메일: </strong> {userData?.email}</p>
               <p><strong>휴대전화: </strong> {userData?.phone}</p>
-              <p><strong>학년:</strong> {userData?.grade}</p>
+              <p><strong>학년:</strong> {userData?.grade}학년</p>
               <p><strong>학번:</strong> {userData?.student_id}</p>
               <p><strong>소속 학과:</strong> {userData?.study}</p>
               <p>{/* <strong>가입일:</strong> {userData?.date_joined} */}</p>

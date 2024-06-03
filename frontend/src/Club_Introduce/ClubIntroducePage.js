@@ -2,35 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import './ClubIntroducePage.css';
-import Kakao from '../Club_Introduce/Assets/kakao.png';
-import InstagramIcon from '../Club_Introduce/Assets/instagram.jpg';
 import axios from 'axios';
+import { LogoImage } from '../styles';
 
-const categoryCodes = {
-  "전체": "0",
-  "정규동아리": "1", 
-  "가등록동아리": "2", 
-  "학습동아리": "3", 
-  "취업/창업동아리": "4",
-  "소모임": "5"
-};
-const typeCodes = {
-  "전체": "0",
-  "운동/스포츠": "1",
-  "자기계발/학습/독서": "2",
-  "패션/뷰티": "3",
-  "여행/레저": "4",
-  "종교": "5",
-  "기타": "6"
-};
-
-function getCategoryLabelByCode(code) {
-  return Object.keys(categoryCodes).find(key => categoryCodes[key] === code);
-}
-
-function getTypeLabelByCode(code) {
-  return Object.keys(typeCodes).find(key => typeCodes[key] === code);
-}
 
 function Dropdown({ value, onChange, options, label }) {
   return (
@@ -38,7 +12,7 @@ function Dropdown({ value, onChange, options, label }) {
       {label && <label>{label}</label>}
       <select value={value} onChange={onChange}>
         {options.map(option => (
-          <option key={option.value} value={option.value}>{option.label}</option>
+          <option key={option.label} value={option.label}>{option.label}</option>
         ))}
       </select>
     </div>
@@ -46,8 +20,8 @@ function Dropdown({ value, onChange, options, label }) {
 }
 
 const ClubIntroducePage = () => {
-  const [selectedCategory, setSelectedCategory] = useState("0");
-  const [selectedType, setSelectedType] = useState("0");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [selectedType, setSelectedType] = useState("전체");
   const [clubs, setClubs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -56,7 +30,7 @@ const ClubIntroducePage = () => {
   useEffect(() => {
     const debouncedFetchClubs = debounce(async () => {
       setIsLoading(true);
-      const categoryPath = selectedCategory !== "0" || selectedType !== "0" ? `/category_club/${selectedCategory}/${selectedType}` : '/';
+      const categoryPath = selectedCategory !== "전체" || selectedType !== "전체" ? `/category_club/${selectedCategory}/${selectedType}` : '/';
       const url = `http://localhost:8000/club_introduce/club_list${categoryPath}`;
       try {
         const response = await axios.get(url);
@@ -91,12 +65,12 @@ const ClubIntroducePage = () => {
 
   const handleCategoryChange = e => {
     const categoryLabel = e.target.value;
-    setSelectedCategory(categoryCodes[categoryLabel]);
+    setSelectedCategory(categoryLabel);
   };
 
   const handleTypeChange = e => {
-    const typeLabel = e.target.value 
-    setSelectedType(typeCodes[typeLabel]);
+    const typeLabel = e.target.value;
+    setSelectedType(typeLabel);
   };
 
   const handleClubClick = (clubName) => {
@@ -104,8 +78,8 @@ const ClubIntroducePage = () => {
   };
 
   const filteredClubs = clubs.filter(club => {
-    return (selectedCategory === "0" || club.category === selectedCategory) &&
-           (selectedType === "0" || club.type === selectedType);
+    return (selectedCategory === "전체" || club.category === selectedCategory) &&
+           (selectedType === "전체" || club.type === selectedType);
   });
 
   const getAbsolutePath = (relativePath) => {
@@ -119,15 +93,30 @@ const ClubIntroducePage = () => {
           <div className="club-filters">
             <Dropdown
               label="카테고리 선택"
-              value={getCategoryLabelByCode(selectedCategory)}
+              value={selectedCategory}
               onChange={handleCategoryChange}
-              options={Object.keys(categoryCodes).map(key => ({ value: key, label: key }))}
+              options={[
+                { label: "전체" },
+                { label: "정규동아리" },
+                { label: "가등록동아리" },
+                { label: "학습동아리" },
+                { label: "취업/창업동아리" },
+                { label: "소모임" }
+              ]}
             />
             <Dropdown
               label="동아리 유형 선택"
-              value={getTypeLabelByCode(selectedType)}
+              value={selectedType}
               onChange={handleTypeChange}
-              options={Object.keys(typeCodes).map(key => ({ value: key, label: key }))}
+              options={[
+                { label: "전체" },
+                { label: "운동/스포츠" },
+                { label: "자기계발/학습/독서" },
+                { label: "패션/뷰티" },
+                { label: "여행/레저" },
+                { label: "종교" },
+                { label: "기타" }
+              ]}
             />
           </div>
           {isLoading ? <p>Loading...</p> : (
@@ -140,7 +129,7 @@ const ClubIntroducePage = () => {
                   <div className="club-introduce-card-contents">
                     <p>{club.introducation}</p>
                     <div className="club-info">
-                      <img src={getAbsolutePath(club.logo)} className="club-logo" />
+                      <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>

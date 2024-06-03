@@ -21,7 +21,7 @@ from django.conf import settings
 
 
 class ClubManageListView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsPresidentOrAdmin]
     def get(self, request):
         token_key = request.headers.get('Authorization')
         if not token_key:
@@ -160,11 +160,11 @@ class MemberManagement(APIView):
     def delete(self, request, club_name, id):
         presidents_count = ClubMember.objects.filter(club_name=club_name, job='회장').count()
 
+        member = self.get_object(club_name, id)
         # 만약 회장 수가 2개 미만이면 Bad Request 반환
-        if presidents_count < 2:
+        if member.job == "회장" and presidents_count < 2:
             return Response({'error': '회장이 2명 미만입니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        member = self.get_object(club_name, id)
         member.delete()
         return Response({"message": "퇴출에 성공했습니다."}, status=status.HTTP_204_NO_CONTENT)
 
@@ -306,7 +306,7 @@ class ImageCorrectionDelete(APIView):
                 })
 
             club.save()
-
+            return Response({'message:' '삭제가 완료되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
