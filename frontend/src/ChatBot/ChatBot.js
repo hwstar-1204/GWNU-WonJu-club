@@ -44,7 +44,7 @@ const ChatBot = () => {
 
     newSocket.onopen = (event) => {
       console.log('WebSocket 연결이 열렸습니다.');
-      newSocket.send(JSON.stringify({ 'Query': '안녕하세요' }));
+      // newSocket.send(JSON.stringify({ 'Query': '안녕하세요' }));
     };
 
     newSocket.onmessage = (event) => {
@@ -54,7 +54,8 @@ const ChatBot = () => {
         setMessages((prevMessages) => [
           {
             type: "bot",
-            text: data.Answer + " [의도: " + data.Intent + "]",
+            // text: data.Answer + " [의도: " + data.Intent + "]",  // TODO 의도 삭제 예정
+            text: data.Answer,  // TODO 의도 삭제 예정
             index: messageIndex.current++ // 메시지 인덱스를 추가하고 증가
           },
           ...prevMessages

@@ -4,7 +4,7 @@ from tf_keras import preprocessing, Input, layers,optimizers,callbacks, Model
 from ai_chatbot.config.GlobalParams import MAX_SEQ_LEN
 
 # 데이터 읽어오기
-train_file = "./total_train_data_최종1.csv"
+train_file = "./total_train_data_최종보완1.csv"
 data = pd.read_csv(train_file, delimiter=',', encoding='utf8')
 queries = data['query'].tolist()
 intents = data['intent'].tolist()

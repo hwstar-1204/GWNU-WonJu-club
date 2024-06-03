@@ -1,5 +1,9 @@
 import os
 import django
+import openpyxl
+from django.db import transaction
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 django.setup()
 
 from club_introduce.models import Club, ClubDetail, ClubMember

@@ -7,7 +7,7 @@ from sentence_transformers import SentenceTransformer
 from ai_chatbot.utils.Preprocess import Preprocess
 
 # 데이터 읽어오기
-train_file = "./train_data_최종1.xlsx"
+train_file = "../../train_tools/qna/train_data_최종보완.xlsx"
 data = pd.read_excel(train_file)
 queries = data['질문(Query)'].tolist() 
 

@@ -47,6 +47,13 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.accept()
 
+    async def accept(self, subprotocol=None):
+        await super().accept(subprotocol=subprotocol)
+        start_message = ("안녕하세요! 릉주대 챗봇 강원동입니다. 저희는 사이트 내 데이터에 기반하고 있지만, 데이터가 업데이트 되지 않아 달라진 부분이 있을 수 있으니, 중요한 내용은 꼭 "
+                         "해당 동아리에 문의하시기 바랍니다. 무엇을 도와드릴까요?")
+        await self.send_json({"Answer": start_message})
+
+
     async def disconnect(self, close_code):
         pass
 
@@ -81,7 +88,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     # 개체명 파악
                     tagged_text = f.tag_to_word(ner_predicts)
                     print(tagged_text, type(tagged_text))
-                    answer_text, answer_image = await f.search_3(intent_name, tagged_text)
+                    answer_text, answer_image = await f.search_3(intent_name, tagged_text, embedding_data)
                     print("3333")
 
             print(""" "Answer": answer_text """, answer_text)
