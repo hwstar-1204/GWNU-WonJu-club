@@ -78,9 +78,10 @@ class FindAnswer:
         best_sim_idx = int(np.argmax(cos_sim))  # cos_sim의 최대값의 인덱스 반환
         best_sim = cos_sim[0, best_sim_idx].item()  # item()을 사용하여 Python float으로 변환
 
+        print("best_sim_idx: ",best_sim_idx)
         answer = await self.make_query_2(best_sim_idx + 1)
         print(best_sim)
-        print(answer['answer'], answer['answer_image'])
+        print("serch_2: ", answer['answer'], answer['answer_image'])
 
         if not answer:
             return "답변을 찾을 수 없습니다.", None

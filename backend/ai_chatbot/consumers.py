@@ -34,11 +34,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.p = Preprocess(word2index_dic='ai_chatbot/train_tools/dict/chatbot_dict.bin',
                userdic='ai_chatbot/utils/user_dic.tsv')
         # 의도 파악 모델
-        self.intent = IntentModel(model_name='ai_chatbot/model/intent/intent_model.h5', preprocess=self.p)
+        # self.intent = IntentModel(model_name='ai_chatbot/model/intent/intent_model.keras', preprocess=self.p)
+        self.intent = IntentModel(model_name='ai_chatbot/model/intent_model_new.h5', preprocess=self.p)
+
         # 유사도 분석 모델
         self.sim = SimModel(preprocess=self.p)
+
         # 개체명 인식 모델
-        self.ner = NerModel(model_name='ai_chatbot/model/ner/ner_model.h5', proprocess=self.p)
+        # self.ner = NerModel(model_name='ai_chatbot/model/ner/ner_model.keras', proprocess=self.p)
+        self.ner = NerModel(model_name='ai_chatbot/model/ner_model_new.h5', proprocess=self.p)
 
     async def connect(self):
         await self.accept()
