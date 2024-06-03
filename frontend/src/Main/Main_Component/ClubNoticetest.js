@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // bootstrap css 파일 포함
-import '../Main_Style/ClubNotice.css';
-import { Card, CardBody, CardTitle, CardText, Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Main_Style/ClubNotice.module.css';
+import { Table, Button, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const handlePageChange = (page) => {
@@ -10,76 +11,32 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     }
   };
 
+  if (totalPages <= 1) {
+    return null; // 한페이지는 페이지번호 안보임
+  }
+
   return (
-    <nav>
+    <nav className="pagination-nav">
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>
+          <button className="page-link custom-page-link" onClick={() => handlePageChange(currentPage - 1)}>
             &lt;
           </button>
         </li>
+        {[...Array(totalPages)].map((_, index) => (
+          <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+            <button className="page-link custom-page-link" onClick={() => handlePageChange(index + 1)}>
+              {index + 1}
+            </button>
+          </li>
+        ))}
         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>
+          <button className="page-link custom-page-link" onClick={() => handlePageChange(currentPage + 1)}>
             &gt;
           </button>
         </li>
       </ul>
     </nav>
-  );
-};
-
-const CommentSection = ({ noticeId }) => {
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
-
-  useEffect(() => {
-    fetch(`http://localhost:8000/club_board/notice/${noticeId}/comments/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setComments(data))
-      .catch((error) => console.error(error));
-  }, [noticeId]);
-
-  const handleAddComment = () => {
-    fetch(`http://localhost:8000/club_board/notice/${noticeId}/comments/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({ text: newComment }),
-    })
-      .then((response) => response.json())
-      .then((comment) => {
-        setComments([...comments, comment]);
-        setNewComment('');
-      })
-      .catch((error) => console.error(error));
-  };
-
-  return (
-    <div className="comment-section">
-      <h6>댓글</h6>
-      {comments.map((comment) => (
-        <div key={comment.id} className="comment">
-          <p>{comment.text}</p>
-        </div>
-      ))}
-      <Input
-        type="textarea"
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-        placeholder="댓글을 입력하세요..."
-      />
-      <Button onClick={handleAddComment} color="primary">
-        댓글 추가
-      </Button>
-    </div>
   );
 };
 
@@ -95,10 +52,11 @@ const ClubNotice = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isWarningModalOpen, setIsWarningModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const isLoggedIn = !!token;
-  const isClubOfficer = localStorage.getItem('isClubOfficer') === 'true'; // 클럽 임원 여부를 localStorage에서 가져옴
+  const isClubOfficer = localStorage.getItem('isClubOfficer') === 'true';
 
   const fetchNotices = (page, search, sort, tag) => {
     setIsLoading(true);
@@ -112,13 +70,15 @@ const ClubNotice = () => {
       .then((response) => response.json())
       .then((data) => {
         setNotices(data.results);
-        setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
+        setTotalPages(Math.ceil(data.count / 5)); // 5개씩 페이지네이션
         setIsLoading(false);
+        adjustPadding(); // 데이터를 가져온 후 패딩 조정
       })
       .catch((error) => {
         console.error(error);
         setNotices([]);
         setIsLoading(false);
+        adjustPadding(); // 에러 발생 시에도 패딩 조정
       });
   };
 
@@ -137,102 +97,111 @@ const ClubNotice = () => {
       .catch((error) => console.error(error));
   };
 
+  const adjustPadding = () => {
+    const container = document.querySelector('.club-notice-container');
+    if (container) {
+      container.style.paddingTop = '100px';
+    }
+  };
+
   useEffect(() => {
     fetchNotices(currentPage, searchTerm, sortOrder, selectedTag);
     fetchTags();
   }, [currentPage, searchTerm, sortOrder, selectedTag]);
 
-  const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
-  const toggleLoginModal = () => setIsLoginModalOpen(prevState => !prevState);
-  const toggleWarningModal = () => setIsWarningModalOpen(prevState => !prevState);
+  useEffect(() => {
+    adjustPadding(); // 컴포넌트가 마운트될 때 패딩 조정
+  }, []);
+
+  const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
+  const toggleLoginModal = () => setIsLoginModalOpen((prevState) => !prevState);
+  const toggleWarningModal = () => setIsWarningModalOpen((prevState) => !prevState);
 
   const handleWriteButtonClick = () => {
-    if (!isLoggedIn) {
-      toggleLoginModal();
-    } else if (!isClubOfficer) {
-      toggleWarningModal();
-    } else {
-      // 임원인 경우 공지 작성 페이지로 이동
-      window.location.href = '/create-notice';
-    }
+    navigate('/create-notice');
   };
 
-  const handleSearch = () => {
-    if (searchTerm.trim() === '') {
-      fetchNotices(1, '', sortOrder, selectedTag); // 검색어가 없으면 기본 공지사항을 가져옴
-    } else {
-      fetchNotices(1, searchTerm, sortOrder, selectedTag);
-    }
+  const handleSortOrderChange = (order) => {
+    setSortOrder(order);
+    fetchNotices(currentPage, searchTerm, order, selectedTag);
   };
 
   return (
-    <div>
-      <div className='top'>
-        <h3>공지사항</h3>
+    <div className="club-notice-container">
+      <h3 className="title">공지</h3>
+      <div className="title-underline"></div>
+      <div className="top">
         <div className="search-bar">
-          <input
+          <Input
             type="text"
-            placeholder="검색어를 입력하세요..."
+            placeholder="search..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
           />
-          <Button onClick={handleSearch}>돋보기</Button>
+          <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+            <DropdownToggle caret className="dropdown">
+              정렬
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={() => setSelectedTag('')}>전체</DropdownItem>
+              {tags.map((tag) => (
+                <DropdownItem key={tag.id} onClick={() => setSelectedTag(tag.name)}>
+                  {tag.name}
+                </DropdownItem>
+              ))}
+              <DropdownItem divider />
+              <DropdownItem onClick={() => handleSortOrderChange('desc')}>최신순</DropdownItem>
+              <DropdownItem onClick={() => handleSortOrderChange('asc')}>오래된 순</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
-        <div className="sort-buttons">
-          <Button onClick={() => setSortOrder('desc')} active={sortOrder === 'desc'}>최신순</Button>
-          <Button onClick={() => setSortOrder('asc')} active={sortOrder === 'asc'}>오래된 순</Button>
-        </div>
-        <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
-          <DropdownToggle caret>
-            태그 필터링
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem onClick={() => setSelectedTag('')}>전체</DropdownItem>
-            {tags.map(tag => (
-              <DropdownItem key={tag.id} onClick={() => setSelectedTag(tag.name)}>
-                {tag.name}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-        <Button color="primary" onClick={handleWriteButtonClick}>글쓰기</Button>
       </div>
 
       {isLoading ? (
-        <div className="d-flex justify-content-center">로딩 중...</div>
+        <div className="d-flex justify-content-center">Loading...</div>
       ) : (
-        <div className="card-container">
-          {notices.map((notice) => (
-            <Card key={notice.specific_id} className="notice-card">
-              <CardBody>
-                <CardTitle tag="h5">
-                  <a href={notice.link} target="_blank" rel="noreferrer" data-toggle="tooltip" title={notice.link}>
-                    {notice.title.length > 50 ? notice.title.substring(0, 50) + '...' : notice.title}
-                  </a>
-                </CardTitle>
-                <CardText>
-                  작성자: {notice.author}
-                </CardText>
-                <CardText>
-                  작성 날짜: {notice.created_date}
-                </CardText>
-                <CardText>
-                  태그: {notice.tags.join(', ')}
-                </CardText>
-                <CommentSection noticeId={notice.specific_id} />
-              </CardBody>
-            </Card>
-          ))}
+        <div className="table-container">
+          <Table className="table table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>작성시간</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              {notices.length === 0
+                ? Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td colSpan="4" className="no-notice">공지사항이 없습니다.</td>
+                    </tr>
+                  ))
+                : notices.map((notice, index) => (
+                    <tr key={notice.specific_id}>
+                      <td>{index + 1}</td>
+                      <td>
+                        <a href={notice.link} target="_blank" rel="noreferrer">
+                          {notice.title}
+                        </a>
+                      </td>
+                      <td>{notice.author}</td>
+                      <td>{notice.created_date}</td>
+                      <td>{notice.views}</td>
+                    </tr>
+                  ))}
+            </tbody>
+          </Table>
+          <Button color="primary" onClick={handleWriteButtonClick} className="btn write-btn">글쓰기</Button>
         </div>
       )}
 
-      {/* 로그인 팝업 */}
+      <div className="pagination-container">
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      </div>
+
       <Modal isOpen={isLoginModalOpen} toggle={toggleLoginModal}>
         <ModalHeader toggle={toggleLoginModal}>로그인 필요</ModalHeader>
         <ModalBody>임원만 작성할 수 있습니다. 로그인하시겠습니까?</ModalBody>
@@ -242,7 +211,6 @@ const ClubNotice = () => {
         </ModalFooter>
       </Modal>
 
-      {/* 경고 팝업 */}
       <Modal isOpen={isWarningModalOpen} toggle={toggleWarningModal}>
         <ModalHeader toggle={toggleWarningModal}>권한 없음</ModalHeader>
         <ModalBody>임원만 작성할 수 있습니다.</ModalBody>
