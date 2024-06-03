@@ -13,12 +13,12 @@
   flex-direction: column;
 }
 
-.form-group {
+.write-form-group {
   width: 100%;
   margin-bottom: 15px;
 }
 
-.form-group label {
+.write-form-group label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
@@ -26,9 +26,9 @@
   text-align: left;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.write-form-group input,
+.write-form-group textarea,
+.write-form-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -38,14 +38,14 @@
   transition: border-color 0.3s ease;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
+.write-form-group input:focus,
+.write-form-group textarea:focus,
 .form-group select:focus {
   border-color: #64B5F6;
   outline: none;
 }
 
-.form-group textarea {
+.write-form-group textarea {
   height: 150px;
   resize: vertical;
 }

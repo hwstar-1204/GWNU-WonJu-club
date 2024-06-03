@@ -62,10 +62,10 @@ const Editinformation = () => {
   return (
   <div className="my-page">
  
-    <Container>
-      <Row className="justify-content-md-start">
-        <Col md={6}>
-          <Form className="edit-form" onSubmit={handleSubmit}>
+    <Container className="">
+      <Row className="edit-info-content">
+        <Col className="edit-info-col" md={5}>
+          <Form className="edit-info-form" onSubmit={handleSubmit}>
             <Form.Group controlId="formName">
               <Form.Label>이름:</Form.Label>
               <Form.Control
@@ -108,12 +108,14 @@ const Editinformation = () => {
                 ))}
               </Form.Control>
             </Form.Group>
+            <div className="edit-info-button-container">
             <Button
-            className="edit-button" 
+            className="edit-info-button" 
             variant="primary" 
             type="submit">
               저장
             </Button>
+            </div>
           </Form>
         </Col>
       </Row>

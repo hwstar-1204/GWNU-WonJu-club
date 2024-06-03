@@ -60,7 +60,7 @@ const CreateClubPage = () => {
   };
 
   return (
-    <Container>
+    <Container className="create-club-container">
       <h1 className="create-head">동아리 만들기</h1>
       <Form className="create-club-form">
         {/* 동아리 이름 입력 */}

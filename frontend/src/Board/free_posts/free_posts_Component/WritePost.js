@@ -62,7 +62,7 @@ const WritePost = () => {
   return (
         <div className="write-post-container">
         <form className="write-post-form" onSubmit={handleSubmit} >
-          <div className="form-group">
+          <div className="write-form-group">
             <select
               id="notice-option"
               value={category}
@@ -74,7 +74,7 @@ const WritePost = () => {
             </select>
           </div>
   
-          <div className="form-group">
+          <div className="write-form-group">
             <label htmlFor="title">제목:</label>
             <input
               type="text"
@@ -86,7 +86,7 @@ const WritePost = () => {
             />
           </div>
   
-          <div className="form-group">
+          <div className="write-form-group">
             <label htmlFor="content">내용:</label>
             <textarea
               id="content"
@@ -97,7 +97,7 @@ const WritePost = () => {
             />
           </div>
   
-          <div className="form-group">
+          <div className="write-form-group">
             <label htmlFor="image" className="image-upload-button">
               사진 업로드
               <input

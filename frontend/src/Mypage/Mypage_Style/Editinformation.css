@@ -1,15 +1,23 @@
-.edit-button-container {
+.edit-info-button-container {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
+   
 }
+.edit-info-container{
 
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-left: 300px;
+}
 .register-info {
     font-weight: bold;
     font-size: 24px;
     margin-bottom: 10px; 
 }
-   
+.edit-info-content{
+    margin-left: 20%;
+}
 .cancel-button {
     margin-right: 450px;
     background-color: gray;
@@ -25,7 +33,7 @@
 }
 
 
-.edit-form {
+.edit-info-form {
     margin-left: 10%;
    font-weight: bold;
     margin-top: 20px;
@@ -33,7 +41,7 @@
 }
 
 
-.edit-form-control {
+.edit-info-form-control {
     width: 100%;
     /* 입력 필드의 너비를 폼 그룹에 맞춤 */
     padding: 10px;
@@ -41,7 +49,7 @@
     box-sizing: border-box;
     /* 패딩과 테두리를 포함한 너비 계산 */
 }
-.edit-button {
+.edit-info-button {
     background-color: #007bff;
-    padding-top: 20px;
+
 }

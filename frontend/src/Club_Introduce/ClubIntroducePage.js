@@ -6,7 +6,7 @@ import axios from 'axios';
 import { LogoImage } from '../styles';
 import {Button} from 'react-bootstrap'
 import club_logo from '../Assets/club_logo.png'
-import club_background from '../Assets/images.jpg';
+import club_background from '../Assets/image.jpg';
 import club_profile from '../Assets/profile.jpg';
 
 function Dropdown({ value, onChange, options, label }) {
@@ -134,7 +134,7 @@ const ClubIntroducePage = () => {
                     <p>{club.introducation}</p>
                     <div className="club-info">
                       {/* <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" /> */}
-                       <LogoImage src={club_profile} className="club-introduce-logo" />
+                       <LogoImage src={club_logo} className="club-introduce-logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>
