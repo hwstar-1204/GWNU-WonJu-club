@@ -61,26 +61,30 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             # 질문 임베딩
             embedding_data = self.sim.create_pt(query)
 
-            # 개체명 파악
             ner_predicts = self.ner.predict(query)
 
             # 답변 검색
             f = FindAnswer()
-            answer_text = ""
+            answer_text = "아직 학습하지 않은 영역입니다."
             answer_image = ""
 
             if f is not None:
                 if intent_name == '인사' or intent_name == '욕설' or intent_name == '기타':
                     answer_text, answer_image = await f.search_1(intent_name)
+                    print("1111")
 
                 elif intent_name == '생성':
                     answer_text, answer_image = await f.search_2(intent_name, embedding_data)
+                    print("2222")
 
                 else:
+                    # 개체명 파악
                     tagged_text = f.tag_to_word(ner_predicts)
                     print(tagged_text, type(tagged_text))
-                    answer_text, answer_image = f.search_3(intent_name, tagged_text)
+                    answer_text, answer_image = await f.search_3(intent_name, tagged_text)
+                    print("3333")
 
+            print(""" "Answer": answer_text """, answer_text)
 
             await self.send_json({
                     "Query": query,
@@ -89,7 +93,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     "Intent": intent_name,
                     "NER": str(ner_predicts)
             })
-            print(""" "Answer": answer_text """, answer_text)
 
         except Exception as e:
             await self.send_json({'error': str(e)})

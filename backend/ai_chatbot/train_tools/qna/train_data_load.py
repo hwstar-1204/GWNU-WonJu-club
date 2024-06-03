@@ -1,7 +1,7 @@
 import os
 import django
 import openpyxl
-from django.db import transaction
+from django.db import transaction, connection
 
 # Django 프로젝트 설정을 불러옴
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
@@ -11,6 +11,9 @@ from ai_chatbot.models import ChatbotTrainData  # 모델이 정의된 앱명으�
 # 학습 데이터 초기화
 def all_clear_train_data():
     ChatbotTrainData.objects.all().delete()
+    # auto increment 초기화
+    # with connection.cursor() as cursor:
+    #     cursor.execute("DELETE FROM sqlite_sequence WHERE name='ChatbotTrainData';")
 
 
 # db에 데이터 저장
