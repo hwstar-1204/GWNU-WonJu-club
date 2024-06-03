@@ -18,15 +18,18 @@ const ClubNotice = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.results);
-        setNotices(data.results);
-        setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
+        if (data.results) {
+          setNotices(data.results);
+          setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
+        } else {
+          setNotices([]);
+        }
       })
       .catch((error) => {
         console.log(error);
         setNotices([]); // 오류 발생 시 notices를 빈 배열로 설정
       });
-  }, []);
+  }, [currentPage]);
 
   // const handlePageChange = (page) => {
   //   setCurrentPage(page);
@@ -70,7 +73,7 @@ const ClubNotice = () => {
           </tr>
         </thead>
         <tbody>
-          {notices.map((notice) => (
+          {notices.map(notice => (
             <tr key={notice.specific_id}>
               <td>
                 {/* <a href={notice.link} target="_blank" rel="noreferrer">
