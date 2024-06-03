@@ -6,7 +6,7 @@ import LoginPage from '../Login/LoginPage';
 import Myclub from '../Mypage/Myclub';
 import MyPage from '../Mypage/Mypage';
 import EventPage from '../Event/Event_Component/EventPage';
-import CreateClub from '../CreateClub/CreateClub';
+import CreateClubPage from '../CreateClub/CreateClubPage';
 import ClubPage from '../Club/ClubPage';
 import ClubMember from '../Club/Club_Component/Club_members';
 import ClubAlbum from '../Club/Club_Component/Club_gallery';
@@ -40,7 +40,7 @@ export const AppRoutes = () => (
     <Route path="/club_information/club/:club_name/members/" element={<ClubMember />} />
     <Route path="/club_information/club/:club_name/albums/" element={<ClubAlbum />} />
     <Route path="/club_information/club/:club_name/events/" element={<ClubEvent />} />
-    <Route path="/create_club" element={<CreateClub />} />
+    <Route path="/create_club" element={<CreateClubPage />} />
     <Route path="/club_board/club_posts/" element={<ClubPosts />} />
     <Route path='/club_board/*' element={<PostMain/>} />
     <Route path="signup/*" element={<SignUpPage />} />

@@ -3,7 +3,7 @@ import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
 import { LogoImage, BannerImage } from "../styles";
 
-const CreateClub = () => {
+const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
   const [category, setCategory] = useState("선택");
   const [type, setType] = useState("선택");
@@ -147,4 +147,4 @@ const CreateClub = () => {
   );
 };
 
-export default CreateClub;
+export default CreateClubPage;
