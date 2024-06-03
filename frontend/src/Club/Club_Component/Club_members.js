@@ -36,7 +36,7 @@ const ClubMembers = () => {
               {member.profileImage && <ProfileImage src={member.profileImage} alt="Profile" />}
               <div className="member-details">
                 <div className="member-job">{member.job}</div>
-                <div className="member-name">{member.name}</div> {/* 이름을 직책 아래에 표시합니다. */}
+                <div className="member-name">{member.user}</div> {/* 이름을 직책 아래에 표시합니다. */}
               </div>
             </div>
           ))}

@@ -239,20 +239,11 @@
   margin-bottom: 10px;
 }
 
-.card {
-  width: 120px;
-  height: 50px;
-  flex: 0 0 auto;
-}
-
 .member-management-item {
-  flex: 0 0 auto; /* 아이템이 확장되지 않도록 설정 */
-  width: 120px; /* 각 아이템의 너비 설정 */
-  margin-right: 20px;
-  margin-bottom: 10px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: center; /* 아이템을 수직 중앙 정렬 */
+  margin-bottom: 10px;
 }
 
 .member-management-item .member-photo {
@@ -260,17 +251,17 @@
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin-right: 10px; /* 회원 사진과 텍스트 사이 간격 설정 */
 }
 
 .member-management-item .member-name {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-right: 10px; /* 이름과 직책 선택 메뉴 사이 간격 설정 */
 }
 
 .member-management-item .member-role-select {
   padding: 5px;
-  margin-bottom: 10px;
+  margin-right: 10px; /* 직책 선택 메뉴와 퇴출 버튼 사이 간격 설정 */
 }
 
 .member-management-item .remove-member-btn {

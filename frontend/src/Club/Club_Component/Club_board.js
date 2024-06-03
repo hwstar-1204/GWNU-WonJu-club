@@ -9,34 +9,44 @@ const ClubPosts = () => {
   const [error, setError] = useState(null);
   const [category, setCategory] = useState('all');
   const [order, setOrder] = useState('latest');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const token = localStorage.getItem('token')
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const clubName = queryParams.get('clubName');
 
+  const handlePageChange = (page) => {
+    console.log(page, totalPages);
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/club_board/club_posts/`, {
-          params: {
-            club_name: clubName,
-            category: category === 'all' ? 'all' : category,
-            order: order === 'created_data' ? 'created_data' : order
-          }
-        });
-        setPosts(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
+    let url = `http://127.0.0.1:8000/club_board/board_posts/${clubName}/${category}/${order}/?page=${currentPage}`;  
+    let options = {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Token ${token}`
+      },
     };
+    fetch(url, options)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        console.log(data.results.length);
+        setPosts(data.results); 
+        setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
 
-    fetchPosts();
-  }, [category, order]);
-
-  if (loading) return <Typography>로딩 중...</Typography>;
-  if (error) return <Typography>오류 발생: {error.message}</Typography>;
+      })
+      .catch(err => {
+        console.log(err)
+      });
+  }, [clubName, category, order, currentPage]);  //pageSize
 
   return (
     <div>
@@ -73,6 +83,17 @@ const ClubPosts = () => {
           ))}
         </TableBody>
       </Table>
+      <div className='pagination'>
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+          <button
+            key={page}
+            className={`pagination-button ${currentPage === page ? 'active' : ''}`}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
