@@ -81,7 +81,14 @@ class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         post_id = self.kwargs.get('post_id')
-        return Post.objects.get(id=post_id)
+        post = Post.objects.get(id=post_id)
+
+        # 조회수 1 증가
+        post.view_cnt += 1
+        post.save(update_fields=['view_cnt'])
+
+        return post
+        # return Post.objects.get(id=post_id)
 
 
 class CommentCreateView(APIView):
@@ -132,6 +139,23 @@ class PostCommentDetail(generics.ListAPIView):
         post_id = self.kwargs.get('post_id')
         queryset = Comment.objects.filter(post_id=post_id)
         return queryset
+
+class PostRecommendView(APIView):
+    """
+    게시글 추천
+    """
+    def post(self, request, post_id, format=None):
+        try:
+            post = Post.objects.get(id=post_id)
+            post.recommended_cnt += 1
+            post.save(update_fields=['recommended_cnt'])
+            print(post.recommended_cnt)
+            return Response(status=status.HTTP_200_OK)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
 
 # ----
 class EventListCreateView(generics.ListCreateAPIView):

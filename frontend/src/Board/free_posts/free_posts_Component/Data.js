@@ -20,10 +20,24 @@ const getPostByNo = async (postId,token) => {
 };
 
 // 추천 수 증가 함수
-const increaseRecommendCount = (no) => {
-  const post = postList.find(item => item.no === no);
-  if (post) {
-    post.recommendCount += 1;
+export const increaseRecommendCount =  async(post_id,token) => {
+  const url = `http://127.0.0.1:8000/club_board/post_recommend/${post_id}/`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Token ${token}`
+    },
+  };
+
+  try {
+    const res = await fetch(url, options);
+    const data = await res.json();
+    console.log("data: ", data);
+    // return data;
+  } catch (err) {
+    console.log(err);
   }
 }
 
@@ -100,5 +114,5 @@ export const createComment = async(post_id, content,token) => { // TODO post_id 
 
 export {
   getPostByNo,
-  increaseRecommendCount
+  // increaseRecommendCount
 };

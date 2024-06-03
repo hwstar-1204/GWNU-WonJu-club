@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getPostByNo, increaseRecommendCount, deletePost } from './Data';
 import Comment from './Comment.js';
 import '../free_posts_Style/PostView.css';
@@ -13,6 +13,7 @@ const PostView = () => {
   const navigate = useNavigate();
   const postId = params.postId;
   const token = localStorage.getItem('token');
+  const [recommendCount, setRecommendCount] = useState(0);
 
   // 게시글 데이터 불러오기
   useEffect(() => {
@@ -20,6 +21,7 @@ const PostView = () => {
       const fetchData = async () => {
         const postData = await getPostByNo(params.postId, token);
         setData(postData);
+        setRecommendCount(postData.recommended_cnt);
       };
       fetchData();
     }
@@ -37,11 +39,10 @@ const PostView = () => {
     navigate('edit', { state: { mode, existingPost } });
   }
 
-  // 추천하기 함수  TODO
+  // 추천하기 함수
   const handleRecommend = () => {
-    // increaseRecommendCount(postId);
-    // const updatedData = { ...data, recommendCount: data.recommendCount + 1 };
-    // setData(updatedData);
+    increaseRecommendCount(parseInt(postId), token);
+    setRecommendCount(recommendCount + 1);
   };
 
 
@@ -80,7 +81,7 @@ const PostView = () => {
           {/* 게시글 액션 버튼 */}
           <div className="post-view-actions">
             <button className="post-view-recommend-button" onClick={handleRecommend}>
-              추천하기 ({data.recommendCount})
+              추천하기 ({recommendCount})
             </button>
             <div className="post-view-buttons">
               <button className="post-view-edit-button" onClick={handlePostChange}>
