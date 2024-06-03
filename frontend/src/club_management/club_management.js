@@ -6,7 +6,6 @@ import './club_management.css';
 import defaultImage from "../profile.jpg";
 import ClubHeader from '../Club/Club_Component/Club_head.js'
 
-
 const ClubManagementPage = () => {
   const { club_name } = useParams();
   const [club_nameInput, setclub_nameInput] = useState('');

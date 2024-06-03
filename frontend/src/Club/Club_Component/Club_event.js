@@ -83,7 +83,30 @@ const ClubEvent = () => {
               <Button onClick={() => handleClickCreateEvent()}>일정 등록</Button>
             </div>
           </div>
-
+    {/* <div className='club-event-container'>
+    <ClubHeader clubName={club_name} />
+    <div className="club-event-box">
+      <h2 className='club-head-text'>일정</h2>
+      <div className='create-event-container'>
+      <div className="search-container">
+        <select value={searchOption} onChange={handleSearchOptionChange}>
+          <option value="all">전체</option>
+          <option value="titleContent">제목/내용</option>
+          <option value="title">제목</option>
+          <option value="content">내용</option>
+          <option value="date">날짜</option>
+        </select>
+        <input
+          type="text"
+          value={searchText}
+          onChange={handleSearchTextChange}
+          placeholder="검색어를 입력하세요..."
+        />
+      </div>
+      <div className="create-event-button">
+        <Button onClick={() => handleClickCreateEvent()}>일정 등록</Button>
+      </div>
+      </div> */}
           <div className="event-list">
             {displayedEvents.map((event) => (
               <Link to={`/club_board/post_detail/${event.id}/`} key={event.id} className="event-link">
