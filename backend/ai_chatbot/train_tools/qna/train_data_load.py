@@ -30,7 +30,7 @@ def insert_data(xls_row):
     )
 
 
-train_file = './train_data_최종1.xlsx'
+train_file = './train_data_최종보완.xlsx'
 
 try:
     # 기존 학습 데이터 초기화

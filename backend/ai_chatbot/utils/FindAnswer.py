@@ -140,4 +140,6 @@ class FindAnswer:
             # return None, None
             answer, answer_img = await self.search_2(intent_name, embedding_data)
 
-            return answer + '\n이 답변은 업데이트 되지 않은 답변이니 자세한 사항은 동아리로 직접 문의 하시기 바랍니다.', answer_img
+            # return answer + '\n이 답변은 업데이트 되지 않은 답변이니 자세한 사항은 동아리로 직접 문의 하시기 바랍니다.', answer_img
+            return answer, answer_img
+
