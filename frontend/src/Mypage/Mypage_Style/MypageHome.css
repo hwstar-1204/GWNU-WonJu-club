@@ -1,4 +1,4 @@
-.profile-panel
+.profile-panel,
 .details,
 .myclub-panel {
     
@@ -22,6 +22,7 @@
     border-radius: 50%;
     margin-bottom: 20px;
 }
+
 .club-logo {
     width: 100px;
     height: 100px;

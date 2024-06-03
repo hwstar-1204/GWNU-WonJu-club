@@ -64,7 +64,7 @@ const Editinformation = () => {
  
     <Container className="">
       <Row className="edit-info-content">
-        <Col className="edit-info-col" md={5}>
+        <Col className="edit-info-col" md={6}>
           <Form className="edit-info-form" onSubmit={handleSubmit}>
             <Form.Group controlId="formName">
               <Form.Label>이름:</Form.Label>

@@ -10,7 +10,7 @@ const MypageHome = ({ userData, myClubList }) => {
   return (
     <Container>
       <Row className="justify-content-center align-items-center">
-        <Col md={5}>
+        <Col md={3}>
           {/* 프로필 정보 패널 */}
           <div className="profile-panel">
             <h2 className="details-head">사용자 정보</h2>
