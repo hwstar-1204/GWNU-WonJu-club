@@ -168,3 +168,24 @@ class NoticeListView(generics.ListAPIView):
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
     pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        queryset = Notice.objects.all()
+        search = self.request.query_params.get('search', None)
+        tag = self.request.query_params.get('tag', None)
+        sort = self.request.query_params.get('ordering', None)
+
+        if search:
+            from django.db.models import Q
+            queryset = queryset.filter(Q(title__icontains=search))
+
+        if tag:
+            queryset = queryset.filter(tags__name=tag)
+
+        if sort:
+            if sort == 'desc':
+                queryset = queryset.order_by('-created_date')  # 내림차순 정렬
+            else:
+                queryset = queryset.order_by('created_date')  # 오름차순 정렬
+
+        return queryset

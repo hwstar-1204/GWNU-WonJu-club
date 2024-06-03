@@ -53,7 +53,7 @@ const ClubPosts = () => {
   //   fetchPosts();
   // }, [category, order]);
 
-  if (loading) return <Typography>로딩 중...</Typography>;
+  // if (loading) return <Typography>로딩 중...</Typography>;
   // if (error) return <Typography>오류 발생: {error.message}</Typography>;
   const handleClick = () => {
     navigate(`/club_board/club_posts/create-club-post?clubName=${clubName}`);
