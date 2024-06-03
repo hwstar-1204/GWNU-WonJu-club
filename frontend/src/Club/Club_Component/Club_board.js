@@ -50,14 +50,15 @@ const ClubPosts = () => {
       });
   }, [clubName, category, order, currentPage]);  //pageSize
 
-    fetchPosts();
-  }, [category, order]);
+  //   fetchPosts();
+  // }, [category, order]);
 
   if (loading) return <Typography>로딩 중...</Typography>;
   // if (error) return <Typography>오류 발생: {error.message}</Typography>;
   const handleClick = () => {
       navigate(`/club_board/club_posts/create-club-post?clubName=${clubName}`);
     }
+  }
   return (
     <div className='board-container'>
       <ClubHeader clubName={clubName} />

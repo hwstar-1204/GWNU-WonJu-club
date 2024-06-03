@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios'; // Axios를 import합니다.
+// import {ProfileImage} from './StyledComponents';
 import { ProfileImage } from '../../styles';
 import '../Club_Style/Club_members.css'; // CSS 파일을 import합니다.
 import ClubHeader from './Club_head'; // ClubHeader 컴포넌트를 import합니다.

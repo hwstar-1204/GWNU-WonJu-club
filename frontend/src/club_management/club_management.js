@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './club_management.css';
+import defaultImage from "../profile.jpg";
 import ClubHeader from '../Club/Club_Component/Club_head.js'
+
 import defaultImage from "../profile.jpg";
 
 const ClubManagementPage = () => {
@@ -728,7 +730,7 @@ const ClubManagementPage = () => {
         </section>
       </div>
       <div>
-        <button onClick={clickSaveButton} className='club-club-delete-button'>저장</button>
+        <button onClick={() => { clickSaveButton(); alert('저장되었습니다.');}} className='club-club-delete-button'>저장</button>
         <button onClick={handleClubDelete} className="club-club-delete-button">동아리 삭제</button> {/* Club delete button */}
       </div>
       {/* Image Selection Modal */}
