@@ -1,6 +1,7 @@
 from .models import Board, Post, Comment, Event, Notice
 from rest_framework import serializers
 
+
 # class BoardSerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Board
@@ -27,6 +28,7 @@ class PostListSerializer(serializers.ModelSerializer):
     게시글 목록에 필요한 필드 제공
     """
     author_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
         fields = ['id', 'board', 'title', 'author_name', 'recommended_cnt', 'view_cnt', 'created_date']
@@ -34,11 +36,13 @@ class PostListSerializer(serializers.ModelSerializer):
     def get_author_name(self, obj):
         return obj.author.name
 
+
 class PostDetailSerializer(serializers.ModelSerializer):
     """
     해당 게시글 모든 세부 사항 필드 제공
     """
     author_name = serializers.SerializerMethodField()
+
     class Meta:
         model = Post
         fields = ['id', 'board', 'title', 'content', 'author_name', 'recommended_cnt', 'view_cnt', 'created_date']
@@ -46,10 +50,12 @@ class PostDetailSerializer(serializers.ModelSerializer):
     def get_author_name(self, obj):
         return obj.author.name
 
+
 class PostCreateSerializer(serializers.ModelSerializer):
     """
     특정 게시판에 게시글 생성
     """
+
     class Meta:
         model = Post
         fields = ['title', 'content']
@@ -65,6 +71,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
         return Post.objects.create(**validated_data)
 
+
 class CommentSerializer(AuthorNameMixin, serializers.ModelSerializer):
     """
     게시글 댓글
@@ -75,7 +82,8 @@ class CommentSerializer(AuthorNameMixin, serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'content', 'author_name', 'created_date']
 
-class CommentCreateSerializer(AuthorNameMixin,serializers.ModelSerializer):
+
+class CommentCreateSerializer(AuthorNameMixin, serializers.ModelSerializer):
     """
     댓글 생성
     """
@@ -112,10 +120,12 @@ class EventSerializer(AuthorNameMixin, serializers.ModelSerializer):
 
         return Event.objects.create(**validated_data)
 
+
 class NoticeSerializer(serializers.ModelSerializer):
     """
     공지사항
     """
+
     class Meta:
         model = Notice
         fields = '__all__'

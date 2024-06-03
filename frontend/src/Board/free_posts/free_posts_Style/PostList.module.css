@@ -1,14 +1,19 @@
-/* ClubNotice.css */
-.club-notice-container {
+/* PostList.mdule.css */
+
+.post-list-container {
   width: 90%;
   max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 80px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
 }
 
 .title {
   font-size: 2.5em !important;
+  margin-top: 40px;
   margin-bottom: 20px;
 }
 
@@ -23,8 +28,9 @@
 
 .top {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -50,14 +56,14 @@
 
 .search-button {
   background: none;
+  border: none;
   color: #ccc;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.5;
   display: flex;
   align-items: center;
   height: 38px;
   padding: 0 10px;
-  border: 1px solid #ccc;
 }
 
 .dropdown {
@@ -80,8 +86,7 @@
 }
 
 .write-btn {
-  float: right;
-  margin-left: 10px;
+  margin-left: auto;
   padding: 5px 10px;
 }
 
@@ -90,12 +95,21 @@
   border-color: #90CAF9;
 }
 
+.table-container {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  margin: 0 auto;
+}
+
 .table thead th {
   font-weight: normal;
 }
 
 .table tbody tr:first-of-type {
-  border-top: 2px solid #979797; /* 첫 번째 데이터 행 아래에 선 추가 */
+  border-top: 2px solid #979797;
 }
 
 .no-notice {
@@ -111,3 +125,33 @@
 .custom-page-link:hover {
   border-color: #90CAF9 !important;
 }
+
+.pagination-nav {
+  margin-top: -20px;
+}
+
+.search-icon {
+  background: none;
+  padding: 0 10px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button {
+  background: none;
+  color: #ccc;
+  cursor: pointer;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+}
+
+.search-button:hover {
+  opacity: 1;
+}
+

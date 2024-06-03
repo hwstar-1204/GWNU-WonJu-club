@@ -21,7 +21,7 @@ from django.conf import settings
 
 
 class ClubManageListView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsPresidentOrAdmin]
     def get(self, request):
         token_key = request.headers.get('Authorization')
         if not token_key:
@@ -62,7 +62,7 @@ class ClubManageListView(APIView):
 # Create your views here.
 class ClubManagementHomeView(RetrieveAPIView):
     serializer_class = ClubSerializer
-    # permission_classes = [IsPresidentOrAdmin]
+    permission_classes = [IsPresidentOrAdmin]
 
     def get(self, *args, **kwargs):
         """

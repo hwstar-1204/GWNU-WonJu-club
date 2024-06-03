@@ -3,8 +3,8 @@
     bottom: 80px; /* Adjusted to be above the button */
     right: 20px;
     background-color: #fff;
-    width: 350px;
-    height: 575px;
+    width: 300px;
+    height: 475px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -50,7 +50,7 @@
   
   .user-message {
     align-self: flex-end;
-    background-color: #dcf8c6;
+    background-color: #90CAF9;
   }
   
   .bot-message {
@@ -103,7 +103,7 @@
     padding: 8px 16px;
     border: none;
     border-radius: 18px;
-    background-color: #0a95ff;
+    background-color: #90CAF9;
     color: white;
     cursor: pointer;
   }

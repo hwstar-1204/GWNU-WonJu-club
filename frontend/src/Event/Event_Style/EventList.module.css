@@ -1,24 +1,22 @@
-/* ClubNotice.css */
-.club-notice-container {
+.event-notice-container {
   width: 90%;
   max-width: 1200px;
+  margin-top: 180px;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
 
 .title {
-  font-size: 2.5em !important;
+  font-size: 2em;
   margin-bottom: 20px;
 }
 
 .title-underline {
   width: 100%;
-  height: 0.1px !important;
-  background-color: #e4e4e4;
-  margin-bottom: 20px;
-  margin-top: 40px;
-  opacity: 0.3;
+  height: 1px;
+  background-color: #ccc;
+  margin-bottom: 40px;
 }
 
 .top {
@@ -35,40 +33,17 @@
 
 .search-bar input {
   width: 200px;
-  height: 38px;
+  height: 30px;
   padding-right: 30px;
-  opacity: 0.7;
-  margin-right: 10px;
-}
-
-.search-icon {
-  background: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-button {
-  background: none;
-  color: #ccc;
-  cursor: pointer;
-  opacity: 0.8;
-  display: flex;
-  align-items: center;
-  height: 38px;
-  padding: 0 10px;
-  border: 1px solid #ccc;
 }
 
 .dropdown {
   margin-left: 10px;
-  opacity: 0.9;
 }
 
 .dropdown .dropdown-toggle {
-  font-size: small;
-  height: 38px;
-  padding: 0 10px;
+  width: 70px;
+  padding: 5px 10px;
 }
 
 .btn {
@@ -80,7 +55,6 @@
 }
 
 .write-btn {
-  float: right;
   margin-left: 10px;
   padding: 5px 10px;
 }
@@ -92,10 +66,6 @@
 
 .table thead th {
   font-weight: normal;
-}
-
-.table tbody tr:first-of-type {
-  border-top: 2px solid #979797; /* 첫 번째 데이터 행 아래에 선 추가 */
 }
 
 .no-notice {
@@ -110,4 +80,14 @@
 
 .custom-page-link:hover {
   border-color: #90CAF9 !important;
+}
+
+.pagination-nav {
+  margin-top: -20px;
+}
+
+.table-centered th,
+.table-centered td {
+  text-align: center;
+  vertical-align: middle;
 }
