@@ -12,7 +12,7 @@ import random
 class FindAnswer:
 
     def __init__(self):
-        self.sim_data = torch.load('ai_chatbot/model/sim/SBERT_embedding_Data.pt')
+        self.sim_data = torch.load('ai_chatbot/model/SBERT_embedding_Data_new.pt')
 
     @database_sync_to_async
     def make_query_1(self, intent_name):
@@ -33,16 +33,14 @@ class FindAnswer:
 
     @database_sync_to_async
     def make_query_3(self, intent_name, tagged_text):
-        answer = None
         try:
-            if intent_name == '종류' or intent_name == '소개':
-                answer = Club.objects.get(club_name=tagged_text)
+            if intent_name in ['종류', '소개']:
+                print("종류거나 소개", tagged_text)
+                return Club.objects.get(club_name=tagged_text)
             else:
-                answer = ClubDetail.objects.get(club_id=tagged_text)
-
-            select_one = list(answer)
-            return random.choice(select_one) if select_one else None
+                return ClubDetail.objects.get(club__club_name=tagged_text)
         except ObjectDoesNotExist:
+            print("make_query_3 club 찾을 수 없음")
             return None
 
         # if intent_name == '종류' or intent_name == '소개':
@@ -61,9 +59,7 @@ class FindAnswer:
                 break
             else:
                 tagged_text = "NONE"
-        return tagged_text
-
-
+        return tagged_text  # 동아리 명
 
 
     async def search_1(self, intent_name):
@@ -78,9 +74,10 @@ class FindAnswer:
         best_sim_idx = int(np.argmax(cos_sim))  # cos_sim의 최대값의 인덱스 반환
         best_sim = cos_sim[0, best_sim_idx].item()  # item()을 사용하여 Python float으로 변환
 
+        print("best_sim_idx: ",best_sim_idx)
         answer = await self.make_query_2(best_sim_idx + 1)
-        print(best_sim)
-        print(answer['answer'], answer['answer_image'])
+
+        print(best_sim, " ", answer)
 
         if not answer:
             return "답변을 찾을 수 없습니다.", None
@@ -92,39 +89,57 @@ class FindAnswer:
             print("False")
             return "죄송해요 무슨 말인지 모르겠어요. 조금 더 공부할게요.", None
 
-    async def search_3(self, intent_name, tagged_text) :
+    async def search_3(self, intent_name, tagged_text, embedding_data):
         # 개체명으로 백엔드 DB 검색
-        club_info = self.make_query_3(intent_name, tagged_text)
+        club_info = await self.make_query_3(intent_name, tagged_text)
 
-        if intent_name == "소개":
-            answer_text = "동아리 {}에 대한 소개입니다: {}".format(club_info['club_name'], club_info['introducation'])
-            answer_image = None
-            return answer_text, answer_image
+        if club_info is not None:
 
-        elif intent_name == "종류":
-            answer_text = "{} 동아리는 다음과 같습니다.: {}".format(club_info['type'], club_info['club_name'])
-            answer_image = None
-            return answer_text, answer_image
+            print("club_info: ", club_info.club_name)
 
-        elif intent_name == "가입방법":
-            answer_text = "동아리 {}의 가입 방법은: {}".format(club_info['club_id'], club_info['join'])
-            answer_image = None
-            return answer_text, answer_image
+            if intent_name == "소개" and club_info.introducation is not None:  # Club
+                answer_text = "동아리 {}에 대한 소개입니다: {}".format(club_info.club_name, club_info.introducation)
+                print("findanswer intent_name 소개", answer_text)
+                answer_image = None
+                return answer_text, answer_image
 
-        elif intent_name == "위치":
-            answer_text = "동아리 {}의 위치는: {}".format(club_info['club_id'], club_info['location'])
-            answer_image = None
-            return answer_text, answer_image
+            elif intent_name == "종류":  # Club
+                answer_text = "{} 동아리는 다음과 같습니다.: {}".format(club_info.type, club_info.club_name)
+                answer_image = None
+                return answer_text, answer_image
 
-        elif intent_name == "활동":
-            answer_text = "동아리 {}의 주요 활동은: {}".format(club_info['club_id'], club_info['activity'])
-            answer_image = None
-            return answer_text, answer_image
+            elif intent_name == "가입방법" and club_info.join is not None:  # Club_detail
+                answer_text = "동아리 {}의 가입 방법은: {}".format(club_info.club.club_name, club_info.join)
+                answer_image = None
+                return answer_text, answer_image
 
-        elif intent_name == "회비":
-            answer_text = "동아리 {}의 회비는: {}".format(club_info['club_id'], club_info['fee'])
-            answer_image = None
-            return answer_text, answer_image
+            elif intent_name == "위치" and club_info.location is not None:  # Club_detail
+                answer_text = "동아리 {}의 위치는: {}".format(club_info.club.club_name, club_info.location)
+                answer_image = None
+                return answer_text, answer_image
+
+            elif intent_name == "활동" and club_info.activity is not None:  # Club_detail
+                answer_text = "동아리 {}의 주요 활동은: {}".format(club_info.club.club_name, club_info.activity)
+                answer_image = None
+                return answer_text, answer_image
+
+            elif intent_name == "회비" and club_info.fee is not None:  # Club_detail
+                answer_text = "동아리 {}의 회비는: {}".format(club_info.club.club_name, club_info.fee)
+                answer_image = None
+                return answer_text, answer_image
+
+            else:
+                # answer_text = "무슨 말인지 모르겠어요."
+                # return answer_text, None
+
+                answer, answer_img = await self.search_2(intent_name, embedding_data)
+
+                return answer + '\n이 답변은 업데이트 되지 않은 답변이니 자세한 사항은 동아리로 직접 문의 하시기 바랍니다.', answer_img
 
         else:
-            answer_text = "무슨 말인지 모르겠어요."
+            # return None, None
+            answer, answer_img = await self.search_2(intent_name, embedding_data)
+
+            # return answer + '\n이 답변은 업데이트 되지 않은 답변이니 자세한 사항은 동아리로 직접 문의 하시기 바랍니다.', answer_img
+            return answer, answer_img
+

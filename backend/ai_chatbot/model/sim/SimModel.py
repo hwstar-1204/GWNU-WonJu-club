@@ -1,7 +1,5 @@
 
 import torch
-import numpy as np
-import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 
 # 임베딩 모델 모듈
@@ -18,7 +16,9 @@ class SimModel:
     keywords = self.p.get_keywords(pos, without_tag=True)
 
     # 질문 하나의 문장으로 만들기
-    keyword_string = ' '.join(keywords)  
+    keyword_string = ' '.join(keywords)
+
+    print("keyword_string: ",keyword_string)
 
     # 모델 임베딩
     vectors_encode = self.model.encode(keyword_string)
