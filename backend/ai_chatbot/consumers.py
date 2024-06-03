@@ -34,14 +34,24 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         self.p = Preprocess(word2index_dic='ai_chatbot/train_tools/dict/chatbot_dict.bin',
                userdic='ai_chatbot/utils/user_dic.tsv')
         # 의도 파악 모델
-        self.intent = IntentModel(model_name='ai_chatbot/model/intent/intent_model.h5', preprocess=self.p)
+        # self.intent = IntentModel(model_name='ai_chatbot/model/intent/intent_model.keras', preprocess=self.p)
+        self.intent = IntentModel(model_name='ai_chatbot/model/intent_model_new.h5', preprocess=self.p)
+
         # 유사도 분석 모델
         self.sim = SimModel(preprocess=self.p)
+
         # 개체명 인식 모델
-        self.ner = NerModel(model_name='ai_chatbot/model/ner/ner_model_testNER3.h5', proprocess=self.p)
+        self.ner = NerModel(model_name='ai_chatbot/model/ner_model_new.h5', proprocess=self.p)
 
     async def connect(self):
         await self.accept()
+
+    async def accept(self, subprotocol=None):
+        await super().accept(subprotocol=subprotocol)
+        start_message = ("안녕하세요! 릉주대 챗봇 강원동입니다. 저희는 사이트 내 데이터에 기반하고 있지만, 데이터가 업데이트 되지 않아 달라진 부분이 있을 수 있으니, 중요한 내용은 꼭 "
+                         "해당 동아리에 문의하시기 바랍니다. 무엇을 도와드릴까요?")
+        await self.send_json({"Answer": start_message})
+
 
     async def disconnect(self, close_code):
         pass
@@ -57,26 +67,30 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             # 질문 임베딩
             embedding_data = self.sim.create_pt(query)
 
-            # 개체명 파악
             ner_predicts = self.ner.predict(query)
 
             # 답변 검색
             f = FindAnswer()
-            answer_text = ""
+            answer_text = "아직 학습하지 않은 영역입니다."
             answer_image = ""
 
             if f is not None:
                 if intent_name == '인사' or intent_name == '욕설' or intent_name == '기타':
                     answer_text, answer_image = await f.search_1(intent_name)
+                    print("1111")
 
                 elif intent_name == '생성':
                     answer_text, answer_image = await f.search_2(intent_name, embedding_data)
+                    print("2222")
 
                 else:
+                    # 개체명 파악
                     tagged_text = f.tag_to_word(ner_predicts)
                     print(tagged_text, type(tagged_text))
-                    answer_text, answer_image = f.search_3(intent_name, tagged_text)
+                    answer_text, answer_image = await f.search_3(intent_name, tagged_text, embedding_data)
+                    print("3333")
 
+            print(""" "Answer": answer_text """, answer_text)
 
             await self.send_json({
                     "Query": query,
@@ -85,7 +99,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     "Intent": intent_name,
                     "NER": str(ner_predicts)
             })
-            print(""" "Answer": answer_text """, answer_text)
 
         except Exception as e:
             await self.send_json({'error': str(e)})
