@@ -6,6 +6,7 @@ from club_introduce.serializer import *
 from club_introduce.models import *
 from rest_framework import generics
 from django.utils import timezone
+from django.db.models import Count
 
 
 # Create your views here.
@@ -125,3 +126,18 @@ class DropClubView(generics.DestroyAPIView):
             instance.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+class CountClubCategoryView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = CountClubCategorySerializer
+
+    def get_queryset(self):
+        # 동아리 카테고리별 동아리 수
+        return Club.objects.values('category').annotate(count=Count('category'))
+
+class CountClubTypeView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = CountClubTypeSerializer
+
+    def get_queryset(self):
+        # 동아리 타입별 동아리 수
+        return Club.objects.values('type').annotate(count=Count('type'))

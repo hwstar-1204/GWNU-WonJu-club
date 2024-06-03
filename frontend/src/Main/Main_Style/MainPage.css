@@ -1,3 +1,47 @@
+/* 
+.banner-carousel {
+  width: 80%;
+  align-items: center;
+}
+
+/* 메인 배너 Carousel 스타일 */
+.carousel-container {
+  margin-top: 20px;
+}
+
+.carousel-image {
+  width: 80%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+.carousel-caption h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.carousel-caption p {
+  font-size: 1.2rem;
+}
+
+/* 공지사항 스타일 */
+.notice {
+  width: 50%;
+  padding: 10px;
+  margin-left: 50px;
+} */
+
+
+
+
+
 /* src/Main_Style/MainPage.css */
 .MainPage {
   width: 100%;
@@ -31,4 +75,22 @@
 
 .section3 {
   background-color: #ffffff !important;
+}
+
+/* 콘텐츠 래퍼 스타일 */
+/* .content-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 30px; /* 이벤트 카드와 메인 배너 간의 여백 조정 */
+}
+ */
+/* 분석 컨테이너 스타일 */
+.analytics-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px; /* 원하는 간격 크기로 조정 */
+  justify-content: center; /* 컨테이너 중앙에 배치 */
+  align-items: center; /* 수직 정렬 */
+  margin-bottom: 20px; /* 필요에 따라 추가적인 하단 간격 */
 }
