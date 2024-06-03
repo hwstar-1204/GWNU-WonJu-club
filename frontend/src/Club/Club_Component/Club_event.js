@@ -58,7 +58,6 @@ const ClubEvent = () => {
   };
   return (
     <div className="event-container">
-      <h2>일정</h2>
       <div className='club-event-container'>
         <ClubHeader clubName={club_name} />
         <div className="club-event-box">

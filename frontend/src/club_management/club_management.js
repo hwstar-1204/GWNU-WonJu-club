@@ -577,7 +577,7 @@ const ClubManagementPage = () => {
 
   return (
     <div className='club-mangement'>
-      <ClubHeader club_name={club_name}/>
+      <ClubHeader clubName={club_name}/>
     <div className="ClubManagementPage">
       <div className="manage-content-wrapper">
         
