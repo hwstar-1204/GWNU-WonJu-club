@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const BannerImage = styled.img`
-  width: 1300px;
-  height: 300px;
+  width: 1600px;
+  height: 400px;
 `;
 
 export const ProfileImage = styled.img`

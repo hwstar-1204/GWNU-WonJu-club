@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';
-import './ClubIntroducePage.css';
 import axios from 'axios';
 import { LogoImage } from '../styles';
+import {Button} from 'react-bootstrap';
+import club_logo from '../Assets/club_logo.png';
+import club_background from '../Assets/images.jpg';
+import club_profile from '../Assets/profile.jpg';
+import './ClubIntroducePage.css';
 
-
+// Dropdown 컴포넌트 정의
 function Dropdown({ value, onChange, options, label }) {
   return (
-    <div>
+    <div className="dropdown"> {/* dropdown 클래스 추가 */}
       {label && <label>{label}</label>}
       <select value={value} onChange={onChange}>
         {options.map(option => (
@@ -27,6 +31,7 @@ const ClubIntroducePage = () => {
   const navigate = useNavigate();
   const BASE_URL = "http://localhost:8000";
 
+  // 동아리 목록을 가져오는 함수
   useEffect(() => {
     const debouncedFetchClubs = debounce(async () => {
       setIsLoading(true);
@@ -44,10 +49,11 @@ const ClubIntroducePage = () => {
     debouncedFetchClubs();
   }, [selectedCategory, selectedType]);
 
+  // 가입 신청 클릭 핸들러
   const handleApplyClick = async (clubName, event) => {
     event.stopPropagation(); // 이벤트 전파를 막습니다.
     try {
-      const token = localStorage.getItem('token');  // 예시: 토큰이 localStorage에 저장되어 있다고 가정
+      const token = localStorage.getItem('token');
       const response = await axios.post(`${BASE_URL}/club_introduce/apply_club/`, 
         { club_name: clubName },
         { headers: { Authorization: `Token ${token}` } }
@@ -87,10 +93,10 @@ const ClubIntroducePage = () => {
   };
 
   return (
-    <div className="club-introduce-page">
-      <div className="club-content-wrapper">
+    <div className="club-introduce-page"> {/* 최상위 컨테이너 클래스 */}
+      <div className="club-content-wrapper"> {/* 콘텐츠 래퍼 클래스 */}
         <section id="clubIntroducePage" className="club-section">
-          <div className="club-filters">
+          <div className="club-filters"> {/* 필터 섹션 */}
             <Dropdown
               label="카테고리 선택"
               value={selectedCategory}
@@ -120,21 +126,21 @@ const ClubIntroducePage = () => {
             />
           </div>
           {isLoading ? <p>Loading...</p> : (
-            <div className="club-introduce-card-container">
+            <div className="club-introduce-card-container"> {/* 카드 컨테이너 */}
               {filteredClubs.map((club, index) => (
-                <article key={index} className="club-introduce-card" onClick={() => handleClubClick(club.club_name)}>
+                <article key={index} className="club-introduce-card" onClick={() => handleClubClick(club.club_name)}> {/* 카드 클래스 및 클릭 이벤트 */}
                   <figure className="club-introduce-card-header">
-                    <img src={getAbsolutePath(club.photo)} alt={club.name} className="club-logo" />
+                    <img src={club_background} className="club-introduce-background" /> {/* 배경 이미지 */}
                   </figure>
                   <div className="club-introduce-card-contents">
                     <p>{club.introducation}</p>
-                    <div className="club-info">
-                      <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" />
+                    <div className="club-info"> {/* 클럽 정보 섹션 */}
+                      <LogoImage src={club_profile} className="club-introduce-logo" /> {/* 프로필 이미지 */}
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>
-                  <div className="club-introduce-card-footer">
-                    <button className="club-apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button>
+                  <div className="club-introduce-card-footer"> {/* 카드 푸터 */}
+                    <button className="club-apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button> {/* 가입 신청 버튼 */}
                   </div>
                 </article>
               ))}

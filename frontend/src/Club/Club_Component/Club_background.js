@@ -1,9 +1,9 @@
 import React from "react";
 import '../Club_Style/Club_background.css';
 import { BannerImage, LogoImage } from '../../styles';
+import Background from '../../Assets/default_background.png';
 
-
-const ClubBackground = ({ introduction, Background }) => {
+const ClubBackground = ({ introduction,}) => {
   // Ensure introduction has a fallback if it's undefined or empty
   const safeIntroduction = introduction || 'No introduction provided.'; // Provide a default introduction text
   
