@@ -74,48 +74,17 @@ const ClubNotice = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setNotices(data.results);
-        setTotalPages(Math.ceil(data.count / 5)); // 5개씩 페이지네이션
-        setIsLoading(false);
-        adjustPadding(); // 데이터를 가져온 후 패딩 조정
+        if (data.results) {
+          setNotices(data.results);
+          setTotalPages(Math.ceil(data.count / 10)); // 10개씩 페이지네이션
+        } else {
+          setNotices([]);
+        }
       })
       .catch((error) => {
-        console.error(error);
-        setNotices([]);
-        setIsLoading(false);
-        adjustPadding(); // 에러 발생 시에도 패딩 조정
+        console.log(error);
+        setNotices([]); // 오류 발생 시 notices를 빈 배열로 설정
       });
-  };
-
-  const fetchTags = () => {
-    fetch(`http://localhost:8000/club_board/tags/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setTags(data);
-      })
-      .catch((error) => console.error(error));
-  };
-
-  const adjustPadding = () => {
-    const container = document.querySelector('.club-notice-container');
-    if (container) {
-      container.style.paddingTop = '100px';
-    }
-  };
-
-  useEffect(() => {
-    fetchNotices(currentPage, searchTerm, sortOrder, selectedTag);
-    fetchTags();
-  }, [currentPage, searchTerm, sortOrder, selectedTag]);
-
-  useEffect(() => {
-    adjustPadding(); // 컴포넌트가 마운트될 때 패딩 조정
   }, []);
 
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
@@ -188,57 +157,46 @@ const ClubNotice = () => {
         </div>
       </div>
 
-      {isLoading ? (
-        <div className="d-flex justify-content-center">Loading...</div>
-      ) : (
-        <div className="table-container">
-          <Table className="table table-hover">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th>조회수</th>
-              </tr>
-            </thead>
-            <tbody>
-              {notices.length === 0 && searchPerformed ? (
-                <tr>
-                  <td colSpan="5" className="text-center">검색 결과가 없습니다.</td>
-                </tr>
-              ) : (
-                notices.length === 0 ? (
-                  Array.from({ length: 5 }).map((_, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td colSpan="4" className="no-notice">공지사항이 없습니다.</td>
-                    </tr>
-                  ))
-                ) : (
-                  notices.map((notice, index) => (
-                    <tr key={notice.specific_id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <a href={notice.link} target="_blank" rel="noreferrer">
-                          {notice.title}
-                        </a>
-                      </td>
-                      <td>{notice.author}</td>
-                      <td>{notice.created_date}</td>
-                      <td>{notice.views}</td>
-                    </tr>
-                  ))
-                )
-              )}
-            </tbody>
-          </Table>
-          <Button color="primary" onClick={handleWriteButtonClick} className="btn write-btn">글쓰기</Button>
-        </div>
-      )}
 
-      <div className="pagination-container">
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      <table className="table table-striped table-hover table-sm" >
+        <thead className="thead-dark">
+          <tr>
+            <th className='table-secondary'>Link</th>
+            {/* <th>작성자</th>
+            <th>작성 날짜</th> */}
+          </tr>
+        </thead>
+        <tbody>
+          {notices.map((notice) => (
+            <tr key={notice.specific_id}>
+              <td>
+                {/* <a href={notice.link} target="_blank" rel="noreferrer">
+                  {notice.title}
+                </a> */}
+                <a href={notice.link} target="_blank" rel="noreferrer" data-toggle="tooltip" title={notice.link}>
+                  {notice.title.length > 50 ? notice.title.substring(0, 50) + '...' : notice.title}
+                </a>
+              </td>
+              {/* <td>{notice.author}</td>
+              <td>{notice.created_date}</td> */}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+      <div className="d-flex justify-content-center">
+        {/* <nav>
+          <ul className="pagination">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <li key={index + 1} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav> */}
+        
       </div>
 
       <Modal isOpen={isLoginModalOpen} toggle={toggleLoginModal}>
