@@ -38,3 +38,14 @@ class MyClubListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubMember
         fields = ['member_id', 'club_name', 'job', 'logo']
+
+
+class CountClubCategorySerializer(serializers.Serializer):
+    category = serializers.CharField(max_length=20)
+    count = serializers.IntegerField()
+
+class CountClubTypeSerializer(serializers.Serializer):
+    type = serializers.CharField(max_length=20)
+    count = serializers.IntegerField()
+
+
