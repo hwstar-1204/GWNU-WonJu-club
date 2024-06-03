@@ -14,8 +14,8 @@ class ClubListAPIView(APIView):
 
 
     def get(self, request):
-        # clubs = Club.objects.all()
         clubs = Club.objects.exclude(club_name="FreeBoard")  # 동아리 이름이 "FreeBoard"인 동아리는 제외
+
         clubs_data = ClubSerializer(clubs, many=True).data
         return Response(clubs_data)
 
@@ -33,11 +33,11 @@ class CategoryClubAPIView(APIView):
     def get(self, request, category_id, type_id):
 
         if category_id and not type_id:
-            category_clubs = Club.objects.filter(category=category_id)
+            category_clubs = Club.objects.filter(category=category_id).exclude(club_name="FreeBoard")
         elif not category_id and type_id:
-            category_clubs = Club.objects.filter(type=type_id)
+            category_clubs = Club.objects.filter(type=type_id).exclude(club_name="FreeBoard")
         else:
-            category_clubs = Club.objects.filter(category=category_id, type=type_id)
+            category_clubs = Club.objects.filter(category=category_id, type=type_id).exclude(club_name="FreeBoard")
 
         # 카테고리에 해당하는 동아리가 없을 때
         if not category_clubs.exists():

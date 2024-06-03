@@ -56,8 +56,8 @@ const ClubBody = ({ clubData, clubName }) => {
         <div className="horizontal-list">
           {clubData.club_members.map(member => (
             <div key={member.id} className="member">
+              <div className="member-id">{member.user}</div>
               <div className="member-job">{member.job}</div>
-              <div className="member-id">{member.id}</div>
             </div>
           ))}
         </div>
