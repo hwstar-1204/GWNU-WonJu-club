@@ -25,6 +25,23 @@
 }
 
 
-.form-group {
-    width: 200px;
+.edit-form {
+    margin-left: 10%;
+   font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.edit-form-control {
+    width: 100%;
+    /* 입력 필드의 너비를 폼 그룹에 맞춤 */
+    padding: 10px;
+    /* 입력 필드 안의 여백 */
+    box-sizing: border-box;
+    /* 패딩과 테두리를 포함한 너비 계산 */
+}
+.edit-button {
+    background-color: #007bff;
+    padding-top: 20px;
 }

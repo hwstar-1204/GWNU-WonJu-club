@@ -21,7 +21,7 @@ from django.conf import settings
 
 
 class ClubManageListView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsPresidentOrAdmin]
     def get(self, request):
         token_key = request.headers.get('Authorization')
         if not token_key:

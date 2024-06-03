@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./ChatBot.css";
-import logo from "../Main/Main_assets/chatbotlogo.png";
+import logo from "../Assets/chatbot.png";
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([]);

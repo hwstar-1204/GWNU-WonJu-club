@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link , useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../Club_Style/Club_gallery.css";
-
+import ClubHeader from "./Club_head.js"
+import { Button } from 'react-bootstrap';
 const ClubGallery = () => {
   const { club_name } = useParams();
   const [albums, setAlbums] = useState([]);
@@ -12,6 +13,8 @@ const ClubGallery = () => {
   const [searchText, setSearchText] = useState("");
   const albumsPerPage = 5;
 
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchAlbums = async () => {
       try {
@@ -51,10 +54,17 @@ const ClubGallery = () => {
   const handleSearchTextChange = (e) => {
     setSearchText(e.target.value);
   };
-
+const handleClickCreatePhoto = () => {
+  navigate(`/club_information/club/create_album/${club_name}`);
+}
   return (
     <div className="gallery-container">
-      <h2>갤러리</h2>
+      <ClubHeader clubName={club_name} />
+      <div className='gallery-box'>
+      <h2 className='club-head-text'>사진첩</h2>
+
+      <div className="album-head-container">
+
       <div className="search-container">
         <select value={searchOption} onChange={handleSearchOptionChange}>
           <option value="all">전체</option>
@@ -70,6 +80,13 @@ const ClubGallery = () => {
           placeholder="검색어를 입력하세요..."
         />
       </div>
+
+      <div className="create-photo-button">
+        <Button onClick={() => handleClickCreatePhoto()}>사진 등록</Button>
+      </div>
+
+      </div>
+
       <div className="gallery">
         {displayedAlbums.map((album) => (
           <Link to={`/club_board/post_detail/${album.id}/`} key={album.id} className="gallery-card">
@@ -89,6 +106,7 @@ const ClubGallery = () => {
             {pageNumber}
           </button>
         ))}
+      </div>
       </div>
     </div>
   );

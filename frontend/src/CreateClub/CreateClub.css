@@ -8,3 +8,8 @@
   margin-top: 10px;
   /* 위쪽 여백 설정 */
 }
+
+.create-club-form{
+  margin-top: 100px;
+  font-weight: bold;
+}

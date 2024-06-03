@@ -2,13 +2,13 @@ from rest_framework.generics import *
 from rest_framework.permissions import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from club_information.serializer import *
 from club_information.models import *
 from club_board.models import *
 from club_introduce.models import *
 from club_introduce.serializer import *
 from django.db.models import Q
-
 
 # Create your views here.
 class ClubHomeView(APIView):
@@ -54,6 +54,7 @@ class MembersView(APIView):
 
 class AlbumView(APIView):
     permission_classes = [AllowAny]
+    pagination_class = PageNumberPagination
 
     def get(self, request, *args, **kwargs):
         """
@@ -76,16 +77,16 @@ class AlbumView(APIView):
                 filters = Q(author=search_query)
 
             photo_posts = photo_posts.filter(filters)
-        else:
-            pass
 
-        serializer = AlbumEventSerializer(photo_posts, many=True)
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(photo_posts, request)
+        serializer = AlbumEventSerializer(page, many=True)
         return Response(serializer.data)
 
 
 class EventView(APIView):
     permission_classes = [AllowAny]
-
+    pagination_class = PageNumberPagination
     def get(self, request, *args, **kwargs):
         """
                 동아리가 작성한 이벤트
@@ -107,8 +108,51 @@ class EventView(APIView):
                 filters = Q(author=search_query)
 
             event_posts = event_posts.filter(filters)
-        else:
-            pass
 
-        serializer = AlbumEventSerializer(event_posts, many=True)
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(event_posts, request)
+        serializer = AlbumEventSerializer(page, many=True)
         return Response(serializer.data)
+
+class CreateAlbumView(APIView):
+    def post(self, request, format=None):
+        serializer = PostCreateSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            # 동아리명에 따라 처리
+            club_name = request.data.get('club_name')
+            if club_name == 'FreeBoard':
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)  # serializer.data,
+            else:
+                # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
+                user = request.user
+                student_id = user.student_id
+                if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+                else:
+                    # 권한이 없는 경우 에러 처리
+                    raise PermissionDenied("You don't have permission to create a post in this board.")
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CreateEventView(APIView):
+    def post(self, request, format=None):
+        serializer = PostCreateSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            # 동아리명에 따라 처리
+            club_name = request.data.get('club_name')
+            if club_name == 'FreeBoard':
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)  # serializer.data,
+            else:
+                # 특정 동아리 게시판인 경우 해당 동아리 멤버만 게시글 작성 가능
+                user = request.user
+                student_id = user.student_id
+                if ClubMember.objects.filter(club_name=club_name, student_id=student_id).exists():
+                    serializer.save()
+                    return Response(status=status.HTTP_201_CREATED)
+                else:
+                    # 권한이 없는 경우 에러 처리
+                    raise PermissionDenied("You don't have permission to create a post in this board.")
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
