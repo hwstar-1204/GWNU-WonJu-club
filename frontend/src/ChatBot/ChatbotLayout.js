@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ChatBot from "./ChatBot";
 import "./ChatbotLayout.css";
-import logo from "../Assets/logo.png";
+import logo from "../Main/Main_assets/chatbotlogo.png";
 
 const Layout = ({ children }) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
