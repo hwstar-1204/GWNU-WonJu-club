@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Mypage_Style/ChangePassword.css'
+import { Col, Form, Button } from 'react-bootstrap';
 
 const PasswordChangeForm = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -50,45 +52,41 @@ const PasswordChangeForm = () => {
 
 
   return (
-    <form className="form-horizontal" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="new_password1" className="col-sm-2 control-label">Password</label>
-        <div className="col-sm-10">
-          <input 
-            type="password" 
-            className="form-control" 
-            id="new_password1" 
-            placeholder="Password" 
-            value={newPassword} 
-            onChange={(e) => setNewPassword(e.target.value)} 
-            required 
-          />
-        </div>
-      </div>
+   <Form className="form-horizontal" onSubmit={handleSubmit}>
+  <Form.Group className="change-password-form-group" controlId="new_password1">
+    <Form.Label column sm={4}>현재 비밀번호</Form.Label>
+    <Col sm={6}>
+      <Form.Control
+        className='new-password-input'
+        type="password"
+        placeholder="Password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+        required
+      />
+    </Col>
+  </Form.Group>
 
-      <div className="form-group">
-        <label htmlFor="new_password2" className="col-sm-2 control-label">Repeat password</label>
-        <div className="col-sm-10">
-          <input 
-            type="password" 
-            className="form-control" 
-            id="new_password2" 
-            placeholder="Repeat password" 
-            value={repeatPassword} 
-            onChange={(e) => setRepeatPassword(e.target.value)} 
-            required 
-          />
-        </div>
-      </div>
+  <Form.Group className="change-password-form-group" controlId="new_password2">
+    <Form.Label column sm={4}>현재 비밀번호 확인</Form.Label>
+    <Col sm={6}>
+      <Form.Control
+        className='new-password-input'
+        type="password"
+        placeholder="Repeat password"
+        value={repeatPassword}
+        onChange={(e) => setRepeatPassword(e.target.value)}
+        required
+      />
+    </Col>
+  </Form.Group>
 
-      <div className="form-group">
-        <div className="col-sm-offset-2 col-sm-10">
-          <button type="submit" className="btn btn-default">Set new password</button>
-        </div>
-      </div>
+  <Form.Group  className='new-password-btn'>
+    <Button type="submit" className="btn btn-default">새 비밀번호 설정</Button>
+  </Form.Group>
 
-      {errorMessage && <div className="form-group">{errorMessage}</div>}
-    </form>
+  {errorMessage && <Form.Group>{errorMessage}</Form.Group>}
+</Form>
   );
 };
 

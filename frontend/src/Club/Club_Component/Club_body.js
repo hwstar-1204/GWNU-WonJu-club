@@ -5,7 +5,7 @@ import '../Club_Style/Club_body.css';
 
 const ClubBody = ({ clubData, clubName }) => {
   const navigate = useNavigate();
-  
+
   if (!clubData || !clubData.club_data) {
     return <div>클럽 정보를 로딩 중...</div>;
   }
@@ -44,8 +44,8 @@ const ClubBody = ({ clubData, clubName }) => {
   return (
     <div className="header-container">
       <ClubBackground
-        introduction={clubData.club_introduction}
-        logo={clubData.club_data.background}
+        introduction={clubData.club_data.introducation}
+        Background={clubData.club_data.logo}
       />
 
       <div className="club-members-container">

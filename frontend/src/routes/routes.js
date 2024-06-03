@@ -18,6 +18,9 @@ import NotFound from '../Login/NotFound';
 import ClubIntroducePage from '../Club_Introduce/ClubIntroducePage';
 import ClubManagement from '../club_management/club_management';
 import ResetPasswordPage from '../Login/ResetPasswordPage';
+import ClubCreatePost from '../Club/Club_Create/Club_create_post';
+import ClubCreatePhoto from '../Club/Club_Create/Club_create_photo';
+import ClubCreateEvent from '../Club/Club_Create/Club_create_event';
 
 export const AppRoutes = () => (
   <>
@@ -42,5 +45,8 @@ export const AppRoutes = () => (
     <Route path="/user" element={<UserDetail />} />
     <Route path='*' element={<NotFound />} />
     <Route path="/club-introduce" element={<ClubIntroducePage />} />
+    <Route path="/club_board/club_posts/create-club-post/" element={<ClubCreatePost />} />
+    <Route path="/club_information/club/create_album/:club_name" element={<ClubCreatePhoto />} />
+    <Route path="/club_information/club/:club_name/create_club_event" element={<ClubCreateEvent />} />
   </>
 );

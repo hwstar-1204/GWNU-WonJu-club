@@ -54,3 +54,22 @@ class AlbumEventSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'title', 'photo', 'recommended_cnt']
 
+class PostCreateSerializer(serializers.ModelSerializer):
+    """
+    특정 게시판에 게시글 생성
+    """
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
+
+    def create(self, validated_data):
+        club_name = self.context['request'].data.get('club_name')
+        category = self.context['request'].data.get('category')
+        board = Board.objects.get(club_name=club_name, category=category)
+        validated_data['board'] = board
+
+        author = self.context['request'].user
+        validated_data['author'] = author
+
+        return Post.objects.create(**validated_data)
+
