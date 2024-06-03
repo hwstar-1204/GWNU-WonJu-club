@@ -85,7 +85,7 @@ const ClubNotice = () => {
         console.log(error);
         setNotices([]); // 오류 발생 시 notices를 빈 배열로 설정
       });
-  }, []);
+  };
 
   const toggleDropdown = () => setDropdownOpen((prevState) => !prevState);
   const toggleLoginModal = () => setIsLoginModalOpen((prevState) => !prevState);
