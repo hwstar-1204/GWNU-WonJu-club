@@ -10,5 +10,6 @@ urlpatterns = [
     path('create_club/', views.CreateClub.as_view(), name='create-club'),
     path('myclub_list/', views.MyClubListView.as_view(), name='my-club-list'),
     path('drop_club/<int:member_id>', views.DropClubView.as_view(), name='drop-club'),
-
+    path('count_club_category/', views.CountClubCategoryView.as_view(), name='count-club-category'),
+    path('count_club_type/', views.CountClubTypeView.as_view(), name='count-club-type'),
 ]

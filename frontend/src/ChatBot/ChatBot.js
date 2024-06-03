@@ -44,20 +44,33 @@ const ChatBot = () => {
 
     newSocket.onopen = (event) => {
       console.log('WebSocket 연결이 열렸습니다.');
-      newSocket.send(JSON.stringify({ 'Query': '안녕하세요' }));
+      // newSocket.send(JSON.stringify({ 'Query': '안녕하세요' }));
     };
 
     newSocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log('서버로부터 메시지:', data.Answer);
-      setMessages((prevMessages) => [
-        {
-          type: "bot",
-          text: data.Answer + " [의도: " + data.Intent + "]",
-          index: messageIndex.current++ // 메시지 인덱스를 추가하고 증가
-        },
-        ...prevMessages
-      ]);
+      if (data.Answer != null) {
+        setMessages((prevMessages) => [
+          {
+            type: "bot",
+            // text: data.Answer + " [의도: " + data.Intent + "]",  // TODO 의도 삭제 예정
+            text: data.Answer,  // TODO 의도 삭제 예정
+            index: messageIndex.current++ // 메시지 인덱스를 추가하고 증가
+          },
+          ...prevMessages
+        ]);
+      } else {
+        setMessages((prevMessages) => [
+          {
+            type: "bot",
+            text: "현재 답변 할 수 없는 질문입니다.",
+            index: messageIndex.current++ // 메시지 인덱스를 추가하고 증가
+          },
+          ...prevMessages
+        ]);
+      }
+      
     };
 
     newSocket.onclose = (event) => {

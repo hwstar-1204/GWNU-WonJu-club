@@ -1,11 +1,28 @@
-// src/components/MainPage.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BannerCarousel from './BannerCarousel';
 import ClubNotice from './ClubNotice';
+import ClubAnalytics from './ClubAnalytics';
 import '../Main_Style/MainPage.css';
 import '../Main_Style/Responsive.css';
 
 function MainPage() {
+  const [categoryData, setCategoryData] = useState([]);
+  const [typeData, setTypeData] = useState([]);
+  
+  useEffect(() => {
+      // Fetch category data
+      fetch('http://localhost:8000/club_introduce/count_club_category/')
+          .then(response => response.json())
+          .then(data => setCategoryData(data.results))
+          .catch(error => console.error('Error fetching category data:', error));
+
+      // Fetch type data
+      fetch('http://localhost:8000/club_introduce/count_club_type/')
+          .then(response => response.json())
+          .then(data => setTypeData(data.results))
+          .catch(error => console.error('Error fetching type data:', error));
+  }, []);
+  
   useEffect(() => {
     const handleScroll = (event) => {
       if (window.innerWidth <= 768) return; // 모바일에서는 기본 스크롤 사용
@@ -42,7 +59,10 @@ function MainPage() {
         <ClubNotice />
       </div>
       <div className="section section3">
-        <h2>Empty Section</h2>
+        <div className="analytics-container">
+          <ClubAnalytics data={categoryData} title="동아리 카테고리별 비율" />
+          <ClubAnalytics data={typeData} title="동아리 분야별 비율" />
+        </div>
       </div>
     </div>
   );

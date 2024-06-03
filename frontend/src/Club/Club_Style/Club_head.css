@@ -85,7 +85,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 80%;
@@ -93,14 +93,12 @@
 }
 
 .club-header-nav li:hover {
-  background-color: #ffc107;
-  font-weight: bold;
-  transition: background-color 0.3s, font-weight 0.3s, border-radius 0.3s;
-    /* 호버 효과에 대한 전환 효과 추가 */
-  border-radius: 30px;
+  transform: scale(1.05);
+  color: #90CAF9;
 }
+
 .club-header-nav.active{
-background-color: #ffc107;
+background-color: #90CAF9;
 border-radius: 30px;
 }
 .club-header img {

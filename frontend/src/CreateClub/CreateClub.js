@@ -1,26 +1,23 @@
 import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
-import { LogoImage,BannerImage } from "../styles";
+import { LogoImage, BannerImage } from "../styles";
 
 const CreateClubPage = () => {
   const [clubName, setClubName] = useState("");
-  const [category, setCategory] = useState("선택");  // 정규, 가등록, 학습, 취업, 소모임
-  const [type, setType] = useState("선택");          // 운동, 음악, 종교 등등
+  const [category, setCategory] = useState("선택");
+  const [type, setType] = useState("선택");
   const [introduction, setIntroduction] = useState("");
   const [logo, setLogo] = useState("");
   const [background, setBackground] = useState("");
   const token = localStorage.getItem('token');
 
-
   const handleNameChange = (e) => setClubName(e.target.value);
   const handleCategoryChange = (e) => setCategory(e.target.value);
   const handleTypeChange = (e) => setType(e.target.value);
   const handleIntroductionChange = (e) => setIntroduction(e.target.value);
-  const handleLogoChange = (e) =>
-    setLogo(URL.createObjectURL(e.target.files[0]));
-  const handleBackgroundChange = (e) =>
-    setBackground(URL.createObjectURL(e.target.files[0]));
+  const handleLogoChange = (e) => setLogo(URL.createObjectURL(e.target.files[0]));
+  const handleBackgroundChange = (e) => setBackground(URL.createObjectURL(e.target.files[0]));
 
   const handleSubmit = () => {
     const newClub = {
@@ -28,11 +25,8 @@ const CreateClubPage = () => {
       category: category,
       type: type,
       introducation: introduction,
-      // logo: logo,
-      // photo: background,
     };
 
-    // API 호출 부분 추가
     fetch('http://127.0.0.1:8000/club_introduce/create_club/', {
       method: 'POST',
       headers: {
@@ -43,10 +37,9 @@ const CreateClubPage = () => {
       body: JSON.stringify(newClub),
     })
     .then(res => {
-      console.log("생성된 동아리: ",res.status);
+      console.log("생성된 동아리: ", res.status);
       alert("동아리가 등록되었습니다!");
       window.location.reload();
-
     })
     .catch(error => {
       console.error('Error adding club:', error);
@@ -55,7 +48,6 @@ const CreateClubPage = () => {
   };
 
   const handleCancel = () => {
-    // 취소 로직을 구현합니다.
     alert("등록이 취소되었습니다.");
   };
 
@@ -63,90 +55,93 @@ const CreateClubPage = () => {
     <Container className="create-club-container">
       <h1 className="create-head">동아리 만들기</h1>
       <Form className="create-club-form">
-        {/* 동아리 이름 입력 */}
-        <Form.Group controlId="clubName" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="clubName" className="form-group">
           <Form.Label>동아리 이름</Form.Label>
           <Form.Control
             type="text"
             value={clubName}
             onChange={handleNameChange}
-            style={{ width: "30%" }}
+            className="form-control"
           />
         </Form.Group>
 
-      
-
-        <Form.Group controlId="category" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="category" className="form-group">
           <Form.Label>동아리 유형</Form.Label>
           <Form.Control
             as="select"
             value={category}
             onChange={handleCategoryChange}
-            style={{ width: "30%" }}
+            className="form-control select-center"
           >
             <option value="선택">선택</option>
             {["정규", "가등록", "학습", "취업", "소모임"].map((option) => (
-              <option value={option}>{option}</option>
+              <option key={option} value={option}>{option}</option>
             ))}
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="type" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="type" className="form-group">
           <Form.Label>동아리 분야</Form.Label>
           <Form.Control
             as="select"
             value={type}
             onChange={handleTypeChange}
-            style={{ width: "30%" }}
-          >            
+            className="form-control select-center"
+          >
             <option value="선택">선택</option>
             {["문화", "공연", "운동", "음악", "종교", "봉사", "학술", "예술", "기타"].map((option) => (
-              <option value={option}>{option}</option>
+              <option key={option} value={option}>{option}</option>
             ))}
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="introduction" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="introduction" className="form-group">
           <Form.Label>동아리소개글</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
             value={introduction}
             onChange={handleIntroductionChange}
-            style={{ width: "70%", height: "200px" }}
+            className="form-control form-textarea"
           />
         </Form.Group>
 
-        <Form.Group controlId="logo" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="logo" className="form-group">
           <Form.Label>로고 이미지</Form.Label>
           <Form.Control
             type="file"
             onChange={handleLogoChange}
-            style={{ width: "30%" }}
+            className="form-control file-input-center"
           />
           {logo && <LogoImage src={logo} thumbnail />}
         </Form.Group>
 
-        <Form.Group controlId="background" style={{ marginBottom: "5%" }}>
+        <Form.Group controlId="background" className="form-group">
           <Form.Label>배경 사진</Form.Label>
           <Form.Control
             type="file"
             onChange={handleBackgroundChange}
-            style={{ width: "30%" }}
+            className="form-control file-input-center"
           />
           {background && <BannerImage src={background} thumbnail />}
         </Form.Group>
 
-        <Button variant="primary" onClick={handleSubmit}>
-          등록
-        </Button>
-        <Button
-          variant="secondary"
-          onClick={handleCancel}
-          style={{ marginLeft: "10px" }}
-        >
-          취소
-        </Button>
+        <div className="button-group">
+          <Button
+            variant="primary"
+            onClick={handleSubmit}
+            className="small-button"
+          >
+            등록
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={handleCancel}
+            className="small-button"
+          >
+            취소
+          </Button>
+        </div>
       </Form>
     </Container>
   );

@@ -23,3 +23,4 @@ export const EventCard = ({board_id, title, content, img, username, date}) => {
 };
 
 export default EventCard();
+

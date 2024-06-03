@@ -1,40 +1,40 @@
 @media all and (min-width: 1024px) {
-    .event-card-wrapper {
-        width: 300px;
-        height: 600px;
+  .event-card-wrapper {
+      width: 300px;
+      height: 600px;
 
-        &:hover {
-            width: 310px;
-            height: 610px;
-            box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
-        }
-    }
+      &:hover {
+          width: 310px;
+          height: 610px;
+          box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
+      }
+  }
 }
 
 @media all and (max-width: 1024px) {
-    .event-card-wrapper {
-        width: 270px;
-        height: 540px;
+  .event-card-wrapper {
+      width: 270px;
+      height: 540px;
 
-        &:hover {
-            width: 280px;
-            height: 550px;
-            box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
-        }
-    }
+      &:hover {
+          width: 280px;
+          height: 550px;
+          box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
+      }
+  }
 }
 
 @media all and (max-width: 768px) {
-    .event-card-wrapper {
-        width: 240px;
-        height: 480px;
+  .event-card-wrapper {
+      width: 240px;
+      height: 480px;
 
-        &:hover {
-            width: 250px;
-            height: 490px;
-            box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
-        }
-    }
+      &:hover {
+          width: 250px;
+          height: 490px;
+          box-shadow: rgba(0, 0, 0, 0.9) 0px 22px 70px 4px;
+      }
+  }
 }
 
 .event-card-wrapper {
@@ -79,6 +79,7 @@
             font-weight: bold;
         }
     }
+
 
     .event-card-footer {
         border-top: 0.5px solid black;

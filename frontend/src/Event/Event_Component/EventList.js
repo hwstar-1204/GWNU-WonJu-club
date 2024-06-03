@@ -104,7 +104,7 @@ const EventList = () => {
   const adjustPadding = () => {
     const container = document.querySelector('.event-notice-container');
     if (container) {
-      container.style.paddingTop = '80px';
+      container.style.paddingTop = '0px'; //조정해도됨
     }
   };
 
