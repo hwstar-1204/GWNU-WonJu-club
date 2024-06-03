@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import "./Mypage_Style/Editinformation.css";
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 const Editinformation = () => {
   const location = useLocation();
@@ -60,50 +61,63 @@ const Editinformation = () => {
 
   return (
   <div className="my-page">
-
-    <form classname = "edit-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="name">이름:</label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="form-control"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">이메일:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="form-control"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="phone">휴대전화:</label>
-        <input
-          type="text"
-          id="phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          className="form-control"
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="study">소속 학과:</label>
-        <input
-          type="text"
-          id="study"
-          value={study}
-          onChange={(e) => setStudy(e.target.value)}
-          className="form-control"
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">저장</button>
-    </form>
+ 
+    <Container>
+      <Row className="justify-content-md-start">
+        <Col md={6}>
+          <Form className="edit-form" onSubmit={handleSubmit}>
+            <Form.Group controlId="formName">
+              <Form.Label>이름:</Form.Label>
+              <Form.Control
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formEmail">
+              <Form.Label>이메일:</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formPhone">
+              <Form.Label>휴대전화:</Form.Label>
+              <Form.Control
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group controlId="formStudy">
+              <Form.Label className="study">소속 학과:</Form.Label>
+              <Form.Control
+                as="select"
+                value={study}
+                onChange={(e) => setStudy(e.target.value)}
+                style={{ width: '30%' }}
+              >
+                <option value="선택">선택</option>
+                {[
+                  '유아교육과', '간호학과', '사회복지학과', '다문화학과', '컴퓨터공학과',
+                  '멀티미디어공학과', '기계공학과', '자동차공학과', '전기공학과',
+                  '정보통신공학과', '산업경영공학과'
+                ].map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Button
+            className="edit-button" 
+            variant="primary" 
+            type="submit">
+              저장
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   </div>
   );
 };
