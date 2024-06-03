@@ -82,7 +82,7 @@ const CreateEvent = ({ onCreateEvent }) => {
             </Button>
           </Alert>
         )}
-        <h2 style={{ fontWeight: 'bold', textAlign: 'left', fontSize: '18px' }}>이벤트 만들기</h2>
+        <h2 style={{ fontWeight: 'bold', textAlign: 'center', fontSize: '18px' }}>이벤트 등록</h2>
         <InputGroup className="mb-3 " style={{ marginBottom: "5%" }}>
           <InputGroup.Text>제목</InputGroup.Text>
           <FormControl

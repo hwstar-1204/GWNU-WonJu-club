@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // 리액트 라우터의 Link 컴포넌트 불러오기
-import '../free_posts_Style/PostList.css';
+import '../free_posts_Style/PostList.module.css';
 
 const PostList = () => {
   const [clubName, setClubName] = useState("FreeBoard");  // 자유게시판에서 동아리 이름 넘겨줘야함
