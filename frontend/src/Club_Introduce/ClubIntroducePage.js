@@ -4,14 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import './ClubIntroducePage.css';
 import axios from 'axios';
 import { LogoImage } from '../styles';
-<<<<<<< Updated upstream
-
-=======
 import {Button} from 'react-bootstrap'
 import club_logo from '../Assets/club_logo.png'
 import club_background from '../Assets/images.jpg';
 import club_profile from '../Assets/profile.jpg';
->>>>>>> Stashed changes
 
 function Dropdown({ value, onChange, options, label }) {
   return (

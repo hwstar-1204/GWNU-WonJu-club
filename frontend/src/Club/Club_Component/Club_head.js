@@ -8,9 +8,8 @@ import {LogoImage } from '../../styles.js'; // 스타일을 위한 CSS 파일
 import logo from '../../Assets/club_logo.png'; // 동아리 로고 이미지
 
 
-const ClubHeader = ({ clubName }) => {
+const ClubHeader = ({ clubName, isManageMode }) => {
   const navigate = useNavigate();
-  const [isManageMode, setIsManageMode] = useState(false);
   // if (!clubData || !clubData.club_data) {
   //   return <div>클럽 정보를 로딩 중...</div>;
   // }
@@ -23,11 +22,9 @@ const ClubHeader = ({ clubName }) => {
   const handleClick = (section) => {
     if (section === 'members') {
       navigate(`/club_information/club/${clubName}/members/`);
-       setIsManageMode(false);
     }
     else if (section === 'album') {
       navigate(`/club_information/club/${clubName}/albums/`);
-       setIsManageMode(false);
     }
     else if (section === 'posts') {
       navigate(`/club_board/club_posts/?clubName=${clubName}`);
@@ -40,6 +37,7 @@ const ClubHeader = ({ clubName }) => {
     else if (section === 'manage') {
       navigate(`/club_management/club/${clubName}`);
        setIsManageMode(true);
+       console.log("manage.set")
     }
     else if (section === 'home') {
       navigate(`/club_information/club/${clubName}/home/`);
