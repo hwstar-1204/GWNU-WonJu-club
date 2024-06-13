@@ -53,9 +53,9 @@ const CreateClubPage = () => {
 
   return (
     <Container className="create-club-container">
-      <h1 className="create-head">동아리 만들기</h1>
+      <h1 className="create-club-head">동아리 만들기</h1>
       <Form className="create-club-form">
-        <Form.Group controlId="clubName" className="form-group">
+        <Form.Group controlId="clubName" className="create-club-formgroup">
           <Form.Label>동아리 이름</Form.Label>
           <Form.Control
             type="text"
@@ -65,7 +65,7 @@ const CreateClubPage = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="category" className="form-group">
+        <Form.Group controlId="club-category" className="create-club-formgroup">
           <Form.Label>동아리 유형</Form.Label>
           <Form.Control
             as="select"
@@ -80,7 +80,7 @@ const CreateClubPage = () => {
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="type" className="form-group">
+        <Form.Group controlId="type" className="create-club-formgroup">
           <Form.Label>동아리 분야</Form.Label>
           <Form.Control
             as="select"
@@ -95,7 +95,7 @@ const CreateClubPage = () => {
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="introduction" className="form-group">
+        <Form.Group controlId="create-club-introduction" className="create-club-formgroup">
           <Form.Label>동아리소개글</Form.Label>
           <Form.Control
             as="textarea"
@@ -106,7 +106,7 @@ const CreateClubPage = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="logo" className="form-group">
+        <Form.Group controlId="logo" className="create-club-formgroup">
           <Form.Label>로고 이미지</Form.Label>
           <Form.Control
             type="file"
@@ -116,7 +116,7 @@ const CreateClubPage = () => {
           {logo && <LogoImage src={logo} thumbnail />}
         </Form.Group>
 
-        <Form.Group controlId="background" className="form-group">
+        <Form.Group controlId="background" className="create-club-formgroup">
           <Form.Label>배경 사진</Form.Label>
           <Form.Control
             type="file"
@@ -126,7 +126,7 @@ const CreateClubPage = () => {
           {background && <BannerImage src={background} thumbnail />}
         </Form.Group>
 
-        <div className="button-group">
+        <div className="create-clup-buttongroup">
           <Button
             variant="primary"
             onClick={handleSubmit}

@@ -580,7 +580,7 @@ const ClubManagementPage = () => {
   }
 
   return (
-    <div className='club-mangement'>
+    <div className='club-mangement-container'>
       <ClubHeader clubName={club_name} isManageMode={isManageMode} setIsManageMode={setIsManageMode} />
     <div className="ClubManagementPage">
       <div className="manage-content-wrapper">

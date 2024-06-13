@@ -55,19 +55,33 @@ const PostList = () => {
   return (
     <div className='post-list-container'>
       <h1 className='post-list-title'>자유 게시판</h1>
-      
+      <div className='post-list-head'>
       <div className='post-list-sort'>
         <select className='post-list-sort-select'
           value={order}
           onChange={(e) => handleSortByChange(e.target.value)}>
-          <option value="created_date">선택</option>
+          <option value="created_date">정렬</option>
           <option value="created_date">최신순</option>
           <option value="most_viewed">조회순</option>
           <option value="most_recommended">추천순</option>
         </select>
       </div>
+     
+      <div className='search'>
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요"
+        />
+        <button>검색</button>
+      </div>
+
+        <div className='write'>
+        <button onClick={() => navigate("write", { state: { club_name: "FreeBoard" } })}>
+          글쓰기
+        </button>
+      </div>
       
-      
+      </div>
       <table className="post-table">
         <thead>
           <tr>
@@ -106,19 +120,7 @@ const PostList = () => {
         ))}
       </div>
       
-      <div className='write'>
-        <button onClick={() => navigate("write", { state: { club_name: "FreeBoard" } })}>
-          글쓰기
-        </button>
-      </div>
-      
-      <div className='search'>
-        <input
-          type="text"
-          placeholder="검색어를 입력하세요"
-        />
-        <button>검색</button>
-      </div>
+     
     </div>
   );
 };

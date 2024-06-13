@@ -128,8 +128,8 @@ const ClubNotice = () => {
 
   return (
     <div className="club-notice-container">
-      <h3 className="title">공지</h3>
-      <div className="title-underline"></div>
+      <h3 className="club-notice-title">공지</h3>
+      <div className="club-botice-title-underline"></div>
       <div className="top">
         <div className="search-bar">
           <Input
@@ -160,7 +160,7 @@ const ClubNotice = () => {
       {isLoading ? (
         <div className="d-flex justify-content-center">Loading...</div>
       ) : (
-        <div className="table-container">
+        <div className="club-notice-table-container">
           <Table className="table table-hover">
             <thead>
               <tr>

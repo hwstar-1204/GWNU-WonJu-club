@@ -73,7 +73,7 @@ const CreateEvent = ({ onCreateEvent }) => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit} style={{ padding: '5px' }}>
+      <Form className='create-event-container' onSubmit={handleSubmit} style={{ padding: '5px' }}>
         {showSuccessMessage && (
           <Alert variant="success">
             등록이 완료되었습니다.
@@ -91,7 +91,7 @@ const CreateEvent = ({ onCreateEvent }) => {
             style={{ width: "30%" }}
           />
         </InputGroup>
-        <InputGroup className="mb-3" style={{ marginBottom: "5%" }}>
+        <InputGroup className="create-event-settime" style={{ marginBottom: "5%" }}>
           <InputGroup.Text>기간 설정</InputGroup.Text>
           <FormControl
             type="date"

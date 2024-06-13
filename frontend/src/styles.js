@@ -6,8 +6,8 @@ export const BannerImage = styled.img`
 `;
 
 export const ProfileImage = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 `;
 
 export const LogoImage = styled.img`

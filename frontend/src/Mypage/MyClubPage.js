@@ -39,14 +39,14 @@ const MyClubPage = ({ myClubList }) => {
     };
 
     return (
-        <div className="container">
+        <div className="myclub-container">
             <div className="row">
                 {myClubList.map((club) => (
                     <div key={club.member_id} className="col-md-4 mb-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <h4 className="card-title">동아리명: {club.club_name}</h4>
-                                <p className="card-text">직책: {club.job}</p>
+                        <div className="myclub-card">
+                            <div className="myclub-card-body">
+                                <h4 className="myclub-card-title">동아리명: {club.club_name}</h4>
+                                <p className="myclub-card-text">직책: {club.job}</p>
                                 <button className="btn btn-primary" onClick={() => handleGoToClub(club.club_name)}>바로가기</button>
                                 <button className="btn btn-secondary ms-2" onClick={() => handleDropClub(club.member_id, club.job)}>탈퇴하기</button>
                             </div>

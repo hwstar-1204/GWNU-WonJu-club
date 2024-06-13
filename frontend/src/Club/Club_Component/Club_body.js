@@ -1,8 +1,8 @@
 import React from "react";
 import ClubBackground from "./Club_background";
-import { useNavigate } from "react-router-dom"; // useHistory를 react-router-dom에서 불러옵니다.
+import { useNavigate } from "react-router-dom";
 import "../Club_Style/Club_body.css";
-import ProfileCard from "../Club_Card/club_profile_card"
+import ProfileCard from "../Club_Card/club_profile_card";
 
 const ClubBody = ({ clubData, clubName }) => {
  
@@ -70,8 +70,7 @@ const ClubBody = ({ clubData, clubName }) => {
           ))}
         </div>
       </div>
-
-      <div className="club-albums-container">
+ <div className="club-posts-container">
         <div style={sectionHeaderStyle}>
           <h3 className="list2">사진첩</h3>
           <button onClick={() => handleClick("album")} style={buttonStyle}>
@@ -145,6 +144,39 @@ const ClubBody = ({ clubData, clubName }) => {
           </tbody>
         </table>
       </div>
+      <div className="club-albums-container">
+        <div style={sectionHeaderStyle}>
+          <h3 className="list2">사진첩</h3>
+          <button onClick={() => handleClick("album")} style={buttonStyle}>
+            +
+          </button>
+        </div>
+        <div className="horizontal-list">
+          {clubData.club_album.length === 0 ? (
+            <div>등록된 사진이 없습니다.</div>
+          ) : (
+            clubData.club_album.map((album) => (
+              <div key={album.id} className="album">
+                <div className="album-title">
+                  <span
+                    className="album-title-link"
+                    onClick={() =>
+                      navigate(`/club_board/post_detail/${album.id}/`)
+                    }
+                    style={{ cursor: "pointer", color: "black" }}
+                  >
+                    {album.title}
+                  </span>
+                </div>
+                <div className="album-stats">
+                  <span className="views">{`Views: ${album.view_cnt}`}</span>
+                  <span className="recommended">{`Recommended: ${album.recommended_cnt}`}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
 
       <div className="club-events-container">
         <div style={sectionHeaderStyle}>
@@ -154,27 +186,33 @@ const ClubBody = ({ clubData, clubName }) => {
           </button>
         </div>
         <div className="horizontal-list">
-          {clubData.club_event.map((event) => (
-            <div key={event.id} className="event">
-              <div className="event-title">
-                <span
-                  className="album-title-link"
-                  onClick={() =>
-                    navigate(`/club_board/post_detail/${event.id}/`)
-                  }
-                  style={{ cursor: "pointer", color: "black" }}
-                >
-                  {event.title}
-                </span>
+          {clubData.club_event.length === 0 ? (
+            <div>등록된 일정이 없습니다.</div>
+          ) : (
+            clubData.club_event.map((event) => (
+              <div key={event.id} className="event">
+                <div className="event-title">
+                  <span
+                    className="album-title-link"
+                    onClick={() =>
+                      navigate(`/club_board/post_detail/${event.id}/`)
+                    }
+                    style={{ cursor: "pointer", color: "black" }}
+                  >
+                    {event.title}
+                  </span>
+                </div>
+                <div className="event-stats">
+                  <span className="views">{`Views: ${event.view_cnt}`}</span>
+                  <span className="recommended">{`Recommended: ${event.recommended_cnt}`}</span>
+                </div>
               </div>
-              <div className="event-stats">
-                <span className="views">{`Views: ${event.view_cnt}`}</span>
-                <span className="recommended">{`Recommended: ${event.recommended_cnt}`}</span>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
+
+     
     </div>
   );
 };

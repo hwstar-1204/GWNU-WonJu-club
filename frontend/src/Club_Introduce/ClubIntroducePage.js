@@ -7,6 +7,7 @@ import {Button} from 'react-bootstrap'
 import club_logo from '../Assets/club_logo.png'
 import club_background from '../Assets/image.jpg';
 import club_profile from '../Assets/profile.jpg';
+import './ClubIntroducePage.css'
 
 // Dropdown 컴포넌트 정의
 function Dropdown({ value, onChange, options, label }) {
@@ -141,7 +142,7 @@ const ClubIntroducePage = () => {
                     </div>
                   </div>
                   <div className="club-introduce-card-footer"> {/* 카드 푸터 */}
-                    <button className="club-apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</button> {/* 가입 신청 버튼 */}
+                    <Button className="club-apply-button" onClick={(event) => handleApplyClick(club.club_name, event)}>가입 신청</Button> {/* 가입 신청 버튼 */}
                   </div>
                 </article>
               ))}
