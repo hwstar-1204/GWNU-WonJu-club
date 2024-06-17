@@ -5,7 +5,9 @@
   margin: 0 auto;
   padding: 20px;
 }
-
+.post-list-head{
+  display: flex;
+}
 .post-list-title {
   font-size: 36px;
   margin-bottom: 20px;
@@ -17,8 +19,9 @@
 }
 
 .post-list-sort-select {
-  padding: 8px;
+  padding: 10px;
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .post-table {
@@ -60,14 +63,17 @@
 }
 
 .write {
-  margin-top: 20px;
   text-align: right;
+  margin-left: 60%;
+  margin-top: 20px;
 }
 
 .search {
-  margin-top: 20px;
+  padding:10px;
   display: flex;
+  margin-left: 50px;
   justify-content: flex-end; /* 검색 상자를 오른쪽으로 정렬합니다. */
+  margin-bottom: 20px;
 }
 
 .search input[type="text"] {

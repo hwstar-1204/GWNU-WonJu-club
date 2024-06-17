@@ -1,28 +1,27 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
-import example_img from '../../Assets/default_event.jpeg'
+import "../Event_Style/EventCard.css";
+import {useNavigate} from "react-router-dom";
 
-function EventCard({ event }) {
+export const EventCard = ({title, content, photo, username, start_time,end_time}) => {
+  const navigate = useNavigate();
   return (
-    <Card>
-      {/* 옵셔널 체이닝 연산자를 사용하여 event.thumbnail이 존재하는 경우에만 이미지를 렌더링합니다. */}
-      {/* <Card.Img variant="top" src={event?.thumbnail} alt={event?.title} /> */}
-      <Card.Img variant="top" src={example_img} alt={event?.title} />
-
-      
-      <Card.Body>
-        {/* 옵셔널 체이닝 연산자를 사용하여 event.title이 존재하는 경우에만 제목을 표시합니다. */}
-        <Card.Title>{event?.title}</Card.Title>
-        <Card.Text>
-          작성자: {event?.author_name}
-          {/* <br /> */}
-          {/* 좋아요 수: {event?.likes} */}
-          <br />
-          기간: {event?.start_time} ~ {event?.end_time}
-        </Card.Text>
-      </Card.Body>
-    </Card>
+    <div className="eventcard-wrapper" onClick={() => {
+      navigate(`/board/${board_id}`)
+    }}>
+      <div className="eventcard-body-img">
+        <img src={photo}/>
+      </div>
+      <div className="eventcard-body-text">
+        <div className="eventcard-body-text-title">{title}</div>
+        <div className="eventcard-body-text-content">{content}</div>
+      </div>
+      <div className="eventcard-footer">
+        <div className="username">{username}</div>
+        <div className="date">{start_time}-{end_time}</div>
+      </div>
+    </div>
   );
-}
+};
 
 export default EventCard;
+
+

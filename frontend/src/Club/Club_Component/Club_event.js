@@ -57,7 +57,7 @@ const ClubEvent = () => {
     navigate(`/club_information/club/${club_name}/create_club_event`)
   };
   return (
-    <div className="event-container">
+    <div className="club-event-container">
       <div className='club-event-container'>
         <ClubHeader clubName={club_name} />
         <div className="club-event-box">
@@ -106,7 +106,7 @@ const ClubEvent = () => {
         <Button onClick={() => handleClickCreateEvent()}>일정 등록</Button>
       </div>
       </div> */}
-          <div className="event-list">
+          <div className="club-event-list">
             {displayedEvents.map((event) => (
               <Link to={`/club_board/post_detail/${event.id}/`} key={event.id} className="event-link">
                 <img src={event.photo} alt={event.title} />

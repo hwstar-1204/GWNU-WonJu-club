@@ -11,18 +11,18 @@ margin-top: 20px;
   right: 15%;
   position: absolute;
 }
-  .event-list {
+  .club-event-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
   }
   
-  .event-link {
+  .club-event-link {
     text-decoration: none;
     color: inherit;
   }
   
-  .event {
+  .club-event {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 5px;
