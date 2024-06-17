@@ -65,7 +65,7 @@ const handleClickCreatePhoto = () => {
 
       <div className="album-head-container">
 
-      <div className="search-container">
+      <div className="gallery-search-container">
         <select value={searchOption} onChange={handleSearchOptionChange}>
           <option value="all">전체</option>
           <option value="titleContent">제목/글</option>
