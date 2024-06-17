@@ -1,4 +1,4 @@
-import { Route,Routes, NavLink, Link } from 'react-router-dom';
+import { Route, Routes, NavLink, Link, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Mypage_Style/Mypage.css';
@@ -7,14 +7,12 @@ import Editinformation from './EditInformation.js';
 import PasswordChangeForm from './ChangePassword.js';
 import MyClubPage from './MyClubPage.js';
 
-
 const MyPage = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [userData, setUserData] = useState(null);
   const [myClubList, setMyClubList] = useState([]);
-
-  const [loading, setLoading] = useState(true); // 데이터 로딩 
-  // const [selectedPage, setSelectedPage] = useState('Home'); // 기본값으로 ComponentA 선택
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
@@ -23,7 +21,6 @@ const MyPage = () => {
       getUserDetails();
       fetchMyClubList();
     }
-    
   }, [token]);
 
   const getUserDetails = async () => {
@@ -35,7 +32,6 @@ const MyPage = () => {
       });
       const data = response.data;
       setUserData(data);
-      
     } catch (error) {
       console.error('Error fetching user details:', error);
     } finally {
@@ -52,39 +48,42 @@ const MyPage = () => {
         }
       });
       const data = await response.json();
-      console.log(data.results);
       setMyClubList(data.results);
-
     } catch (error) {
       console.error('Error fetching my club list:', error);
     }
   };
 
-
   return (
-  <div className="my-page">
-    <div className="my-category-container">
-      {/* 내비게이션 버튼 */}
-      <div className='category_btn'>
-        <Link to="" className="my-category-item" activeclassname="active-link">홈</Link>
-        <NavLink to="/mypage/edit-information" className="my-category-item" activeclassname="active-link">회원정보 수정</NavLink>
-        <NavLink to="/mypage/password-change" className="my-category-item" activeclassname="active-link">패스워드 변경</NavLink>
-        <NavLink to="/mypage/my-club" className="my-category-item" activeclassname="active-link">내 동아리 관리</NavLink>
+    <div className="my-page" style={{ padding: '80px' }}>
+    <h1 className="title">마이페이지</h1>
+      <div className="my-category-container" style={{ padding: '30px' }}>
+        <div className="category_btn">
+          <NavLink exact to="/" className={({ isActive }) => isActive ? 'my-category-item active-link' : 'my-category-item'}>
+            홈
+          </NavLink>
+          <NavLink to="/mypage/edit-information" className={({ isActive }) => isActive ? 'my-category-item active-link' : 'my-category-item'}>
+            회원정보 수정
+          </NavLink>
+          <NavLink to="/mypage/password-change" className={({ isActive }) => isActive ? 'my-category-item active-link' : 'my-category-item'}>
+            패스워드 변경
+          </NavLink>
+          <NavLink to="/mypage/my-club" className={({ isActive }) => isActive ? 'my-category-item active-link' : 'my-category-item'}>
+            내 동아리 관리
+          </NavLink>
+        </div>
       </div>
-    </div>  
-
-    <MypageHome userData={userData} myClubList={myClubList} />
-
-    <div>
-      <Routes>
-        <Route path="edit-information" element={<Editinformation />} />
-        <Route path="password-change" element={<PasswordChangeForm />} />
-        <Route path="my-club" element={<MyClubPage myClubList={myClubList} />} />
-      </Routes>
+      <div className="userData_table" style={{ padding: '40px' }}>
+      <MypageHome userData={userData} myClubList={myClubList} />
+      </div>
+      <div>
+        <Routes>
+          <Route path="edit-information" element={<Editinformation />} />
+          <Route path="password-change" element={<PasswordChangeForm />} />
+          <Route path="my-club" element={<MyClubPage myClubList={myClubList} />} />
+        </Routes>
+      </div>
     </div>
-
-  </div>  
-  
   );
 };
 

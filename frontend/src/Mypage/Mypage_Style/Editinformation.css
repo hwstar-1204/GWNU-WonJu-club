@@ -1,55 +1,62 @@
+/* General Styles */
+
+.my-page {
+  padding: 20px;
+}
+
+/* Container Styles */
+.edit-info-content {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.edit-info-col {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.edit-info-form .form-group {
+  margin-bottom: 20px;
+}
+
+.edit-info-form .form-label {
+  font-weight: bold;
+  color: #495057;
+}
+
+.edit-info-form .form-control {
+  border: 2px solid #ced4da;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.edit-info-form .form-control:focus {
+  border-color: #80bdff;
+  box-shadow: none;
+}
+
+.edit-info-form .form-control[as="select"] {
+  width: 100%;
+  padding: 10px;
+}
+
+.edit-info-form .study {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Button Styles */
 .edit-info-button-container {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-   
-}
-.edit-info-container{
-
-    align-items: flex-start;
-    margin-top: 20px;
-    margin-left: 300px;
-}
-.register-info {
-    font-weight: bold;
-    font-size: 24px;
-    margin-bottom: 10px; 
-}
-.edit-info-content{
-    margin-left: 20%;
-}
-.cancel-button {
-    margin-right: 450px;
-    background-color: gray;
-    color: azure;
-}
-.editif-button {
-    background-color: #007bff;
-    margin-left: 450px;
-}
-.cancel {
-    color: azure;
-    text-decoration: none;
+  text-align: center;
 }
 
 
-.edit-info-form {
-    margin-left: 10%;
-   font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-
-.edit-info-form-control {
-    width: 100%;
-    /* 입력 필드의 너비를 폼 그룹에 맞춤 */
-    padding: 10px;
-    /* 입력 필드 안의 여백 */
-    box-sizing: border-box;
-    /* 패딩과 테두리를 포함한 너비 계산 */
-}
-.edit-info-button {
-    background-color: #007bff;
-
+.edit-info-button:hover,
+.edit-info-button:focus {
+  background-color: #0056b3;
+  border-color: #0056b3;
 }

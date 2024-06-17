@@ -45,7 +45,7 @@ const MypageHome = ({ userData, myClubList }) => {
                   <p><strong>직책:</strong> {club.job}</p>
                   <br/>
                 </div>
-                
+
               ))}
 
             </div>

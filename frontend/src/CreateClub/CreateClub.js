@@ -1,3 +1,4 @@
+/*CreateClub.js*/
 import React, { useState } from "react";
 import { Container, Form, Button, Image } from "react-bootstrap";
 import "./CreateClub.css";
@@ -52,7 +53,7 @@ const CreateClubPage = () => {
   };
 
   return (
-    <Container className="create-club-container">
+    <Container className="create-club-container" style={{ padding: '80px' }}>
       <h1 className="create-club-head">동아리 만들기</h1>
       <Form className="create-club-form">
         <Form.Group controlId="clubName" className="create-club-formgroup">
@@ -126,7 +127,7 @@ const CreateClubPage = () => {
           {background && <BannerImage src={background} thumbnail />}
         </Form.Group>
 
-        <div className="create-clup-buttongroup">
+        <div className="create-club-buttongroup">
           <Button
             variant="primary"
             onClick={handleSubmit}

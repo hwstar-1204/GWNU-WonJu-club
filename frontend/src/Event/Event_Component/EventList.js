@@ -104,7 +104,7 @@ const EventList = () => {
   const adjustPadding = () => {
     const container = document.querySelector('.event-notice-container');
     if (container) {
-      container.style.paddingTop = '0px'; //조정해도됨
+      container.style.paddingTop = '80px';
     }
   };
 
@@ -153,13 +153,12 @@ const EventList = () => {
 
   return (
     <div className="event-notice-container" style={{ padding: '80px' }}>
-      <h3 className="title">이벤트</h3>
-      <div className="title-underline"></div>
+      <h1 className="title">이벤트</h1>
       <div className="top d-flex justify-content-end align-items-center">
         <div className="search-bar d-flex align-items-center">
           <Input
             type="text"
-            placeholder="search..."
+            placeholder="검색어를 입력하세요"
             value={searchInput}
             onChange={handleSearchInputChange}
             onKeyPress={handleKeyPress}
@@ -174,12 +173,6 @@ const EventList = () => {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={() => setSelectedTag('')}>전체</DropdownItem>
-              {tags.map((tag) => (
-                <DropdownItem key={tag.id} onClick={() => setSelectedTag(tag.name)}>
-                  {tag.name}
-                </DropdownItem>
-              ))}
-              <DropdownItem divider />
               <DropdownItem onClick={() => handleSortOrderChange('desc')}>최신순</DropdownItem>
               <DropdownItem onClick={() => handleSortOrderChange('asc')}>오래된 순</DropdownItem>
             </DropdownMenu>
@@ -191,7 +184,7 @@ const EventList = () => {
         <div className="d-flex justify-content-center">Loading...</div>
       ) : (
         <div className="table-container">
-          <Table className="table table-hover table-centered">
+          <Table className="event-table">
             <thead>
               <tr>
                 <th>No</th>
@@ -212,7 +205,7 @@ const EventList = () => {
                   Array.from({ length:6 }).map((_, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td colSpan="4" className="text-center">이벤트가 없습니다.</td>
+                      <td colSpan="5" className="text-center">이벤트가 없습니다.</td>
                     </tr>
                   ))
                 ) : (

@@ -1,3 +1,4 @@
+/* CreateClub.css */
 .create-club-container {
   width: 100%;
   display: flex;
@@ -9,16 +10,14 @@
 }
 
 .create-club-head {
-  font-size: 2.5rem;
-  color: #000000;
-  font-weight: bold;
-  margin-top: 20px;
+  font-size: 36px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
 .create-club-form {
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,25 +26,19 @@
 }
 
 .create-club-formgroup {
-  width: 100%; /* 너비 100% 설정 */
+  width: 100%;
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center; /* 각 폼 그룹 내 요소 수평 가운데 정렬 */
 }
 
 .form-control {
-  width: 100%; /* 너비 100% 설정 */
-  max-width: 500px; /* 최대 너비 설정 */
-  text-align: center; /* 텍스트 가운데 정렬 */
+  width: 100%;
+  max-width: 100%;
 }
 
 .form-control.select-center {
   text-align-last: center;
-}
-
-.file-input-center {
-  text-align: center;
 }
 
 .form-textarea {
@@ -54,15 +47,13 @@
 }
 
 .create-club-buttongroup {
-  width: 85%; /* 버튼 그룹 너비 100% 설정 */
+  width: 100%;
   display: flex;
-  justify-content: center; /* 버튼 사이에 공간 분배 */
+  justify-content: space-between;
 }
 
 .small-button {
-  width: 48%; /* 버튼 너비 48% 설정 */
+  width: 48%;
   margin-top: 10px;
-  text-align: center; /* 버튼 텍스트 가운데 정렬 */
-  margin-left: 1%;
-  margin-right: 1%;
+  text-align: center;
 }
