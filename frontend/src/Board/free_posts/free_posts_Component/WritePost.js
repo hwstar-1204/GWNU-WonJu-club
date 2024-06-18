@@ -61,8 +61,10 @@ const WritePost = () => {
 
   return (
         <div className="write-post-container">
-        <form className="write-post-form" onSubmit={handleSubmit} >
+        <h1 className="title">게시글 작성</h1>
+        <form className="write-post-form" onSubmit={handleSubmit} style={{ padding: '80px' }}>
           <div className="write-form-group">
+          <label htmlFor="title">글 유형</label>
             <select
               id="notice-option"
               value={category}
@@ -75,7 +77,7 @@ const WritePost = () => {
           </div>
   
           <div className="write-form-group">
-            <label htmlFor="title">제목:</label>
+            <label htmlFor="title">제목</label>
             <input
               type="text"
               id="title"
@@ -87,7 +89,7 @@ const WritePost = () => {
           </div>
   
           <div className="write-form-group">
-            <label htmlFor="content">내용:</label>
+            <label htmlFor="content">내용</label>
             <textarea
               id="content"
               value={content}

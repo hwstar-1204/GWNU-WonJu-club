@@ -52,17 +52,10 @@
 
 .image-upload-button {
   display: inline-block;
-  padding: 10px 15px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
   background-color: #fff;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.image-upload-button:hover {
-  background-color: #90CAF9;
-  border-color: #64B5F6;
+  transition: border-color 0.3s ease;
 }
 
 .image-preview {
@@ -114,7 +107,7 @@
 }
 
 .submit-button {
-  background-color: #42A5F5;
+  background-color: #90CAF9;
   color: #fff;
   padding: 8px 16px;
   font-size: 14px;

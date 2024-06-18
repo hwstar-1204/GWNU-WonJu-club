@@ -1,13 +1,13 @@
+/* ClubIntroducePage */
 import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { LogoImage } from '../styles';
-import {Button} from 'react-bootstrap'
-import club_logo from '../Assets/club_logo.png'
+import { Button } from 'react-bootstrap';
+import club_logo from '../Assets/club_logo.png';
 import club_background from '../Assets/image.jpg';
-import club_profile from '../Assets/profile.jpg';
-import './ClubIntroducePage.css'
+import './ClubIntroducePage.css';
 
 // Dropdown 컴포넌트 정의
 function Dropdown({ value, onChange, options, label }) {
@@ -54,7 +54,7 @@ const ClubIntroducePage = () => {
     event.stopPropagation(); // 이벤트 전파를 막습니다.
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${BASE_URL}/club_introduce/apply_club/`, 
+      const response = await axios.post(`${BASE_URL}/club_introduce/apply_club/`,
         { club_name: clubName },
         { headers: { Authorization: `Token ${token}` } }
       );
@@ -93,8 +93,9 @@ const ClubIntroducePage = () => {
   };
 
   return (
-    <div className="club-introduce-page"> {/* 최상위 컨테이너 클래스 */}
-      <div className="club-content-wrapper"> {/* 콘텐츠 래퍼 클래스 */}
+    <div className="club-introduce-page">
+      <div className="club-content-wrapper" style={{ padding: '80px' }}>
+      <h1 className='club-introduce-title'>동아리 소개</h1>
         <section id="clubIntroducePage" className="club-section">
           <div className="club-filters"> {/* 필터 섹션 */}
             <Dropdown
@@ -130,14 +131,12 @@ const ClubIntroducePage = () => {
               {filteredClubs.map((club, index) => (
                 <article key={index} className="club-introduce-card" onClick={() => handleClubClick(club.club_name)}> {/* 카드 클래스 및 클릭 이벤트 */}
                   <figure className="club-introduce-card-header">
-                    <img src={club_background} className="club-introduce-background" /> {/* 배경 이미지 */}
+                    <img src={club_background} className="club-introduce-background" alt="club background" /> {/* 배경 이미지 */}
                   </figure>
                   <div className="club-introduce-card-contents">
                     <p>{club.introducation}</p>
                     <div className="club-info">
-                      {/* <LogoImage src={getAbsolutePath(club.logo)} className="club-logo" /> */}
-                       <LogoImage src={club_logo} className="club-introduce-logo" />
-                         
+                      <LogoImage src={club_logo} className="club-introduce-logo" alt="club logo" />
                       <h3>{club.club_name}</h3>
                     </div>
                   </div>

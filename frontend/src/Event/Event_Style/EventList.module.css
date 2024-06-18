@@ -1,15 +1,17 @@
 .event-notice-container {
   width: 90%;
   max-width: 1200px;
-  margin-top: 180px;
+  margin-top: 200px;
   text-align: center;
   align-items: center;
   justify-content: center;
 }
 
 .title {
-  font-size: 2em;
+  font-size: 36px;
   margin-bottom: 20px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .title-underline {
@@ -86,8 +88,3 @@
   margin-top: -20px;
 }
 
-.table-centered th,
-.table-centered td {
-  text-align: center;
-  vertical-align: middle;
-}
