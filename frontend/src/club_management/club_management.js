@@ -46,6 +46,8 @@ const ClubManagementPage = () => {
   const [photoAddClick, setPhotoAddClick] = useState(false);
   const [introduceUpdate, setIntroductionUpdate] = useState(false);
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
+
 
  useEffect(() => {
     // 현재 URL에서 "club_management"이 포함되어 있는지 확인하여 "동아리 관리" 페이지인지 판단
